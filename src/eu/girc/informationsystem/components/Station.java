@@ -10,18 +10,29 @@ public class Station {
 	private String name;
 	
 	@JsonElement
+	private String displayName;
+	
+	@JsonElement
 	private int plattforms;
 	
 	private static ArrayList<Station> stations = new ArrayList<>();
 	
-	public Station(String name, int plattforms) {
+	public Station(String name, String displayName, int plattforms) {
 		this.name = name;
+		this.displayName = displayName;
 		this.plattforms = plattforms;
-		stations.add(this);
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
 	}
 	
 	public int getPlattforms() {

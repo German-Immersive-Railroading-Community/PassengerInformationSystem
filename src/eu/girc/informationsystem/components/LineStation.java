@@ -12,9 +12,12 @@ public class LineStation {
 	private int plattform;
 	
 	@JsonElement
-	private int travelTimetoNextStation;
+	private String departure;
+	
+	@JsonElement
+	private int travelTimeFromLastStation;
 
-	public LineStation(Station station, int plattform, int travelTimetoNextStation) {
+	public LineStation(Station station, int plattform, int travelTimeFromLastStation) {
 		this.station = station;
 		if (plattform <= station.getPlattforms()) {
 			this.plattform = plattform;
@@ -23,7 +26,7 @@ public class LineStation {
 			throw new IllegalArgumentException("Station " + station.getName() + " have only " + station.getPlattforms() + " plattforms!");
 		}
 		
-		this.travelTimetoNextStation = travelTimetoNextStation;
+		this.travelTimeFromLastStation = travelTimeFromLastStation;
 	}
 	
 	public Station getStation() {
@@ -34,8 +37,16 @@ public class LineStation {
 		return plattform;
 	}
 	
-	public int getTravelTimetoNextStation() {
-		return travelTimetoNextStation;
+	protected void setDeparture(Time time) {
+		this.departure = time.toString();
+	}
+	
+	public Time getDeparture() {
+		return new Time(departure);
+	}
+	
+	public int getTravelTimeFromLastStation() {
+		return travelTimeFromLastStation;
 	}
 	
 	@Override
