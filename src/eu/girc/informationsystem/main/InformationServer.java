@@ -15,20 +15,28 @@ public class InformationServer {
 	private static Console console = new Console();
 	
 	public static void main(String[] args) {
+		if (isStarted(args)) {
+			console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
+			Config.initialize();
+			EventHandler.registerEvents(new ServerListener());
+			stationTest();
+		}
+	}
+	
+	private static boolean isStarted(String args[]) {
 		try {
 			if (args.length > 0) {
 				server = new Server(Integer.parseInt(args[0]));
+				return true;
 			} else {
 				console.sendMessage("Can't start server! Please use use 'java -jar <jarfile> <port>'", MessageType.ERROR);
+				return false;
 			}
 		} catch (Exception exception) {
 			console.sendMessage("Can't start server! Please use use 'java -jar <jarfile> <port>'", MessageType.ERROR);
 			console.sendMessage(exception.getMessage(), MessageType.ERROR);
-			System.exit(-2);
+			return false;
 		}
-		console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
-		EventHandler.registerEvents(new ServerListener());
-		stationTest();
 	}
 	
 	private static void stationTest() {
@@ -41,6 +49,7 @@ public class InformationServer {
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 5));
 		line.calculateDepartueTimes();
 		System.out.println(line);
+		System.out.println("---");
 	}
 	
 	public static Server getServer() {
