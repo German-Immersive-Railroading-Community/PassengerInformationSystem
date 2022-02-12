@@ -19,7 +19,11 @@ public class InformationServer {
 			console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
 			Config.initialize();
 			EventHandler.registerEvents(new ServerListener());
+			Config.loadStations();
+			Config.loadLines();
 			stationTest();
+			Config.saveStations();
+			Config.saveLines();
 		}
 	}
 	
@@ -49,6 +53,7 @@ public class InformationServer {
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 5));
 		line.calculateDepartueTimes();
 		System.out.println(line);
+		System.out.println(Line.getLines().get(0));
 		System.out.println("---");
 	}
 	

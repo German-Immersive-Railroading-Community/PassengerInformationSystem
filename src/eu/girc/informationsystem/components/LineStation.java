@@ -51,9 +51,7 @@ public class LineStation {
 	
 	@Override
 	public String toString() {
-		JsonParser parser = new JsonParser();
-		parser.setClassAsJsonObject("", this);
-		return parser.toString();
+		return new JsonParser(this).toString();
 	}
 
 }
