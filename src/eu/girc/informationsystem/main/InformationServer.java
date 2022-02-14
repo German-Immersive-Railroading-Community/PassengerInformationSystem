@@ -1,6 +1,7 @@
 package eu.girc.informationsystem.main;
 
-import eu.derzauberer.javautils.handler.EventHandler;
+import eu.derzauberer.javautils.events.ClientMessageReceiveEvent;
+import eu.derzauberer.javautils.events.ConsoleInputEvent;
 import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.derzauberer.javautils.util.Server;
@@ -17,13 +18,14 @@ public class InformationServer {
 	public static void main(String[] args) {
 		if (isStarted(args)) {
 			console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
+			console.setOnInput(InformationServer::onConsoleInput);
+			server.setOnMessageRecieve(InformationServer::onClientMessageReceive);
 			Config.initialize();
-			EventHandler.registerEvents(new ServerListener());
-			Config.loadStations();
-			Config.loadLines();
+//			Config.loadStations();
+//			Config.loadLines();
 			stationTest();
-			Config.saveStations();
-			Config.saveLines();
+//			Config.saveStations();
+//			Config.saveLines();
 		}
 	}
 	
@@ -31,6 +33,7 @@ public class InformationServer {
 		try {
 			if (args.length > 0) {
 				server = new Server(Integer.parseInt(args[0]));
+				server.setClientTimeout(10000);
 				return true;
 			} else {
 				console.sendMessage("Can't start server! Please use use 'java -jar <jarfile> <port>'", MessageType.ERROR);
@@ -46,15 +49,32 @@ public class InformationServer {
 	private static void stationTest() {
 		Station roedauHbfStation = new Station("Roedau_Hbf", "Rödau Hbf", 8);
 		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "Rödau Südbahnhof", 3);
-		Station.getStations().add(roedauHbfStation);
-		Station.getStations().add(roedauSuedStation);
+		Station.addStation(roedauHbfStation);
+		Station.addStation(roedauSuedStation);
 		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new Time(16, 5));
 		line.getStations().add(new LineStation(roedauHbfStation, 1, 0));
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 5));
 		line.calculateDepartueTimes();
+		Line.addLine(line);
 		System.out.println(line);
-		System.out.println(Line.getLines().get(0));
+//		System.out.println(Line.getLines().get(0));
 		System.out.println("---");
+	}
+	
+	private static void onConsoleInput(ConsoleInputEvent event) {
+		if (event.getInput().equalsIgnoreCase("exit")) {
+			System.exit(0);
+		}
+	}
+	
+	private static void onClientMessageReceive(ClientMessageReceiveEvent event) {
+		if (event.getMessage().contains("GET") && event.getMessage().split(" ").length == 3) {
+			String path = event.getMessage().split(" ")[1];
+			if (path.equals("/")) {
+				event.getClient().sendMessage(Line.getLine("S5_Roedau_Sued").toString());
+				event.getClient().close();
+			}
+		}
 	}
 	
 	public static Server getServer() {

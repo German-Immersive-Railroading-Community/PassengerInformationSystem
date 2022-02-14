@@ -63,11 +63,7 @@ public class Line {
 		this.delay = delay;
 	}
 	
-	public ArrayList<LineStation> getStations() {
-		return stations;
-	}
-	
-	public boolean containStation(Station station) {
+	public boolean containsStation(Station station) {
 		for (LineStation lineStation : stations) {
 			if (lineStation.getStation() == station) {
 				return true;
@@ -76,9 +72,33 @@ public class Line {
 		return false;
 	}
 	
+	public ArrayList<LineStation> getStations() {
+		return stations;
+	}
+	
+	public static void addLine(Line line) {
+		Line oldLine = getLine(line.getName());
+		if (oldLine != null) {
+			oldLine = line;
+		} else {
+			lines.add(line);
+		}
+	}
+	
+	public static void removeLine(Line line) {
+		removeLine(line.getName());
+	}
+	
+	public static void removeLine(String name) {
+		Line oldLine = getLine(name);
+		if (oldLine != null) {
+			lines.remove(oldLine);
+		}
+	}
+	
 	public static Line getLine(String name) {
 		for (Line line : lines) {
-			if (line.getName().equals(name)) {
+			if (line.getName().equalsIgnoreCase(name)) {
 				return line;
 			}
 		}

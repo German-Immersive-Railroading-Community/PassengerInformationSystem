@@ -35,11 +35,10 @@ public class Config {
 	}
 	
 	public static void loadStations() {
-		Station.getStations().clear();
 		for (JsonParser object : parser.getJsonObjectList("stations")) {
 			Station station = new Station("", "", 0);
 			object.getClassAsJsonObject("", station);
-			Station.getStations().add(station);
+			Station.addStation(station);
 		}
 	}
 	
@@ -52,10 +51,10 @@ public class Config {
 	
 	public static void loadLines() {
 		Line.getLines().clear();
-		for (JsonParser object : parser.getJsonObjectList("stations")) {
+		for (JsonParser object : parser.getJsonObjectList("lines")) {
 			Line line = new Line("", "", new Time(0, 0));
 			object.getClassAsJsonObject("", line);
-			Line.getLines().add(line);
+			Line.addLine(line);
 		}
 	}
 	
