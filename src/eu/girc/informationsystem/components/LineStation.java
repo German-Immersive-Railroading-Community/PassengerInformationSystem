@@ -1,20 +1,13 @@
 package eu.girc.informationsystem.components;
 
-import eu.derzauberer.javautils.annotations.JsonElement;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.girc.informationsystem.util.InformationTime;
 
 public class LineStation {
 	
-	@JsonElement
 	private Station station;
-	
-	@JsonElement
 	private int plattform;
-	
-	@JsonElement
 	private String departure;
-	
-	@JsonElement
 	private int travelTimeFromLastStation;
 
 	public LineStation(Station station, int plattform, int travelTimeFromLastStation) {
@@ -29,6 +22,11 @@ public class LineStation {
 		this.travelTimeFromLastStation = travelTimeFromLastStation;
 	}
 	
+	public LineStation(JsonParser parser) {
+		this(new Station(parser.getJsonObject("station")), parser.getInt("plattform"), parser.getInt("travelTimeFromLastStation"));
+		departure = parser.getString("departure");
+	}
+
 	public Station getStation() {
 		return station;
 	}
@@ -37,21 +35,25 @@ public class LineStation {
 		return plattform;
 	}
 	
-	protected void setDeparture(Time time) {
+	protected void setDeparture(InformationTime time) {
 		this.departure = time.toString();
 	}
 	
-	public Time getDeparture() {
-		return new Time(departure);
+	public InformationTime getDeparture() {
+		return new InformationTime(departure);
 	}
 	
 	public int getTravelTimeFromLastStation() {
 		return travelTimeFromLastStation;
 	}
 	
-	@Override
-	public String toString() {
-		return new JsonParser(this).toString();
+	public JsonParser toJson() {
+		JsonParser parser = new JsonParser();
+		parser.set("station", station.toJson());
+		parser.set("plattform", getPlattform());
+		parser.set("departure", departure);
+		parser.set("travelTimeFromLastStation", getTravelTimeFromLastStation());
+		return parser;
 	}
 
 }

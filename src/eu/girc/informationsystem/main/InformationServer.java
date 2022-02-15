@@ -8,7 +8,7 @@ import eu.derzauberer.javautils.util.Server;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
-import eu.girc.informationsystem.components.Time;
+import eu.girc.informationsystem.util.InformationTime;
 
 public class InformationServer {
 	
@@ -19,13 +19,9 @@ public class InformationServer {
 		if (isStarted(args)) {
 			console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
 			console.setOnInput(InformationServer::onConsoleInput);
-			server.setOnMessageRecieve(InformationServer::onClientMessageReceive);
-			Config.initialize();
-//			Config.loadStations();
-//			Config.loadLines();
+			server.setOnMessageReceive(InformationServer::onClientMessageReceive);
+			InformationHandler.initialize();
 			stationTest();
-//			Config.saveStations();
-//			Config.saveLines();
 		}
 	}
 	
@@ -49,15 +45,14 @@ public class InformationServer {
 	private static void stationTest() {
 		Station roedauHbfStation = new Station("Roedau_Hbf", "Rödau Hbf", 8);
 		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "Rödau Südbahnhof", 3);
-		Station.addStation(roedauHbfStation);
-		Station.addStation(roedauSuedStation);
-		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new Time(16, 5));
+		InformationHandler.addStation(roedauHbfStation);
+		InformationHandler.addStation(roedauSuedStation);
+		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new InformationTime(16, 5));
 		line.getStations().add(new LineStation(roedauHbfStation, 1, 0));
-		line.getStations().add(new LineStation(roedauSuedStation, 3, 5));
+		line.getStations().add(new LineStation(roedauSuedStation, 3, 3));
 		line.calculateDepartueTimes();
-		Line.addLine(line);
+		InformationHandler.addLine(line);
 		System.out.println(line);
-//		System.out.println(Line.getLines().get(0));
 		System.out.println("---");
 	}
 	
@@ -71,7 +66,7 @@ public class InformationServer {
 		if (event.getMessage().contains("GET") && event.getMessage().split(" ").length == 3) {
 			String path = event.getMessage().split(" ")[1];
 			if (path.equals("/")) {
-				event.getClient().sendMessage(Line.getLine("S5_Roedau_Sued").toString());
+				event.getClient().sendMessage(InformationHandler.getLine("S5_Roedau_Sued").toString());
 				event.getClient().close();
 			}
 		}

@@ -1,0 +1,44 @@
+{
+	"stations": [
+		{
+			"name": "Roedau_Hbf",
+			"displayname": "RödauHbf",
+			"plattforms": 8
+		},
+		{
+			"name": "Roedau_Suedbahnhof",
+			"displayname": "RödauSüdbahnhof",
+			"plattforms": 3
+		}
+	],
+	"lines": [
+		{
+			"name": "S5_Roedau_Sued",
+			"displayName": "S5 Rödau Süd",
+			"departure": "16:05",
+			"delay": 0,
+			"stations": [
+				{
+					"station": {
+						"name": "Roedau_Hbf",
+						"displayname": "Rödau Hbf",
+						"plattforms": 8
+					},
+					"plattform": 1,
+					"departure": "16:05",
+					"travelTimeFromLastStation": 0
+				}		,
+				{
+					"station": {
+						"name": "Roedau_Suedbahnhof",
+						"displayname": "Rödau Südbahnhof",
+						"plattforms": 3
+					},
+					"plattform": 3,
+					"departure": "16:08",
+					"travelTimeFromLastStation": 3
+				}		
+			]
+		}
+	]
+}
