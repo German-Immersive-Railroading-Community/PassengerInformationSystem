@@ -14,14 +14,14 @@
 	"lines": [
 		{
 			"name": "S5_Roedau_Sued",
-			"displayName": "S5 Rödau Süd",
+			"displayName": "S5RödauSüd",
 			"departure": "16:05",
 			"delay": 0,
 			"stations": [
 				{
 					"station": {
 						"name": "Roedau_Hbf",
-						"displayname": "Rödau Hbf",
+						"displayname": "RödauHbf",
 						"plattforms": 8
 					},
 					"plattform": 1,
@@ -31,7 +31,7 @@
 				{
 					"station": {
 						"name": "Roedau_Suedbahnhof",
-						"displayname": "Rödau Südbahnhof",
+						"displayname": "RödauSüdbahnhof",
 						"plattforms": 3
 					},
 					"plattform": 3,

@@ -52,8 +52,6 @@ public class InformationServer {
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 3));
 		line.calculateDepartueTimes();
 		InformationHandler.addLine(line);
-		System.out.println(line);
-		System.out.println("---");
 	}
 	
 	private static void onConsoleInput(ConsoleInputEvent event) {
@@ -65,10 +63,8 @@ public class InformationServer {
 	private static void onClientMessageReceive(ClientMessageReceiveEvent event) {
 		if (event.getMessage().contains("GET") && event.getMessage().split(" ").length == 3) {
 			String path = event.getMessage().split(" ")[1];
-			if (path.equals("/")) {
-				event.getClient().sendMessage(InformationHandler.getLine("S5_Roedau_Sued").toString());
-				event.getClient().close();
-			}
+			event.getClient().sendMessage(RequestHandler.processRequest(path));
+			event.getClient().close();
 		}
 	}
 	

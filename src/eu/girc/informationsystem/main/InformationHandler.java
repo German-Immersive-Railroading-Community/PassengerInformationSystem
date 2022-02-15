@@ -133,6 +133,10 @@ public class InformationHandler {
 		return lines;
 	}
 	
+	public static JsonParser getParser() {
+		return parser;
+	}
+	
 	private static void save() {
 		try {
 			FileHandler.writeString(file, parser.toString());
