@@ -8,6 +8,18 @@ import eu.girc.informationsystem.components.Station;
 
 public class RequestHandler {
 	
+	public static String sendResponse(String request) {
+		if (request.contains("GET") && request.split(" ").length == 3) {
+			String path = request.split(" ")[1];
+			if (path.equals("/favicon.ico")) return "";
+			String string = RequestHandler.processRequest(path);
+			if (!string.isEmpty()) {
+				return generateResponse("200 OK", "application/json", RequestHandler.processRequest(path));
+			}
+		}
+		return generateResponse("404 Not Found", "application/json", "{\r\n	\"message\": \"Not Found!\"\r\n}");
+	}
+	
 	public static String processRequest(String path) {
 		if (path.equalsIgnoreCase("/favicon.ico")) {
 			return "";
@@ -40,7 +52,7 @@ public class RequestHandler {
 				return InformationHandler.getLine(args.get(1)).toString();
 			}
 		}
-		return "Error 400: Bad Request!";
+		return "";
 	}
 	
 	private static boolean isPath(ArrayList<String> args, int pos, String target) {
@@ -56,6 +68,13 @@ public class RequestHandler {
 			}
 		}
 		return args;
+	}
+	
+	private static String generateResponse(String code, String contentType, String content) {
+		String string = "HTTP/1.1 " + code + "\r\n"
+		+ "Content-Type: " + contentType + "\r\n\n"
+		+ content;
+		return string;
 	}
 
 }

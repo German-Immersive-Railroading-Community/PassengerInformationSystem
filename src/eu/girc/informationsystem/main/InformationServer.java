@@ -61,11 +61,8 @@ public class InformationServer {
 	}
 	
 	private static void onClientMessageReceive(ClientMessageReceiveEvent event) {
-		if (event.getMessage().contains("GET") && event.getMessage().split(" ").length == 3) {
-			String path = event.getMessage().split(" ")[1];
-			event.getClient().sendMessage(RequestHandler.processRequest(path));
-			event.getClient().close();
-		}
+		event.getClient().sendMessage(RequestHandler.sendResponse(event.getMessage()));
+		event.getClient().close();
 	}
 	
 	public static Server getServer() {
