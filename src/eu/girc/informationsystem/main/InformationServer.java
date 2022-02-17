@@ -17,7 +17,8 @@ public class InformationServer {
 	
 	public static void main(String[] args) {
 		if (isStarted(args)) {
-			console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
+			console.setDefaultType(MessageType.INFO);
+			console.sendMessage("Server is running on port {}!", args[0]);
 			console.setOnInput(InformationServer::onConsoleInput);
 			server.setOnMessageReceive(InformationServer::onClientMessageReceive);
 			InformationHandler.initialize();
