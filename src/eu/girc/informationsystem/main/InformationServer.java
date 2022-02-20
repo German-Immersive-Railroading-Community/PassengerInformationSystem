@@ -46,13 +46,15 @@ public class InformationServer {
 	private static void stationTest() {
 		Station roedauHbfStation = new Station("Roedau_Hbf", "Rödau Hbf", 8);
 		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "Rödau Südbahnhof", 3);
-		InformationHandler.addStation(roedauHbfStation);
-		InformationHandler.addStation(roedauSuedStation);
+		InformationHandler.getStations().add(roedauHbfStation);
+		InformationHandler.getStations().add(roedauSuedStation);
 		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new InformationTime(16, 5));
 		line.getStations().add(new LineStation(roedauHbfStation, 1, 0));
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 3));
 		line.calculateDepartueTimes();
-		InformationHandler.addLine(line);
+		InformationHandler.getLines().add(line);
+		InformationHandler.saveStations();
+		InformationHandler.saveLines();
 	}
 	
 	private static void onConsoleInput(ConsoleInputEvent event) {
