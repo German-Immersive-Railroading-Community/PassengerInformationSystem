@@ -8,7 +8,7 @@ import eu.derzauberer.javautils.util.Server;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
-import eu.girc.informationsystem.util.InformationTime;
+import eu.girc.informationsystem.util.Time;
 
 public class InformationServer {
 	
@@ -16,13 +16,12 @@ public class InformationServer {
 	private static Console console = new Console();
 	
 	public static void main(String[] args) {
-		if (isStarted(args)) {
-			console.setDefaultType(MessageType.INFO);
-			console.sendMessage("Server is running on port {}!", args[0]);
-			console.setOnInput(InformationServer::onConsoleInput);
-			server.setOnMessageReceive(InformationServer::onClientMessageReceive);
-			stationTest();
-		}
+		if (!isStarted(args)) System.exit(-1); 
+		console.setDefaultType(MessageType.INFO);
+		console.sendMessage("Server is running on port {}!", args[0]);
+		console.setOnInput(InformationServer::onConsoleInput);
+		server.setOnMessageReceive(InformationServer::onClientMessageReceive);
+		stationTest();
 	}
 	
 	private static boolean isStarted(String args[]) {
@@ -47,7 +46,7 @@ public class InformationServer {
 		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "Rödau Südbahnhof", 3);
 		InformationHandler.getStations().add(roedauHbfStation);
 		InformationHandler.getStations().add(roedauSuedStation);
-		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new InformationTime(16, 5));
+		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new Time(16, 5));
 		line.getStations().add(new LineStation(roedauHbfStation, 1, 0));
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 3));
 		line.calculateDepartueTimes();
@@ -63,6 +62,7 @@ public class InformationServer {
 	
 	private static void onClientMessageReceive(ClientMessageReceiveEvent event) {
 		event.getClient().sendMessage(RequestHandler.sendResponse(event.getMessage()));
+		console.sendMessage("Request from " + event.getClient().getAdress() + " \"" + event.getMessage() + "\"");
 		event.getClient().close();
 	}
 	

@@ -1,7 +1,7 @@
 package eu.girc.informationsystem.components;
 
 import eu.derzauberer.javautils.parser.JsonParser;
-import eu.girc.informationsystem.util.InformationTime;
+import eu.girc.informationsystem.util.Time;
 
 public class LineStation {
 	
@@ -34,12 +34,12 @@ public class LineStation {
 		return plattform;
 	}
 	
-	protected void setDeparture(InformationTime time) {
+	protected void setDeparture(Time time) {
 		this.departure = time.toString();
 	}
 	
-	public InformationTime getDeparture() {
-		return new InformationTime(departure);
+	public Time getDeparture() {
+		return new Time(departure);
 	}
 	
 	public int getTravelTimeFromLastStation() {

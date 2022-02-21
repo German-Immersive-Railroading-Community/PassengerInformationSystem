@@ -1,9 +1,9 @@
 package eu.girc.informationsystem.components;
 
 import eu.derzauberer.javautils.parser.JsonParser;
-import eu.girc.informationsystem.util.InformationEntity;
+import eu.girc.informationsystem.util.Entity;
 
-public class Station extends InformationEntity {
+public class Station extends Entity {
 
 	private int plattforms;
 	

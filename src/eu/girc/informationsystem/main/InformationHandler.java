@@ -7,15 +7,15 @@ import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.Station;
-import eu.girc.informationsystem.util.InformationList;
+import eu.girc.informationsystem.util.EntityList;
 
 public class InformationHandler {
 
 	public static File file = new File("config.json");
 	public static JsonParser parser = new JsonParser();
 	
-	private static InformationList<Station> stations = new InformationList<>();
-	private static InformationList<Line> lines = new InformationList<>();
+	private static EntityList<Station> stations = new EntityList<>();
+	private static EntityList<Line> lines = new EntityList<>();
 	
 	static {
 		try {
@@ -27,11 +27,11 @@ public class InformationHandler {
 		lines.load("lines", parser, Line.class);
 	}
 	
-	public static InformationList<Station> getStations() {
+	public static EntityList<Station> getStations() {
 		return stations;
 	}
 	
-	public static InformationList<Line> getLines() {
+	public static EntityList<Line> getLines() {
 		return lines;
 	}
 	

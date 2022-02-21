@@ -1,11 +1,11 @@
 package eu.girc.informationsystem.util;
 
-public class InformationTime {
+public class Time {
 
 	private int hour;
 	private int minute;
 	
-	public InformationTime(int hour, int minute) {
+	public Time(int hour, int minute) {
 		if (hour < 24 && hour > -1) {
 			if (minute < 60 && minute > -1) {
 				this.hour = hour;
@@ -18,7 +18,7 @@ public class InformationTime {
 		}
 	}
 	
-	public InformationTime(String string) {
+	public Time(String string) {
 		this(getTimeFromString(string, 0), getTimeFromString(string, 1));
 	}
 	
@@ -39,10 +39,10 @@ public class InformationTime {
 		return minute;
 	}
 	
-	public InformationTime addTime(int hour, int minute) {
+	public Time addTime(int hour, int minute) {
 		int newHour = (this.hour + hour + ((this.minute + minute) / 60)) % 24;
 		int newMinute = (this.minute + minute) % 60;
-		return new InformationTime(newHour, newMinute);
+		return new Time(newHour, newMinute);
 	}
 	
 	@Override

@@ -2,12 +2,12 @@ package eu.girc.informationsystem.util;
 
 import eu.derzauberer.javautils.parser.JsonParser;
 
-public abstract class InformationEntity {
+public abstract class Entity {
 
 	private String name;
 	private String displayName;
 	
-	public InformationEntity(String name, String displayName) {
+	public Entity(String name, String displayName) {
 		this.name = name;
 		this.displayName = displayName;
 	}

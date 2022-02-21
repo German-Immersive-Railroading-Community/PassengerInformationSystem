@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
 
-public class InformationList<T extends InformationEntity> {
+public class EntityList<T extends Entity> {
 
 	private ArrayList<T> entities;
 	
-	public InformationList() {
+	public EntityList() {
 		entities = new ArrayList<>();
 	}
 	
 	public void add(T entity) {
-		InformationEntity oldEntity = get(entity.getName());
+		Entity oldEntity = get(entity.getName());
 		if (oldEntity != null) {
 			oldEntity = entity;
 		} else {
@@ -27,7 +27,7 @@ public class InformationList<T extends InformationEntity> {
 	}
 	
 	public void remove(String name) {
-		InformationEntity oldEntity = get(name);
+		Entity oldEntity = get(name);
 		if (oldEntity != null) {
 			entities.remove(oldEntity);
 		}
@@ -35,7 +35,7 @@ public class InformationList<T extends InformationEntity> {
 	
 	@SuppressWarnings("unchecked")
 	public T get(String name) {
-		for (InformationEntity entity : entities) {
+		for (Entity entity : entities) {
 			if (entity.getName().equalsIgnoreCase(name)) {
 				return (T) entity;
 			}
@@ -57,7 +57,7 @@ public class InformationList<T extends InformationEntity> {
 	
 	public void save(String name, JsonParser parser) {
 		ArrayList<JsonParser> jsonEntities = new ArrayList<>();
-		for (InformationEntity entity : entities) {
+		for (Entity entity : entities) {
 			jsonEntities.add(entity.toJson());
 		}
 		parser.set(name, jsonEntities);

@@ -3,17 +3,17 @@ package eu.girc.informationsystem.components;
 import java.util.ArrayList;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
-import eu.girc.informationsystem.util.InformationEntity;
-import eu.girc.informationsystem.util.InformationTime;
+import eu.girc.informationsystem.util.Entity;
+import eu.girc.informationsystem.util.Time;
 
-public class Line extends InformationEntity {
+public class Line extends Entity {
 	
 	private String departure;
 	private int delay;
 	
 	private ArrayList<LineStation> stations;
 	
-	public Line(String name, String displayName, InformationTime departure) {
+	public Line(String name, String displayName, Time departure) {
 		super(name, displayName);
 		this.departure = departure.toString();
 		this.delay = 0;
@@ -21,13 +21,13 @@ public class Line extends InformationEntity {
 	}
 	
 	public Line(JsonParser parser) {
-		this("Unnamed", "Unnamed", new InformationTime(0, 0));
+		this("Unnamed", "Unnamed", new Time(0, 0));
 		stations = new ArrayList<>();
 		fromJson(parser);
 	}
 	
-	public InformationTime getDeparture() {
-		return new InformationTime(departure);
+	public Time getDeparture() {
+		return new Time(departure);
 	}
 	
 	public void setDelay(int delay) {
@@ -43,7 +43,7 @@ public class Line extends InformationEntity {
 	}
 	
 	public void calculateDepartueTimes() {
-		InformationTime time = getDeparture();
+		Time time = getDeparture();
 		for (LineStation station : stations) {
 			station.setDeparture(time.addTime(0, station.getTravelTimeFromLastStation()));
 		}
