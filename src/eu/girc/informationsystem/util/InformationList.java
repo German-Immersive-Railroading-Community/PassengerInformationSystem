@@ -1,6 +1,9 @@
 package eu.girc.informationsystem.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
+import eu.derzauberer.javautils.parser.JsonParser;
 
 public class InformationList<T extends InformationEntity> {
 
@@ -38,6 +41,26 @@ public class InformationList<T extends InformationEntity> {
 			}
 		}
 		return null;
+	}
+
+	public void load(String name, JsonParser parser, Class<T> clazz) {
+		List<JsonParser> jsonEntities = parser.getJsonObjectList(name);
+		for (JsonParser jsonEntity : jsonEntities) {
+			try {
+				T entity = clazz.getDeclaredConstructor(JsonParser.class).newInstance(jsonEntity);
+				add(entity);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
+				exception.printStackTrace();
+			}
+		}
+	}
+	
+	public void save(String name, JsonParser parser) {
+		ArrayList<JsonParser> jsonEntities = new ArrayList<>();
+		for (InformationEntity entity : entities) {
+			jsonEntities.add(entity.toJson());
+		}
+		parser.set(name, jsonEntities);
 	}
 	
 	@SuppressWarnings("unchecked")

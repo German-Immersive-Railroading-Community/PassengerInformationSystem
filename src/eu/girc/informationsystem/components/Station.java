@@ -13,7 +13,8 @@ public class Station extends InformationEntity {
 	}
 	
 	public Station(JsonParser parser) {
-		this(parser.getString("name"), parser.getString("displayname"), parser.getInt("plattforms"));
+		super(null, null);
+		fromJson(parser);
 	}
 	
 	public int getPlattforms() {
@@ -21,10 +22,16 @@ public class Station extends InformationEntity {
 	}
 	
 	@Override
+	public void fromJson(JsonParser parser) {
+		super.fromJson(parser);
+		plattforms = parser.getInt("plattforms");
+	}
+	
+	@Override
 	public JsonParser toJson() {
 		JsonParser parser = new JsonParser();
 		parser.set("name", getName());
-		parser.set("displayname", getDisplayName());
+		parser.set("displayName", getDisplayName());
 		parser.set("plattforms", getPlattforms());
 		return parser;
 	}

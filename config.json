@@ -2,12 +2,12 @@
 	"stations": [
 		{
 			"name": "Roedau_Hbf",
-			"displayname": "Rödau Hbf",
+			"displayName": "Rödau Hbf",
 			"plattforms": 8
 		},
 		{
 			"name": "Roedau_Suedbahnhof",
-			"displayname": "Rödau Südbahnhof",
+			"displayName": "Rödau Südbahnhof",
 			"plattforms": 3
 		}
 	],
@@ -21,7 +21,7 @@
 				{
 					"station": {
 						"name": "Roedau_Hbf",
-						"displayname": "Rödau Hbf",
+						"displayName": "Rödau Hbf",
 						"plattforms": 8
 					},
 					"plattform": 1,
@@ -31,7 +31,7 @@
 				{
 					"station": {
 						"name": "Roedau_Suedbahnhof",
-						"displayname": "Rödau Südbahnhof",
+						"displayName": "Rödau Südbahnhof",
 						"plattforms": 3
 					},
 					"plattform": 3,

@@ -21,12 +21,9 @@ public class Line extends InformationEntity {
 	}
 	
 	public Line(JsonParser parser) {
-		this(parser.getString("name"), parser.getString("displayName"), new InformationTime(parser.getString("departure")));
-		this.setDelay(parser.getInt("delay"));
-		List<JsonParser> stations = parser.getJsonObjectList("stations");
-		for (JsonParser station : stations) {
-			getStations().add(new LineStation(station));
-		}
+		super(null, null);
+		stations = new ArrayList<>();
+		fromJson(parser);
 	}
 	
 	public InformationTime getDeparture() {
@@ -49,6 +46,17 @@ public class Line extends InformationEntity {
 		InformationTime time = getDeparture();
 		for (LineStation station : stations) {
 			station.setDeparture(time.addTime(0, station.getTravelTimeFromLastStation()));
+		}
+	}
+	
+	@Override
+	public void fromJson(JsonParser parser) {
+		super.fromJson(parser);
+		departure = parser.getString("departure");
+		delay =  parser.getInt("delay");
+		List<JsonParser> stations = parser.getJsonObjectList("stations");
+		for (JsonParser station : stations) {
+			getStations().add(new LineStation(station));
 		}
 	}
 	

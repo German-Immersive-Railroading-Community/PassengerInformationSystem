@@ -24,6 +24,11 @@ public abstract class InformationEntity {
 		return displayName;
 	}
 	
+	public void fromJson(JsonParser parser) {
+		name = parser.getString("name");
+		displayName = parser.getString("displayName");
+	}
+	
 	public abstract JsonParser toJson();
 	
 	@Override

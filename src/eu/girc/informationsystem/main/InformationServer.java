@@ -21,7 +21,6 @@ public class InformationServer {
 			console.sendMessage("Server is running on port {}!", args[0]);
 			console.setOnInput(InformationServer::onConsoleInput);
 			server.setOnMessageReceive(InformationServer::onClientMessageReceive);
-			InformationHandler.initialize();
 			stationTest();
 		}
 	}
@@ -53,8 +52,7 @@ public class InformationServer {
 		line.getStations().add(new LineStation(roedauSuedStation, 3, 3));
 		line.calculateDepartueTimes();
 		InformationHandler.getLines().add(line);
-		InformationHandler.saveStations();
-		InformationHandler.saveLines();
+		InformationHandler.save();
 	}
 	
 	private static void onConsoleInput(ConsoleInputEvent event) {

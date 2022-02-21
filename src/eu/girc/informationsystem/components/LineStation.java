@@ -12,19 +12,17 @@ public class LineStation {
 
 	public LineStation(Station station, int plattform, int travelTimeFromLastStation) {
 		this.station = station;
-		if (plattform <= station.getPlattforms()) {
+		if (plattform <= station.getPlattforms() && plattform > 0) {
 			this.plattform = plattform;
 		} else {
 			this.plattform = 0;
 			throw new IllegalArgumentException("Station " + station.getName() + " have only " + station.getPlattforms() + " plattforms!");
 		}
-		
 		this.travelTimeFromLastStation = travelTimeFromLastStation;
 	}
 	
 	public LineStation(JsonParser parser) {
-		this(new Station(parser.getJsonObject("station")), parser.getInt("plattform"), parser.getInt("travelTimeFromLastStation"));
-		departure = parser.getString("departure");
+		fromJson(parser);
 	}
 
 	public Station getStation() {
@@ -45,6 +43,12 @@ public class LineStation {
 	
 	public int getTravelTimeFromLastStation() {
 		return travelTimeFromLastStation;
+	}
+	
+	public void fromJson(JsonParser parser) {
+		station = new Station(parser.getJsonObject("station"));
+		plattform = parser.getInt("plattform");
+		travelTimeFromLastStation = parser.getInt("travelTimeFromLastStation");
 	}
 	
 	public JsonParser toJson() {
