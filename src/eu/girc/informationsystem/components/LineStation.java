@@ -22,6 +22,7 @@ public class LineStation {
 	}
 	
 	public LineStation(JsonParser parser) {
+		this(new Station("Unnamed", "Unnamed", 1), 1, 0);
 		fromJson(parser);
 	}
 

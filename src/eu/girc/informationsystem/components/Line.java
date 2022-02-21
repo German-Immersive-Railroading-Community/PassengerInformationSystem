@@ -21,7 +21,7 @@ public class Line extends InformationEntity {
 	}
 	
 	public Line(JsonParser parser) {
-		super(null, null);
+		this("Unnamed", "Unnamed", new InformationTime(0, 0));
 		stations = new ArrayList<>();
 		fromJson(parser);
 	}

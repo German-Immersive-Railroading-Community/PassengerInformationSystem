@@ -6,15 +6,15 @@ public class InformationTime {
 	private int minute;
 	
 	public InformationTime(int hour, int minute) {
-		if (hour < 24) {
-			if (minute < 60) {
+		if (hour < 24 && hour > -1) {
+			if (minute < 60 && minute > -1) {
 				this.hour = hour;
 				this.minute = minute;
 			} else {
-				throw new IllegalArgumentException("minute > 59");
+				throw new IllegalArgumentException("Only minutes in range 0 - 59, " + minute + " is not allowed!");
 			}
 		} else {
-			throw new IllegalArgumentException("hour > 23");
+			throw new IllegalArgumentException("Only hours in range 0 - 23, " + hour + " is not allowed!");
 		}
 	}
 	

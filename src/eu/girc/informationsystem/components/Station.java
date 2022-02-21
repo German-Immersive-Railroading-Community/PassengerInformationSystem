@@ -13,7 +13,7 @@ public class Station extends InformationEntity {
 	}
 	
 	public Station(JsonParser parser) {
-		super(null, null);
+		this("Unnamed", "Unnamed", 1);
 		fromJson(parser);
 	}
 	
