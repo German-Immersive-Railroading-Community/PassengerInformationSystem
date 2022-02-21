@@ -16,7 +16,7 @@ public class LineStation {
 			this.plattform = plattform;
 		} else {
 			this.plattform = 0;
-			throw new IllegalArgumentException("Station " + station.getName() + " have only " + station.getPlattforms() + " plattforms!");
+			throw new IllegalArgumentException("Station " + station.getName() + " has only " + station.getPlattforms() + " plattforms!");
 		}
 		this.travelTimeFromLastStation = travelTimeFromLastStation;
 	}
