@@ -1,94 +1,50 @@
 package eu.girc.informationsystem.handler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import eu.derzauberer.javautils.parser.JsonParser;
+import io.undertow.server.HttpServerExchange;
+import io.undertow.util.Headers;
 
 public class RequestHandler {
 	
-	public static String sendResponse(String request) {
-		if (request.split(" ").length == 3) {
-			if (request.contains("GET")) {
-				String path = request.split(" ")[1];
-				String parameter = "";
-				if (path.contains("?")) {
-					parameter = path.split("?")[1];
-					path = path.split("?")[0];
-				}
-				if (path.equals("/favicon.ico")) return ""; 
-				ArrayList<String> args = getArgs(path);
-				HashMap<String, String> params = getParameter(parameter);
-				String string = processGetRequest(path, args, params);
-				if (!string.isEmpty()) {
-					return generateResponse("200 OK", "application/json", string);
-				}
-			} else {
-				return generateResponse("400 Bad Request", "application/json", "{\r\n	\"message\": \"Bad Request!\"\r\n}");
-			}
+	public static void send404NotFound(HttpServerExchange exchange) {
+		if (!exchange.isResponseStarted()) {
+			exchange.setStatusCode(404);
+			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+			exchange.getResponseSender().send("{\r\n	\"message\": \"Not Found!\"\r\n}");
 		}
-		return generateResponse("404 Not Found", "application/json", "{\r\n	\"message\": \"Not Found!\"\r\n}");
 	}
 	
-	public static String processGetRequest(String path, ArrayList<String> args, HashMap<String, String> params) {
-		if (args.size() == 0) {
-			return InformationHandler.getParser().toString();
-		} else if (isPath(args, 0, "station")) {
-			if (args.size() == 1) {
-				return InformationHandler.getStations().toJson().toString();
-			} else if (args.size() == 2 && InformationHandler.getStations().get(args.get(1)) != null) {
-				return InformationHandler.getStations().get(args.get(1)).toString();
-			}
-		} else if (isPath(args, 0, "line")) {
-			if (args.size() == 1) {
-				return InformationHandler.getLines().toJson().toString();
-			} else if (args.size() == 2 && InformationHandler.getLines().get(args.get(1)) != null) {
-				return InformationHandler.getLines().get(args.get(1)).toString();
-			}
+	public static void send400BadRequet(HttpServerExchange exchange) {
+		if (!exchange.isResponseStarted()) {
+			exchange.setStatusCode(400);
+			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+			exchange.getResponseSender().send("{\r\n	\"message\": \"Bad Request!\"\r\n}");
 		}
-		return "";
 	}
 	
-	private static boolean isPath(ArrayList<String> args, int pos, String target) {
-		if (args.size() >= pos + 1 && (args.get(pos).equalsIgnoreCase(target) || args.get(pos).equalsIgnoreCase(target + "s"))) return true;
-		return false;
+	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+		exchange.getResponseSender().send(parser.toString());
 	}
 	
-	private static ArrayList<String> getArgs(String path) {
-		ArrayList<String> args = new ArrayList<>();
+	public static boolean isPath(String args[], int pos, String target) {
+		return args.length >= pos + 1 && args[pos].equalsIgnoreCase(target);
+	}
+	
+	public static String[] getArgs(String path) {
+		List<String> argList = new ArrayList<>();
 		for (String string : path.split("/")) {
 			if (!string.isEmpty()) {
-				args.add(string);
+				argList.add(string);
 			}
+		}
+		String[] args = new String[argList.size()];
+		for (int i = 0; i < argList.size(); i++) {
+			args[i] = argList.get(i);
 		}
 		return args;
-	}
-	
-	private static HashMap<String, String> getParameter(String parameter) {
-		HashMap<String, String> parameterList = new HashMap<>();
-		int lastSperator = 0;
-		int lastValue = 0;
-		int index = 0;
-		String name = "";
-		char chars[] = parameter.toCharArray();
-		if (!parameter.endsWith(";") && !parameter.endsWith(";")) chars = (parameter + ";").toCharArray();
-		for (char character : chars) {
-			if (character == ';' || character == '&') {
-				String value = parameter.substring(lastValue, index);
-				parameterList.put(name, value);
-				lastSperator = index + 1;
-			} else if (character == '=') {
-				name = parameter.substring(lastSperator, index);
-				lastValue = index + 1;
-			}
-			index++;
-		}
-		return parameterList;
-	}
-	
-	private static String generateResponse(String code, String contentType, String content) {
-		String string = "HTTP/1.1 " + code + "\r\n"
-		+ "Content-Type: " + contentType + "\r\n\n"
-		+ content;
-		return string;
 	}
 
 }

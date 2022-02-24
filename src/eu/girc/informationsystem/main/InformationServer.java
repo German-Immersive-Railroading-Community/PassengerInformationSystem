@@ -1,20 +1,19 @@
 package eu.girc.informationsystem.main;
 
-import eu.derzauberer.javautils.events.ClientMessageReceiveEvent;
 import eu.derzauberer.javautils.events.ConsoleInputEvent;
 import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.Console.MessageType;
-import eu.derzauberer.javautils.util.Server;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.handler.InformationHandler;
 import eu.girc.informationsystem.handler.RequestHandler;
 import eu.girc.informationsystem.util.Time;
+import io.undertow.Undertow;
+import io.undertow.server.HttpServerExchange;
 
 public class InformationServer {
 	
-	private static Server server;
 	private static Console console = new Console();
 	
 	public static void main(String[] args) {
@@ -22,15 +21,14 @@ public class InformationServer {
 		console.setDefaultType(MessageType.INFO);
 		console.sendMessage("Server is running on port {}!", args[0]);
 		console.setOnInput(InformationServer::onConsoleInput);
-		server.setOnMessageReceive(InformationServer::onClientMessageReceive);
 		stationTest();
 	}
 	
 	private static boolean isStarted(String args[]) {
 		try {
 			if (args.length > 0) {
-				server = new Server(Integer.parseInt(args[0]));
-				server.setClientTimeout(10000);
+				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "localhost").setHandler(InformationServer::handleRequest).build();
+				server.start();
 				return true;
 			} else {
 				console.sendMessage("Can't start server! Please use use 'java -jar <jarfile> <port>'", MessageType.ERROR);
@@ -56,20 +54,33 @@ public class InformationServer {
 		InformationHandler.save();
 	}
 	
+	private static void handleRequest(HttpServerExchange exchange) throws Exception {
+		console.sendMessage("Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
+		String args[] = RequestHandler.getArgs(exchange.getRequestPath());
+		if (exchange.getRequestMethod().toString().equals("GET")) {
+			if (args.length == 0) {
+				RequestHandler.sendJson(exchange, InformationHandler.getParser());
+			} else if (RequestHandler.isPath(args, 0, "station") || RequestHandler.isPath(args, 0, "stations")) {
+				if (args.length == 1) {
+					RequestHandler.sendJson(exchange, InformationHandler.getStations().toJson());
+				} else if (args.length == 2 && InformationHandler.getStations().get(args[1]) != null) {
+					RequestHandler.sendJson(exchange, InformationHandler.getStations().get(args[1]).toJson());
+				}
+			} else if (RequestHandler.isPath(args, 0, "line") || RequestHandler.isPath(args, 0, "lines")) {
+				if (args.length == 1) {
+					RequestHandler.sendJson(exchange, InformationHandler.getLines().toJson());
+				} else if (args.length == 2 && InformationHandler.getLines().get(args[1]) != null) {
+					RequestHandler.sendJson(exchange, InformationHandler.getLines().get(args[1]).toJson());
+				}
+			}
+		}
+		RequestHandler.send404NotFound(exchange);
+	}
+	
 	private static void onConsoleInput(ConsoleInputEvent event) {
 		if (event.getInput().equalsIgnoreCase("exit")) {
 			System.exit(0);
 		}
-	}
-	
-	private static void onClientMessageReceive(ClientMessageReceiveEvent event) {
-		event.getClient().sendMessage(RequestHandler.sendResponse(event.getMessage()));
-		console.sendMessage("Request from " + event.getClient().getAdress() + " \"" + event.getMessage() + "\"");
-		event.getClient().close();
-	}
-	
-	public static Server getServer() {
-		return server;
 	}
 	
 	public static Console getConsole() {

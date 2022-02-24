@@ -12,8 +12,8 @@ import eu.girc.informationsystem.util.EntityList;
 
 public class InformationHandler {
 
-	public static File file = new File("config.json");
-	public static JsonParser parser = new JsonParser();
+	private static File file = new File("config.json");
+	private static JsonParser parser = new JsonParser();
 	
 	private static EntityList<Station> stations = new EntityList<>();
 	private static EntityList<Line> lines = new EntityList<>();
