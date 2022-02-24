@@ -42,9 +42,21 @@ public class EntityList<T extends Entity> {
 		}
 		return null;
 	}
+	
+	public List<JsonParser> toJsonList() {
+		List<JsonParser> jsonEntities = new ArrayList<>();
+		entities.forEach(entity -> jsonEntities.add(entity.toJson()));
+		return jsonEntities;
+	}
+	
+	public JsonParser toJson() {
+		JsonParser parser = new JsonParser();
+		parser.set("", toJsonList());
+		return parser;
+	}
 
-	public void load(String name, JsonParser parser, Class<T> clazz) {
-		List<JsonParser> jsonEntities = parser.getJsonObjectList(name);
+	public void load(String key, JsonParser parser, Class<T> clazz) {
+		List<JsonParser> jsonEntities = parser.getJsonObjectList(key);
 		for (JsonParser jsonEntity : jsonEntities) {
 			try {
 				T entity = clazz.getDeclaredConstructor(JsonParser.class).newInstance(jsonEntity);
@@ -55,12 +67,8 @@ public class EntityList<T extends Entity> {
 		}
 	}
 	
-	public void save(String name, JsonParser parser) {
-		ArrayList<JsonParser> jsonEntities = new ArrayList<>();
-		for (Entity entity : entities) {
-			jsonEntities.add(entity.toJson());
-		}
-		parser.set(name, jsonEntities);
+	public void save(String key, JsonParser parser) {
+		parser.set(key, toJsonList());
 	}
 	
 	@SuppressWarnings("unchecked")

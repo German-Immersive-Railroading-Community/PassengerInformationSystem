@@ -8,6 +8,8 @@ import eu.derzauberer.javautils.util.Server;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
+import eu.girc.informationsystem.handler.InformationHandler;
+import eu.girc.informationsystem.handler.RequestHandler;
 import eu.girc.informationsystem.util.Time;
 
 public class InformationServer {

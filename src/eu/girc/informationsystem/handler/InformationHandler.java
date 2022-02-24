@@ -1,4 +1,4 @@
-package eu.girc.informationsystem.main;
+package eu.girc.informationsystem.handler;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -7,6 +7,7 @@ import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.Station;
+import eu.girc.informationsystem.main.InformationServer;
 import eu.girc.informationsystem.util.EntityList;
 
 public class InformationHandler {
