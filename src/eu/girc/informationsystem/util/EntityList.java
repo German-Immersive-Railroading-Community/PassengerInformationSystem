@@ -2,10 +2,11 @@ package eu.girc.informationsystem.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
 
-public class EntityList<T extends Entity> {
+public class EntityList<T extends Entity> implements Iterable<T> {
 
 	private ArrayList<T> entities;
 	
@@ -31,6 +32,19 @@ public class EntityList<T extends Entity> {
 		if (oldEntity != null) {
 			entities.remove(oldEntity);
 		}
+	}
+	
+	public boolean contains(T entity) {
+		return contains(entity.getName());
+	}
+	
+	public boolean contains(String name) {
+		for (T entity : entities) {
+			if (entity.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -74,6 +88,11 @@ public class EntityList<T extends Entity> {
 	@SuppressWarnings("unchecked")
 	public ArrayList<T> getEntities() {
 		return (ArrayList<T>) entities.clone();
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return entities.iterator();
 	}
 	
 }

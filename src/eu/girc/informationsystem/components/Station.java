@@ -1,7 +1,9 @@
 package eu.girc.informationsystem.components;
 
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.girc.informationsystem.main.Main;
 import eu.girc.informationsystem.util.Entity;
+import eu.girc.informationsystem.util.EntityList;
 
 public class Station extends Entity {
 
@@ -19,6 +21,16 @@ public class Station extends Entity {
 	
 	public int getPlattforms() {
 		return plattforms;
+	}
+	
+	public EntityList<Line> getLines() {
+		EntityList<Line> lines = new EntityList<>();
+		for (Line line : Main.getLines()) {
+			if (line.getStations().contains(this)) {
+				lines.add(line);
+			}
+		}
+		return lines;
 	}
 	
 	@Override
