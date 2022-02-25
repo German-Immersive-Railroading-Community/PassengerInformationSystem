@@ -9,6 +9,11 @@
 			"name": "Roedau_Suedbahnhof",
 			"displayName": "Rödau Südbahnhof",
 			"plattforms": 3
+		},
+		{
+			"name": "Presslau",
+			"displayName": "Presslau",
+			"plattforms": 2
 		}
 	],
 	"lines": [

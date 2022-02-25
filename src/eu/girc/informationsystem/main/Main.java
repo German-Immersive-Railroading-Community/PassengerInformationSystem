@@ -11,10 +11,14 @@ import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.handler.RequestHandler;
+import eu.girc.informationsystem.requests.IndexRequest;
+import eu.girc.informationsystem.requests.LineCallback;
+import eu.girc.informationsystem.requests.LineRequest;
+import eu.girc.informationsystem.requests.StationCallback;
+import eu.girc.informationsystem.requests.StationRequest;
 import eu.girc.informationsystem.util.EntityList;
 import eu.girc.informationsystem.util.Time;
 import io.undertow.Undertow;
-import io.undertow.server.HttpServerExchange;
 
 public class Main {
 	
@@ -30,13 +34,14 @@ public class Main {
 		console.sendMessage("Server is running on port {}!", args[0]);
 		console.setOnInput(Main::onConsoleInput);
 		initializeConfig();
+		registerRequests();
 		stationTest();
 	}
 	
 	private static boolean isStarted(String args[]) {
 		try {
 			if (args.length > 0) {
-				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "localhost").setHandler(Main::handleRequest).build();
+				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "localhost").setHandler(RequestHandler::execute).build();
 				server.start();
 				return true;
 			} else {
@@ -48,6 +53,14 @@ public class Main {
 			console.sendMessage(exception.getMessage(), MessageType.ERROR);
 			return false;
 		}
+	}
+	
+	private static void registerRequests() {
+		RequestHandler.setIndex(new IndexRequest());
+		RequestHandler.registerRequest("station", new StationRequest());
+		RequestHandler.registerRequest("line", new LineRequest());
+		RequestHandler.registerCallback("station", new StationCallback());
+		RequestHandler.registerCallback("line", new LineCallback());
 	}
 	
 	private static void stationTest() {
@@ -63,33 +76,6 @@ public class Main {
 		line.calculateDepartueTimes();
 		Main.getLines().add(line);
 		Main.save();
-	}
-	
-	private static void handleRequest(HttpServerExchange exchange) throws Exception {
-		console.sendMessage("Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
-		String args[] = RequestHandler.getArgs(exchange.getRequestPath());
-		if (exchange.getRequestMethod().toString().equals("GET")) {
-			if (args.length == 0) {
-				RequestHandler.sendJson(exchange, Main.getParser());
-			} else if (RequestHandler.isPath(args, 0, "station") || RequestHandler.isPath(args, 0, "stations")) {
-				if (args.length == 1) {
-					RequestHandler.sendJson(exchange, Main.getStations().toJson());
-				} else if (args.length >= 2 && Main.getStations().get(args[1]) != null) {
-					if (args.length == 2) {
-						RequestHandler.sendJson(exchange, Main.getStations().get(args[1]).toJson());
-					} else if (args.length == 3 && RequestHandler.isPath(args, 2, "lines")) {
-						RequestHandler.sendJson(exchange, Main.getStations().get(args[1]).getLines().toJson());
-					}
-				}
-			} else if (RequestHandler.isPath(args, 0, "line") || RequestHandler.isPath(args, 0, "lines")) {
-				if (args.length == 1) {
-					RequestHandler.sendJson(exchange, Main.getLines().toJson());
-				} else if (args.length == 2 && Main.getLines().get(args[1]) != null) {
-					RequestHandler.sendJson(exchange, Main.getLines().get(args[1]).toJson());
-				}
-			}
-		}
-		RequestHandler.send404NotFound(exchange);
 	}
 	
 	private static void initializeConfig() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.girc.informationsystem.components.Line;
 
 public class EntityList<T extends Entity> implements Iterable<T> {
 
@@ -34,6 +35,10 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 		}
 	}
 	
+	public void clear() {
+		entities.clear();
+	}
+	
 	public boolean contains(T entity) {
 		return contains(entity.getName());
 	}
@@ -57,9 +62,13 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<JsonParser> toJsonList() {
+		if (!entities.isEmpty() && entities.get(0) instanceof Line) {
+			Time.timeSort((EntityList<Line>) this);
+		}
 		List<JsonParser> jsonEntities = new ArrayList<>();
-		entities.forEach(entity -> jsonEntities.add(entity.toJson()));
+		forEach(entity -> jsonEntities.add(entity.toJson()));
 		return jsonEntities;
 	}
 	

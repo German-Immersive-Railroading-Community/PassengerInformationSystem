@@ -1,12 +1,69 @@
 package eu.girc.informationsystem.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.girc.informationsystem.main.Main;
+import io.undertow.io.Receiver.FullStringCallback;
+import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 
 public class RequestHandler {
+	
+	private static HttpHandler index;
+	private static HashMap<String, HttpHandler> requests = new HashMap<>();
+	private static HashMap<String, FullStringCallback> callbacks = new HashMap<>();
+	
+	public static void setIndex(HttpHandler request) {
+		index = request;
+	}
+	
+	public static void registerRequest(String name, HttpHandler request) {
+		requests.put(name, request);
+	}
+	
+	public static void registerCallback(String name, FullStringCallback callback) {
+		callbacks.put(name, callback);
+	}
+	
+	public static void execute(HttpServerExchange exchange) throws Exception {
+		Main.getConsole().sendMessage("Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
+		String args[] = getArgs(exchange.getRequestPath());
+		if (args.length == 0) {
+			if (index != null) {
+				index.handleRequest(exchange);
+			}
+		} else {
+			for (String name : requests.keySet()) {
+				if (name.equalsIgnoreCase(args[0])) {
+					if (!exchange.isResponseStarted()) {
+						requests.get(name).handleRequest(exchange);
+					} else {
+						return;
+					}
+				}
+			}
+			for (String name : callbacks.keySet()) {
+				if (name.equalsIgnoreCase(args[0])) {
+					if (!exchange.isResponseStarted()) {
+						exchange.getRequestReceiver().receiveFullString(callbacks.get(name));
+					} else {
+						return;
+					}
+				}
+			}
+		}
+		send404NotFound(exchange);
+	}
+	
+	public static void send200Success(HttpServerExchange exchange) {
+		if (!exchange.isResponseStarted()) {
+			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+			exchange.getResponseSender().send("{\r\n	\"message\": \"Success!\"\r\n}");
+		}
+	}
 	
 	public static void send404NotFound(HttpServerExchange exchange) {
 		if (!exchange.isResponseStarted()) {
