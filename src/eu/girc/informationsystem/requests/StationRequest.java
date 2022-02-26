@@ -1,5 +1,6 @@
 package eu.girc.informationsystem.requests;
 
+import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.handler.RequestHandler;
 import eu.girc.informationsystem.main.Main;
 import io.undertow.server.HttpHandler;
@@ -18,6 +19,14 @@ public class StationRequest implements HttpHandler {
 					RequestHandler.sendJson(exchange, Main.getStations().get(args[1]).toJson());
 				} else if (args.length == 3 && RequestHandler.isPath(args, 2, "lines")) {
 					RequestHandler.sendJson(exchange, Main.getStations().get(args[1]).getLines().toJson());
+				} else if (args.length == 4 && RequestHandler.isPath(args, 2, "lines")) {
+					try {
+						Station station = Main.getStations().get(args[1]);
+						int plattform = Integer.parseInt(args[3]);
+						if (station.getPlattforms() >= plattform && plattform >= 1) {
+							RequestHandler.sendJson(exchange, Main.getStations().get(args[1]).getLines(plattform).toJson());
+						}
+					} catch (NumberFormatException exception) {}
 				}
 			}
 		}

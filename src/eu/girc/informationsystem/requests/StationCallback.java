@@ -13,9 +13,14 @@ public class StationCallback implements FullStringCallback {
 	public void handle(HttpServerExchange exchange, String message) {
 		if (exchange.getRequestMethod().toString().equals("POST")) {
 			try {
-				Main.getStations().add(new Station(new JsonParser(message)));
-				RequestHandler.send200Success(exchange);
-				Main.save();
+				Station station = new Station(new JsonParser(message));
+				if (station.isValid()) {
+					Main.getStations().add(station);
+					Main.save();
+					RequestHandler.send200Success(exchange);
+				} else {
+					RequestHandler.send400BadRequet(exchange);
+				}
 			} catch (Exception exception) {
 				RequestHandler.send400BadRequet(exchange);
 			}

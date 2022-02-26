@@ -13,9 +13,14 @@ public class LineCallback implements FullStringCallback {
 	public void handle(HttpServerExchange exchange, String message) {
 		if (exchange.getRequestMethod().toString().equals("POST")) {
 			try {
-				Main.getLines().add(new Line(new JsonParser(message)));
-				RequestHandler.send200Success(exchange);
-				Main.save();
+				Line line = new Line(new JsonParser(message));
+				if (line.isValid()) {
+					Main.getLines().add(line);
+					Main.save();
+					RequestHandler.send200Success(exchange);
+				} else {
+					RequestHandler.send400BadRequet(exchange);
+				}
 			} catch (Exception exception) {
 				RequestHandler.send400BadRequet(exchange);
 			}

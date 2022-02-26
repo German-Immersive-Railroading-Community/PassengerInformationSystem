@@ -31,6 +31,10 @@ public abstract class Entity {
 	
 	public abstract JsonParser toJson();
 	
+	public boolean isValid() {
+		return getName() != null && !getName().isEmpty() && !name.contains(" ") && getDisplayName() != null && !getDisplayName().isEmpty();
+	}
+	
 	@Override
 	public String toString() {
 		return toJson().toString();

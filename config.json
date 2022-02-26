@@ -1,6 +1,11 @@
 {
 	"stations": [
 		{
+			"name": "Presslau",
+			"displayName": "Presslau",
+			"plattforms": 2
+		},
+		{
 			"name": "Roedau_Hbf",
 			"displayName": "Rödau Hbf",
 			"plattforms": 8
@@ -9,19 +14,14 @@
 			"name": "Roedau_Suedbahnhof",
 			"displayName": "Rödau Südbahnhof",
 			"plattforms": 3
-		},
-		{
-			"name": "Presslau",
-			"displayName": "Presslau",
-			"plattforms": 2
 		}
 	],
 	"lines": [
 		{
 			"name": "S5_Roedau_Sued",
 			"displayName": "S5 Rödau Süd",
-			"operator": null,
-			"driver": null,
+			"operator": "DIRC",
+			"driver": "Der_Zauberer",
 			"departure": "16:05",
 			"delay": 0,
 			"stations": [
@@ -44,6 +44,36 @@
 					"plattform": 3,
 					"departure": "16:08",
 					"travelTimeFromLastStation": 3
+				}		
+			]
+		},
+		{
+			"name": "Line_Name",
+			"displayName": "Line Name",
+			"operator": "GIRC",
+			"driver": "Der_Zauberer",
+			"departure": "20:00",
+			"delay": 5,
+			"stations": [
+				{
+					"station": {
+						"name": "Roedau_Hbf",
+						"displayName": "Rödau Hbf",
+						"plattforms": 8
+					},
+					"plattform": 1,
+					"departure": "20:00",
+					"travelTimeFromLastStation": 0
+				}		,
+				{
+					"station": {
+						"name": "Roedau_Suedbahnhof",
+						"displayName": "Rödau Südbahnhof",
+						"plattforms": 3
+					},
+					"plattform": 1,
+					"departure": "20:05",
+					"travelTimeFromLastStation": 5
 				}		
 			]
 		}

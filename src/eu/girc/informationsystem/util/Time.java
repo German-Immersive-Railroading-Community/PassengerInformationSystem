@@ -3,6 +3,7 @@ package eu.girc.informationsystem.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import eu.girc.informationsystem.components.Line;
+import eu.girc.informationsystem.components.Station;
 
 public class Time {
 
@@ -41,13 +42,26 @@ public class Time {
 	}
 	
 	public static EntityList<Line> timeSort(EntityList<Line> lines) {
+		return timeSort(lines, null);
+	}
+	
+	public static EntityList<Line> timeSort(EntityList<Line> lines, Station station) {
 		if (lines.getEntities().size() > 1) {
 			ArrayList<Time> times = new ArrayList<>();
 			HashMap<Time, Line> objects = new HashMap<>();
 			for (Line line : lines) {
-				Time time = line.getDeparture().addTime(0, line.getDelay());
-				times.add(time);
-				objects.put(time, line);
+				if (station != null) {
+					if (line.getLineStation(station) != null) {
+						Time time = line.getDeparture().addTime(0, line.getDelay());
+						line.getLineStation(station).getDeparture();
+						times.add(time);
+						objects.put(time, line);
+					}
+				} else {
+					Time time = line.getDeparture().addTime(0, line.getDelay());
+					times.add(time);
+					objects.put(time, line);
+				}
 			}
 			Time min = null;
 			Time max = null;
@@ -71,6 +85,15 @@ public class Time {
 		return lines;
 	}
 	
+	public static boolean isValid(String string) {
+		try {
+			new Time(getTimeFromString(string, 0), getTimeFromString(string, 1));
+			return true;
+		} catch (IllegalArgumentException  exception) {
+			return false;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		String hour = Integer.toString(this.hour);
@@ -83,7 +106,13 @@ public class Time {
 	private static int getTimeFromString(String string, int index) {
 		if (string.split(":").length == 2) {
 			String time[] = string.split(":");
-			return Integer.parseInt(time[index]);
+			int number = 0;
+			try {
+				number = Integer.parseInt(time[index]);
+				return number;
+			} catch (NumberFormatException exception) {
+				throw new IllegalArgumentException("Wrong format, must be hh:mm");
+			}
 		} else {
 			throw new IllegalArgumentException("Wrong format, must be hh:mm");
 		}
@@ -95,7 +124,7 @@ public class Time {
 		return value;
 	}
 	
-	public static void swap(ArrayList<Time> times, Time time, int pos) {
+	private static void swap(ArrayList<Time> times, Time time, int pos) {
 		Time swap = times.get(pos);
 		int newPos = times.indexOf(time);
 		times.set(pos, time);

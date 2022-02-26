@@ -18,10 +18,9 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	public void add(T entity) {
 		Entity oldEntity = get(entity.getName());
 		if (oldEntity != null) {
-			oldEntity = entity;
-		} else {
-			entities.add(entity);
+			entities.remove(oldEntity);
 		}
+		entities.add(entity);
 	}
 	
 	public void remove(T entity) {
@@ -60,6 +59,31 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 			}
 		}
 		return null;
+	}
+	
+	public T get(int index) {
+		if (entities.size() >= index) {
+			return entities.get(index);
+		}
+		return null;
+	}
+	
+	public T getFirst() {
+		if (entities.size() > 0) {
+			return entities.get(0);
+		}
+		return null;
+	}
+	
+	public T getLast() {
+		if (entities.size() > 0) {
+			return entities.get(entities.size() - 1);
+		}
+		return null;
+	}
+	
+	public int size() {
+		return entities.size();
 	}
 	
 	@SuppressWarnings("unchecked")

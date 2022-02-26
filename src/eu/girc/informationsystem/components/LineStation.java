@@ -1,6 +1,7 @@
 package eu.girc.informationsystem.components;
 
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.girc.informationsystem.main.Main;
 import eu.girc.informationsystem.util.Time;
 
 public class LineStation {
@@ -47,7 +48,11 @@ public class LineStation {
 	}
 	
 	public void fromJson(JsonParser parser) {
-		station = new Station(parser.getJsonObject("station"));
+		if (parser.get("station") instanceof String) {
+			station = Main.getStations().get(parser.getString("station"));
+		} else {
+			station = Main.getStations().get(parser.getString("station.name"));
+		}
 		plattform = parser.getInt("plattform");
 		travelTimeFromLastStation = parser.getInt("travelTimeFromLastStation");
 	}

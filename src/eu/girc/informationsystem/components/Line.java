@@ -57,6 +57,15 @@ public class Line extends Entity {
 		return delay;
 	}
 	
+	public LineStation getLineStation(Station station) {
+		for (LineStation lineStation : stations) {
+			if (lineStation.getStation().getName().equals(station.getName())) {
+				return lineStation;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<LineStation> getLineStations() {
 		return stations;
 	}
@@ -103,6 +112,20 @@ public class Line extends Entity {
 		}
 		parser.set("stations", stations);
 		return parser;
+	}
+	
+	@Override
+	public boolean isValid() {
+		if (super.isValid() && Time.isValid(departure)) {
+			for (LineStation station : stations) {
+				if (station.getStation() != null && station.getStation().isValid()) {
+					if (station.getPlattform() > 0 && station.getPlattform() <= station.getStation().getPlattforms()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }
