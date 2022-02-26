@@ -11,11 +11,13 @@ import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.handler.RequestHandler;
+import eu.girc.informationsystem.requests.HelpRequest;
 import eu.girc.informationsystem.requests.IndexRequest;
 import eu.girc.informationsystem.requests.LineCallback;
 import eu.girc.informationsystem.requests.LineRequest;
 import eu.girc.informationsystem.requests.StationCallback;
 import eu.girc.informationsystem.requests.StationRequest;
+import eu.girc.informationsystem.requests.TemplateRequest;
 import eu.girc.informationsystem.util.EntityList;
 import eu.girc.informationsystem.util.Time;
 import io.undertow.Undertow;
@@ -57,8 +59,10 @@ public class Main {
 	
 	private static void registerRequests() {
 		RequestHandler.setIndex(new IndexRequest());
+		RequestHandler.registerRequest("help", new HelpRequest());
 		RequestHandler.registerRequest("station", new StationRequest());
 		RequestHandler.registerRequest("line", new LineRequest());
+		RequestHandler.registerRequest("template", new TemplateRequest());
 		RequestHandler.registerCallback("station", new StationCallback());
 		RequestHandler.registerCallback("line", new LineCallback());
 	}
