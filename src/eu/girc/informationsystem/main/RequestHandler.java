@@ -12,11 +12,19 @@ import io.undertow.util.Headers;
 public class RequestHandler {
 	
 	private static HttpHandler index;
+	private static String html404;
 	private static HashMap<String, HttpHandler> requests = new HashMap<>();
 	private static HashMap<String, FullStringCallback> callbacks = new HashMap<>();
+	private static HttpHandler apiIndex;
+	private static HashMap<String, HttpHandler> apiRequests = new HashMap<>();
+	private static HashMap<String, FullStringCallback> apiCallbacks = new HashMap<>();
 	
 	public static void setIndex(HttpHandler request) {
 		index = request;
+	}
+	
+	public static void set404Html(String string) {
+		html404 = string;
 	}
 	
 	public static void registerRequest(String name, HttpHandler request) {
@@ -27,9 +35,31 @@ public class RequestHandler {
 		callbacks.put(name, callback);
 	}
 	
+	public static void setAPIIndex(HttpHandler request) {
+		apiIndex = request;
+	}
+	
+	public static void registerAPIRequest(String name, HttpHandler request) {
+		apiRequests.put(name, request);
+	}
+	
+	public static void registerAPICallback(String name, FullStringCallback callback) {
+		apiCallbacks.put(name, callback);
+	}
+	
 	public static void execute(HttpServerExchange exchange) throws Exception {
 		Main.getConsole().sendMessage("Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
-		String args[] = getArgs(exchange.getRequestPath());
+		String args[] = getArgs(exchange.getRequestPath(), false);
+		if (args.length > 0 && args[0].equals("api")) {
+			execute(exchange, apiIndex, apiRequests, apiCallbacks, getArgs(exchange.getRequestPath()));
+			sendAPI404NotFound(exchange);
+		} else {
+			execute(exchange, index, requests, callbacks, args);
+			send404NotFound(exchange);
+		}
+	}
+	
+	private static void execute(HttpServerExchange exchange, HttpHandler index, HashMap<String, HttpHandler> requests, HashMap<String, FullStringCallback> callbacks, String args[]) throws Exception {
 		if (args.length == 0) {
 			if (index != null) {
 				index.handleRequest(exchange);
@@ -54,7 +84,6 @@ public class RequestHandler {
 				}
 			}
 		}
-		send404NotFound(exchange);
 	}
 	
 	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
@@ -77,14 +106,26 @@ public class RequestHandler {
 		exchange.getResponseSender().send(string);
 	}
 	
-	public static void send200Success(HttpServerExchange exchange) {
+	public static void send404NotFound(HttpServerExchange exchange) {
+		if (!exchange.isResponseStarted()) {
+			exchange.setStatusCode(404);
+			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
+			if (html404 != null) {
+				exchange.getResponseSender().send(html404);
+			} else {
+				exchange.getResponseSender().send("");
+			}
+		}
+	}
+	
+	public static void sendAPI200Success(HttpServerExchange exchange) {
 		if (!exchange.isResponseStarted()) {
 			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
 			exchange.getResponseSender().send("{\r\n	\"message\": \"Success!\"\r\n}");
 		}
 	}
 	
-	public static void send404NotFound(HttpServerExchange exchange) {
+	public static void sendAPI404NotFound(HttpServerExchange exchange) {
 		if (!exchange.isResponseStarted()) {
 			exchange.setStatusCode(404);
 			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
@@ -92,7 +133,7 @@ public class RequestHandler {
 		}
 	}
 	
-	public static void send400BadRequet(HttpServerExchange exchange) {
+	public static void sendAPI400BadRequet(HttpServerExchange exchange) {
 		if (!exchange.isResponseStarted()) {
 			exchange.setStatusCode(400);
 			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
@@ -105,9 +146,13 @@ public class RequestHandler {
 	}
 	
 	public static String[] getArgs(String path) {
+		return getArgs(path, true);
+	}
+	
+	private static String[] getArgs(String path, boolean apiSplit) {
 		List<String> argList = new ArrayList<>();
 		for (String string : path.split("/")) {
-			if (!string.isEmpty()) {
+			if (!string.isEmpty() && !(apiSplit && string.equals("api"))) {
 				argList.add(string);
 			}
 		}

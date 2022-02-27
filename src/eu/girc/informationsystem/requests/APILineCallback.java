@@ -7,7 +7,7 @@ import eu.girc.informationsystem.main.RequestHandler;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpServerExchange;
 
-public class LineCallback implements FullStringCallback {
+public class APILineCallback implements FullStringCallback {
 
 	@Override
 	public void handle(HttpServerExchange exchange, String message) {
@@ -17,21 +17,21 @@ public class LineCallback implements FullStringCallback {
 				if (line.isValid()) {
 					Main.getLines().add(line);
 					Main.save();
-					RequestHandler.send200Success(exchange);
+					RequestHandler.sendAPI200Success(exchange);
 				} else {
-					RequestHandler.send400BadRequet(exchange);
+					RequestHandler.sendAPI400BadRequet(exchange);
 				}
 			} catch (Exception exception) {
-				RequestHandler.send400BadRequet(exchange);
+				RequestHandler.sendAPI400BadRequet(exchange);
 			}
 		} else if (exchange.getRequestMethod().toString().equals("DELETE")) {
 			String name = new JsonParser(message).getString("name");
 			if (name != null && Main.getLines().contains(name)) {
 				Main.getLines().remove(name);
-				RequestHandler.send200Success(exchange);
+				RequestHandler.sendAPI200Success(exchange);
 				Main.save();
 			} else {
-				RequestHandler.send400BadRequet(exchange);
+				RequestHandler.sendAPI400BadRequet(exchange);
 			}
 		}
 	}

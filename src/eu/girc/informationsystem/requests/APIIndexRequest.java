@@ -5,7 +5,7 @@ import eu.girc.informationsystem.main.RequestHandler;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
-public class IndexRequest implements HttpHandler {
+public class APIIndexRequest implements HttpHandler {
 
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {
@@ -21,7 +21,7 @@ public class IndexRequest implements HttpHandler {
 			parser.set("line_template", "/template/line/");
 			RequestHandler.sendJson(exchange, parser);
 		} else {
-			RequestHandler.send400BadRequet(exchange);
+			RequestHandler.sendAPI400BadRequet(exchange);
 		}
 	}
 

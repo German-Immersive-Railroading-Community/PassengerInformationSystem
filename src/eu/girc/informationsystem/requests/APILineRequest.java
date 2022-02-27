@@ -5,7 +5,7 @@ import eu.girc.informationsystem.main.RequestHandler;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
-public class LineRequest implements HttpHandler {
+public class APILineRequest implements HttpHandler {
 
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {

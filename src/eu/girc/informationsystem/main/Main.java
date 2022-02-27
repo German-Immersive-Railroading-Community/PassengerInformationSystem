@@ -10,14 +10,14 @@ import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
-import eu.girc.informationsystem.requests.IndexRequest;
-import eu.girc.informationsystem.requests.LineCallback;
-import eu.girc.informationsystem.requests.LineRequest;
+import eu.girc.informationsystem.requests.APIIndexRequest;
+import eu.girc.informationsystem.requests.APILineCallback;
+import eu.girc.informationsystem.requests.APILineRequest;
 import eu.girc.informationsystem.requests.ResourcesRequest;
 import eu.girc.informationsystem.requests.SiteRequest;
-import eu.girc.informationsystem.requests.StationCallback;
-import eu.girc.informationsystem.requests.StationRequest;
-import eu.girc.informationsystem.requests.TemplateRequest;
+import eu.girc.informationsystem.requests.APIStationCallback;
+import eu.girc.informationsystem.requests.APIStationRequest;
+import eu.girc.informationsystem.requests.APITemplateRequest;
 import eu.girc.informationsystem.util.EntityList;
 import eu.girc.informationsystem.util.Time;
 import io.undertow.Undertow;
@@ -58,14 +58,14 @@ public class Main {
 	}
 	
 	private static void registerRequests() {
-		RequestHandler.setIndex(new IndexRequest());
-		RequestHandler.registerRequest("site", new SiteRequest());
+		RequestHandler.setIndex(new SiteRequest());
 		RequestHandler.registerRequest("resources", new ResourcesRequest());
-		RequestHandler.registerRequest("station", new StationRequest());
-		RequestHandler.registerRequest("line", new LineRequest());
-		RequestHandler.registerRequest("template", new TemplateRequest());
-		RequestHandler.registerCallback("station", new StationCallback());
-		RequestHandler.registerCallback("line", new LineCallback());
+		RequestHandler.setAPIIndex(new APIIndexRequest());
+		RequestHandler.registerAPIRequest("station", new APIStationRequest());
+		RequestHandler.registerAPIRequest("line", new APILineRequest());
+		RequestHandler.registerAPIRequest("template", new APITemplateRequest());
+		RequestHandler.registerAPICallback("station", new APIStationCallback());
+		RequestHandler.registerAPICallback("line", new APILineCallback());
 	}
 	
 	private static void stationTest() {
