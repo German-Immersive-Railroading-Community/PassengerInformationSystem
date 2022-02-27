@@ -2,6 +2,7 @@ package eu.girc.informationsystem.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.Station;
 
