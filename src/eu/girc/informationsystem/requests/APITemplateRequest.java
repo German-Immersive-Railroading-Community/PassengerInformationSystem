@@ -1,5 +1,8 @@
 package eu.girc.informationsystem.requests;
 
+import java.util.ArrayList;
+
+import eu.derzauberer.javautils.parser.JsonParser;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
@@ -24,9 +27,12 @@ public class APITemplateRequest implements HttpHandler {
 				line.setOperator("GIRC");
 				line.setDriver("Der_Zauberer");
 				line.setDelay(5);
-				line.getLineStations().add(new LineStation(new Station("Station_Name", "Station Name", 1), 1, 0));
-				line.getLineStations().add(new LineStation(new Station("Another_Station", "Another Station", 1), 1, 5));
-				RequestHandler.sendJson(exchange, line.toJson());
+				ArrayList<JsonParser> stations = new ArrayList<>();
+				stations.add(new JsonParser().set("station", "Station_Name").set("plattform", 1).set("travelTimeFromLastStation", 0));
+				stations.add(new JsonParser().set("station", "Another_Station").set("plattform", 1).set("travelTimeFromLastStation", 5));
+				JsonParser parser = line.toJson();
+				parser.set("stations", stations);
+				RequestHandler.sendJson(exchange, parser);
 			}
 		} else {
 			RequestHandler.sendAPI400BadRequet(exchange);
