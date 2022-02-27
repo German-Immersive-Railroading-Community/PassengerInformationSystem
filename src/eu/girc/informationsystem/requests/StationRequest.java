@@ -1,8 +1,8 @@
 package eu.girc.informationsystem.requests;
 
 import eu.girc.informationsystem.components.Station;
-import eu.girc.informationsystem.handler.RequestHandler;
 import eu.girc.informationsystem.main.Main;
+import eu.girc.informationsystem.main.RequestHandler;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 

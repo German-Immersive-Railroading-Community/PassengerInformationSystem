@@ -1,10 +1,9 @@
-package eu.girc.informationsystem.handler;
+package eu.girc.informationsystem.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
-import eu.girc.informationsystem.main.Main;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -58,6 +57,26 @@ public class RequestHandler {
 		send404NotFound(exchange);
 	}
 	
+	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+		exchange.getResponseSender().send(parser.toString());
+	}
+	
+	public static void sendHtml(HttpServerExchange exchange, String string) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
+		exchange.getResponseSender().send(string);
+	}
+	
+	public static void sendText(HttpServerExchange exchange, String string, String type) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/" + type);
+		exchange.getResponseSender().send(string);
+	}
+	
+	public static void sendImage(HttpServerExchange exchange, String string, String type) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "image/" + type);
+		exchange.getResponseSender().send(string);
+	}
+	
 	public static void send200Success(HttpServerExchange exchange) {
 		if (!exchange.isResponseStarted()) {
 			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
@@ -79,11 +98,6 @@ public class RequestHandler {
 			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
 			exchange.getResponseSender().send("{\r\n	\"message\": \"Bad Request!\"\r\n}");
 		}
-	}
-	
-	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
-		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
-		exchange.getResponseSender().send(parser.toString());
 	}
 	
 	public static boolean isPath(String args[], int pos, String target) {

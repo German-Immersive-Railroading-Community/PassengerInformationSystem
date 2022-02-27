@@ -10,10 +10,11 @@ import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
-import eu.girc.informationsystem.handler.RequestHandler;
 import eu.girc.informationsystem.requests.IndexRequest;
 import eu.girc.informationsystem.requests.LineCallback;
 import eu.girc.informationsystem.requests.LineRequest;
+import eu.girc.informationsystem.requests.ResourcesRequest;
+import eu.girc.informationsystem.requests.SiteRequest;
 import eu.girc.informationsystem.requests.StationCallback;
 import eu.girc.informationsystem.requests.StationRequest;
 import eu.girc.informationsystem.requests.TemplateRequest;
@@ -58,6 +59,8 @@ public class Main {
 	
 	private static void registerRequests() {
 		RequestHandler.setIndex(new IndexRequest());
+		RequestHandler.registerRequest("site", new SiteRequest());
+		RequestHandler.registerRequest("resources", new ResourcesRequest());
 		RequestHandler.registerRequest("station", new StationRequest());
 		RequestHandler.registerRequest("line", new LineRequest());
 		RequestHandler.registerRequest("template", new TemplateRequest());
@@ -66,11 +69,11 @@ public class Main {
 	}
 	
 	private static void stationTest() {
-		Station roedauHbfStation = new Station("Roedau_Hbf", "Rödau Hbf", 8);
-		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "Rödau Südbahnhof", 3);
+		Station roedauHbfStation = new Station("Roedau_Hbf", "RÃ¶dau Hbf", 8);
+		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "RÃ¶dau SÃ¼dbahnhof", 3);
 		Main.getStations().add(roedauHbfStation);
 		Main.getStations().add(roedauSuedStation);
-		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new Time(16, 5));
+		Line line = new Line("S5_Roedau_Sued", "S5 RÃ¶dau SÃ¼d", new Time(16, 5));
 		line.setOperator("DIRC");
 		line.setDriver("Der_Zauberer");
 		line.getLineStations().add(new LineStation(roedauHbfStation, 1, 0));

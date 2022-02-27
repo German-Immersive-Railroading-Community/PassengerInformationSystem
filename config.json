@@ -7,19 +7,19 @@
 		},
 		{
 			"name": "Roedau_Hbf",
-			"displayName": "Rödau Hbf",
+			"displayName": "RÃ¶dau Hbf",
 			"plattforms": 8
 		},
 		{
 			"name": "Roedau_Suedbahnhof",
-			"displayName": "Rödau Südbahnhof",
+			"displayName": "RÃ¶dau SÃ¼dbahnhof",
 			"plattforms": 3
 		}
 	],
 	"lines": [
 		{
 			"name": "S5_Roedau_Sued",
-			"displayName": "S5 Rödau Süd",
+			"displayName": "S5 RÃ¶dau SÃ¼d",
 			"operator": "DIRC",
 			"driver": "Der_Zauberer",
 			"departure": "16:05",
@@ -28,7 +28,7 @@
 				{
 					"station": {
 						"name": "Roedau_Hbf",
-						"displayName": "Rödau Hbf",
+						"displayName": "RÃ¶dau Hbf",
 						"plattforms": 8
 					},
 					"plattform": 1,
@@ -38,7 +38,7 @@
 				{
 					"station": {
 						"name": "Roedau_Suedbahnhof",
-						"displayName": "Rödau Südbahnhof",
+						"displayName": "RÃ¶dau SÃ¼dbahnhof",
 						"plattforms": 3
 					},
 					"plattform": 3,
@@ -58,7 +58,7 @@
 				{
 					"station": {
 						"name": "Roedau_Hbf",
-						"displayName": "Rödau Hbf",
+						"displayName": "RÃ¶dau Hbf",
 						"plattforms": 8
 					},
 					"plattform": 1,
@@ -68,7 +68,7 @@
 				{
 					"station": {
 						"name": "Roedau_Suedbahnhof",
-						"displayName": "Rödau Südbahnhof",
+						"displayName": "RÃ¶dau SÃ¼dbahnhof",
 						"plattforms": 3
 					},
 					"plattform": 1,
