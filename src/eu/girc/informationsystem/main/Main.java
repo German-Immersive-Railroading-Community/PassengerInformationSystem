@@ -8,18 +8,18 @@ import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.informationsystem.components.Line;
-import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.requests.APIIndexRequest;
 import eu.girc.informationsystem.requests.APILineCallback;
 import eu.girc.informationsystem.requests.APILineRequest;
 import eu.girc.informationsystem.requests.ResourcesRequest;
+import eu.girc.informationsystem.resources.Resource;
 import eu.girc.informationsystem.requests.IndexRequest;
+import eu.girc.informationsystem.requests.LineRequest;
 import eu.girc.informationsystem.requests.APIStationCallback;
 import eu.girc.informationsystem.requests.APIStationRequest;
 import eu.girc.informationsystem.requests.APITemplateRequest;
 import eu.girc.informationsystem.util.EntityList;
-import eu.girc.informationsystem.util.Time;
 import io.undertow.Undertow;
 
 public class Main {
@@ -37,7 +37,6 @@ public class Main {
 		console.setOnInput(Main::onConsoleInput);
 		initializeConfig();
 		registerRequests();
-		stationTest();
 	}
 	
 	private static boolean isStarted(String args[]) {
@@ -59,28 +58,15 @@ public class Main {
 	
 	private static void registerRequests() {
 		RequestHandler.setIndex(new IndexRequest());
+		RequestHandler.registerRequest("line", new LineRequest());
 		RequestHandler.registerRequest("resources", new ResourcesRequest());
+		RequestHandler.set404Html(Resource.getTextFile("404.html"));
 		RequestHandler.setAPIIndex(new APIIndexRequest());
 		RequestHandler.registerAPIRequest("station", new APIStationRequest());
 		RequestHandler.registerAPIRequest("line", new APILineRequest());
 		RequestHandler.registerAPIRequest("template", new APITemplateRequest());
 		RequestHandler.registerAPICallback("station", new APIStationCallback());
 		RequestHandler.registerAPICallback("line", new APILineCallback());
-	}
-	
-	private static void stationTest() {
-		Station roedauHbfStation = new Station("Roedau_Hbf", "Rödau Hbf", 8);
-		Station roedauSuedStation = new Station("Roedau_Suedbahnhof", "Rödau Südbahnhof", 3);
-		Main.getStations().add(roedauHbfStation);
-		Main.getStations().add(roedauSuedStation);
-		Line line = new Line("S5_Roedau_Sued", "S5 Rödau Süd", new Time(16, 5));
-		line.setOperator("DIRC");
-		line.setDriver("Der_Zauberer");
-		line.getLineStations().add(new LineStation(roedauHbfStation, 1, 0));
-		line.getLineStations().add(new LineStation(roedauSuedStation, 3, 3));
-		line.calculateDepartueTimes();
-		Main.getLines().add(line);
-		Main.save();
 	}
 	
 	private static void initializeConfig() {

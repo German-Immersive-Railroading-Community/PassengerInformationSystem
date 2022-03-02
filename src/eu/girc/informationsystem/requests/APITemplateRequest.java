@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.girc.informationsystem.components.Line;
-import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.main.RequestHandler;
 import eu.girc.informationsystem.util.Time;

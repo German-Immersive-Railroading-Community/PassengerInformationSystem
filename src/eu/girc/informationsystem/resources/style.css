@@ -12,7 +12,7 @@ body {
     color: black;
     font-size: 18px;
     line-height: 35px;
-    padding: 0px;
+    padding: 50px 20px 50px 20px;
     margin: 0px;
     background-repeat: no-repeat;
 }
@@ -342,7 +342,7 @@ body {
 .container{
     box-sizing: border-box;
     padding: 50px;
-    width: 60%;
+    width: 50%;
     margin: 0 auto;
     margin-bottom: 50px;
     transition: width .5s;
@@ -378,9 +378,10 @@ body {
 }
 
 @media (max-width: 767px) {.container{width: 100%}.document{border-radius: 0px; box-shadow: none; margin: 0px !important;}}
-@media (min-width: 768px) {.container{width: 80%}}
+@media (min-width: 768px) {.container{width: 90%}}
 @media (min-width: 992px) {.container{width: 70%}}
 @media (min-width: 1200px) {.container{width: 50%}}
+@media (min-width: 1600px) {.container{width: 40%}}
 
 @media (min-width: 992px) {.navigation-content .container{width: 100%}}
 @media (min-width: 1200px) {.navigation-content .container{width: 60%}}
@@ -934,4 +935,35 @@ ol li:last-child{padding-bottom: 0px;}
 
 .item-list > * > *{
     color: black;
+}
+
+/* site-specific components */
+
+.line-box{
+    font-size: 16px;
+}
+
+.line-box table{
+    padding: 0px;
+    margin: 0px;
+}
+
+.line-box .title{
+    font-size: 20px;
+}
+
+.line-box label{
+    font-size: 16px;
+    border-width: 2px;
+}
+
+.line-box .first-station{
+    color: #808080;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.line-box .button{
+    padding: 10px 20px;
+    margin: 0px;
 }

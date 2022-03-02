@@ -51,6 +51,7 @@ public class Time {
 			ArrayList<Time> times = new ArrayList<>();
 			HashMap<Time, Line> objects = new HashMap<>();
 			for (Line line : lines) {
+				line.calculateDepartueTimes();
 				if (station != null) {
 					if (line.getLineStation(station) != null) {
 						Time time = line.getDeparture().addTime(0, line.getDelay());
