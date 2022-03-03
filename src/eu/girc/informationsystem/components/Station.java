@@ -64,7 +64,6 @@ public class Station extends Entity {
 	@Override
 	public boolean isValid() {
 		return super.isValid() && plattforms > 0;
-		
 	}
 
 }

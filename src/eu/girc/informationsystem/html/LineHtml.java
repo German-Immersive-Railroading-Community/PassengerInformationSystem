@@ -1,9 +1,9 @@
 package eu.girc.informationsystem.html;
 
-import java.util.ArrayList;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.resources.Resource;
+import eu.girc.informationsystem.util.EntityList;
 
 public class LineHtml extends Html {
 	
@@ -14,7 +14,7 @@ public class LineHtml extends Html {
 		super("lines", buildLineHtml(line));
 	}
 	
-	private static String buildLineHtml(Line line) {
+	public static String buildLineHtml(Line line) {
 		String string = lineComponent;
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
@@ -32,12 +32,12 @@ public class LineHtml extends Html {
 		return string;
 	}
 	
-	private static String buildStationListHtml(ArrayList<LineStation> stations) {
+	private static String buildStationListHtml(EntityList<LineStation> stations) {
 		String string = "";
 		for (LineStation station : stations) {
 			String stationComponent = LineHtml.stationComponent;
 			stationComponent = stationComponent.replace("{departure}", station.getDeparture().toString());
-			stationComponent = stationComponent.replace("{displayName}", station.getStation().getDisplayName());
+			stationComponent = stationComponent.replace("{displayName}", station.getDisplayName());
 			string += stationComponent;
 		}
 		return string;

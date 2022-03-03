@@ -2,11 +2,13 @@ package eu.girc.informationsystem.main;
 
 import java.io.File;
 import java.io.UncheckedIOException;
-import eu.derzauberer.javautils.events.ConsoleInputEvent;
+import eu.derzauberer.javautils.handler.CommandHandler;
 import eu.derzauberer.javautils.handler.FileHandler;
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.Console.MessageType;
+import eu.girc.informationsystem.commands.SaveCommand;
+import eu.girc.informationsystem.commands.StopCommand;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.Station;
 import eu.girc.informationsystem.html.Error404Html;
@@ -31,10 +33,9 @@ public class Main {
 	private static EntityList<Line> lines = new EntityList<>();
 	
 	public static void main(String[] args) {
-		if (!isStarted(args)) System.exit(-1); 
+		if (!isStarted(args)) System.exit(-1);
 		console.setDefaultType(MessageType.INFO);
 		console.sendMessage("Server is running on port {}!", args[0]);
-		console.setOnInput(Main::onConsoleInput);
 		initializeConfig();
 		registerRequests();
 	}
@@ -67,6 +68,8 @@ public class Main {
 		RequestHandler.registerAPIRequest("template", new APITemplateRequest());
 		RequestHandler.registerAPICallback("station", new APIStationCallback());
 		RequestHandler.registerAPICallback("line", new APILineCallback());
+		CommandHandler.registerCommand("save", new SaveCommand());
+		CommandHandler.registerCommand("stop", new StopCommand());
 	}
 	
 	private static void initializeConfig() {
@@ -77,12 +80,6 @@ public class Main {
 		}
 		stations.load("stations", parser, Station.class);
 		lines.load("lines", parser, Line.class);
-	}
-	
-	private static void onConsoleInput(ConsoleInputEvent event) {
-		if (event.getInput().equalsIgnoreCase("exit")) {
-			System.exit(0);
-		}
 	}
 	
 	public static Console getConsole() {
@@ -109,6 +106,11 @@ public class Main {
 		} catch (Exception exception) {
 			Main.getConsole().sendMessage("Can't access config.json!", MessageType.ERROR);
 		}
+	}
+	
+	public static void stop() {
+		save();
+		System.exit(0);
 	}
 
 }

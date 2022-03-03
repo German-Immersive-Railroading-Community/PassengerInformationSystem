@@ -14,7 +14,7 @@ public class LineListHtml extends Html {
 		super("lines", buildLineList());
 	}
 	
-	private static String buildLineList() {
+	public static String buildLineList() {
 		String string = "";
 		for (Line line : Main.getLines()) {
 			string += buildLineComponentHtml(line);

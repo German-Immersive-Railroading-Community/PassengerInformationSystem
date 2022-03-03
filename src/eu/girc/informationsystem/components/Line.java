@@ -14,18 +14,18 @@ public class Line extends Entity {
 	private String departure;
 	private int delay;
 	
-	private ArrayList<LineStation> stations;
+	private EntityList<LineStation> stations;
 	
 	public Line(String name, String displayName, Time departure) {
 		super(name, displayName);
 		this.departure = departure.toString();
 		this.delay = 0;
-		stations = new ArrayList<>();
+		stations = new EntityList<>();
 	}
 	
 	public Line(JsonParser parser) {
 		this("Unnamed", "Unnamed", new Time(0, 0));
-		stations = new ArrayList<>();
+		stations = new EntityList<>();
 		fromJson(parser);
 	}
 	
@@ -66,7 +66,7 @@ public class Line extends Entity {
 		return null;
 	}
 	
-	public ArrayList<LineStation> getLineStations() {
+	public EntityList<LineStation> getLineStations() {
 		return stations;
 	}
 	
