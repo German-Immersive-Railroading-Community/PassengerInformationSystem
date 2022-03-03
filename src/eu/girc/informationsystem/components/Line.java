@@ -9,6 +9,7 @@ import eu.girc.informationsystem.util.Time;
 
 public class Line extends Entity {
 	
+	private String type;
 	private String operator;
 	private String driver;
 	private String departure;
@@ -18,8 +19,11 @@ public class Line extends Entity {
 	
 	public Line(String name, String displayName, Time departure) {
 		super(name, displayName);
+		type = "Unknown";
+		operator = "Unknown";
+		driver = "Unknown";
 		this.departure = departure.toString();
-		this.delay = 0;
+		delay = 0;
 		stations = new EntityList<>();
 	}
 	
@@ -31,6 +35,14 @@ public class Line extends Entity {
 	
 	public void setOperator(String operator) {
 		this.operator = operator;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public String getOperator() {
@@ -86,6 +98,7 @@ public class Line extends Entity {
 	@Override
 	public void fromJson(JsonParser parser) {
 		super.fromJson(parser);
+		operator = parser.getString("type");
 		operator = parser.getString("operator");
 		driver = parser.getString("driver");
 		departure = parser.getString("departure");
@@ -101,6 +114,7 @@ public class Line extends Entity {
 		JsonParser parser = new JsonParser();
 		parser.set("name", getName());
 		parser.set("displayName", getDisplayName());
+		parser.set("type", type);
 		parser.set("operator", operator);
 		parser.set("driver", driver);
 		parser.set("departure", departure);

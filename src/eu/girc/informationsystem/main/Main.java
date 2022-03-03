@@ -7,6 +7,7 @@ import eu.derzauberer.javautils.handler.FileHandler;
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.Console.MessageType;
+import eu.girc.informationsystem.commands.LineCommand;
 import eu.girc.informationsystem.commands.StationCommand;
 import eu.girc.informationsystem.commands.StopCommand;
 import eu.girc.informationsystem.components.Line;
@@ -68,6 +69,7 @@ public class Main {
 		RequestHandler.registerAPICallback("station", new APIStationCallback());
 		RequestHandler.registerAPICallback("line", new APILineCallback());
 		CommandHandler.registerCommand("station", new StationCommand());
+		CommandHandler.registerCommand("line", new LineCommand());
 		CommandHandler.registerCommand("stop", new StopCommand());
 	}
 	

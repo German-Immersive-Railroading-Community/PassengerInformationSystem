@@ -32,6 +32,17 @@ public class CommandAssistant {
 		
 	}
 	
+	public boolean isTime(String time) {
+		try {
+			new Time(time);
+			return true;
+		} catch (IllegalArgumentException exception) {
+			console.sendMessage("The argument {} is not a time!", time);
+			return false;
+		}
+		
+	}
+	
 	public boolean containsEntity(EntityList<?> entities, String entity, String type) {
 		if (entities.contains(entity)) {
 			return true;

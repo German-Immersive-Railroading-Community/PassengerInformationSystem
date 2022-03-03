@@ -19,7 +19,7 @@ public class LineHtml extends Html {
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
 		string = string.replace("{departure}", line.getDeparture().toString());
-		string = string.replace("{type}", "Unknown");
+		string = string.replace("{type}", line.getType());
 		string = string.replace("{operator}", line.getOperator().toString());
 		string = string.replace("{driver}", line.getDriver().toString());
 		line.calculateDepartueTimes();
