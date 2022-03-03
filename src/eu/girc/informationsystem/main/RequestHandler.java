@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.informationsystem.html.Html;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpHandler;
@@ -53,7 +54,7 @@ public class RequestHandler {
 	}
 	
 	public static void execute(HttpServerExchange exchange) throws Exception {
-		Main.getConsole().sendMessage("Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
+		Main.getConsole().sendMessage("Request from {} for {} {}", MessageType.INFO, exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
 		String args[] = getArgs(exchange.getRequestPath(), false);
 		if (args.length > 0 && args[0].equals("api")) {
 			execute(exchange, apiIndex, apiRequests, apiCallbacks, getArgs(exchange.getRequestPath()));

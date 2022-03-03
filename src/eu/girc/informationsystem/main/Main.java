@@ -7,7 +7,7 @@ import eu.derzauberer.javautils.handler.FileHandler;
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.Console.MessageType;
-import eu.girc.informationsystem.commands.SaveCommand;
+import eu.girc.informationsystem.commands.StationCommand;
 import eu.girc.informationsystem.commands.StopCommand;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.Station;
@@ -34,8 +34,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		if (!isStarted(args)) System.exit(-1);
-		console.setDefaultType(MessageType.INFO);
-		console.sendMessage("Server is running on port {}!", args[0]);
+		console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
 		initializeConfig();
 		registerRequests();
 	}
@@ -68,7 +67,7 @@ public class Main {
 		RequestHandler.registerAPIRequest("template", new APITemplateRequest());
 		RequestHandler.registerAPICallback("station", new APIStationCallback());
 		RequestHandler.registerAPICallback("line", new APILineCallback());
-		CommandHandler.registerCommand("save", new SaveCommand());
+		CommandHandler.registerCommand("station", new StationCommand());
 		CommandHandler.registerCommand("stop", new StopCommand());
 	}
 	

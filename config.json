@@ -1,11 +1,6 @@
 {
 	"stations": [
 		{
-			"name": "Presslau",
-			"displayName": "Presslau",
-			"plattforms": 3
-		},
-		{
 			"name": "Roedau_Hbf",
 			"displayName": "Rödau Hbf",
 			"plattforms": 8
@@ -14,6 +9,11 @@
 			"name": "Roedau_Suedbahnhof",
 			"displayName": "Rödau Südbahnhof",
 			"plattforms": 3
+		},
+		{
+			"name": "Presslau",
+			"displayName": "Presslau",
+			"plattforms": 1
 		}
 	],
 	"lines": [
