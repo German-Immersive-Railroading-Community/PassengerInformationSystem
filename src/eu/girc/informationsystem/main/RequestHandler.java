@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.girc.informationsystem.html.Html;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -25,6 +26,10 @@ public class RequestHandler {
 	
 	public static void set404Html(String string) {
 		html404 = string;
+	}
+	
+	public static void set404Html(Html html) {
+		html404 = html.toString();
 	}
 	
 	public static void registerRequest(String name, HttpHandler request) {
@@ -94,6 +99,11 @@ public class RequestHandler {
 	public static void sendHtml(HttpServerExchange exchange, String string) {
 		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
 		exchange.getResponseSender().send(string);
+	}
+	
+	public static void sendHtml(HttpServerExchange exchange, Html html) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
+		exchange.getResponseSender().send(html.toString());
 	}
 	
 	public static void sendText(HttpServerExchange exchange, String string, String type) {

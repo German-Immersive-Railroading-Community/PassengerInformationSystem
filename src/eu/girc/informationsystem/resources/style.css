@@ -12,7 +12,6 @@ body {
     color: black;
     font-size: 18px;
     line-height: 35px;
-    padding: 50px 20px 50px 20px;
     margin: 0px;
     background-repeat: no-repeat;
 }
@@ -939,6 +938,14 @@ ol li:last-child{padding-bottom: 0px;}
 
 /* site-specific components */
 
+.menu a{
+    float: right;
+}
+
+.menu .menu-title{
+    float: left;
+}
+
 .line-box{
     font-size: 16px;
 }
@@ -946,6 +953,13 @@ ol li:last-child{padding-bottom: 0px;}
 .line-box table{
     padding: 0px;
     margin: 0px;
+}
+
+.line-box table td, th{
+    padding: 10px;
+    text-align: left;
+    border: none;
+    vertical-align: top;
 }
 
 .line-box .title{
@@ -963,7 +977,13 @@ ol li:last-child{padding-bottom: 0px;}
     font-style: italic;
 }
 
+.line-box a{
+    float: right;
+    display: table-cell;
+    vertical-align: bottom;
+}
+
 .line-box .button{
-    padding: 10px 20px;
+    padding: 5px 20px;
     margin: 0px;
 }
