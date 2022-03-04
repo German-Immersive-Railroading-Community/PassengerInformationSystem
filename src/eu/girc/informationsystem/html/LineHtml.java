@@ -18,10 +18,11 @@ public class LineHtml extends Html {
 		String string = lineComponent;
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
-		string = string.replace("{departure}", line.getDeparture().toString());
 		string = string.replace("{type}", line.getType());
 		string = string.replace("{operator}", line.getOperator().toString());
 		string = string.replace("{driver}", line.getDriver().toString());
+		string = string.replace("{departure}", line.getDeparture().toString());
+		string = string.replace("{delay}", buildDelay(line.getDelay()));
 		line.calculateDepartueTimes();
 		if (line.getStations().getFirst() != null) string = string.replace("{firstStation}", line.getStations().getFirst().getDisplayName());
 		if (line.getStations().getLast() != null) {
@@ -30,6 +31,16 @@ public class LineHtml extends Html {
 		}
 		string = string.replace("{content}", buildStationListHtml(line.getLineStations()));
 		return string;
+	}
+	
+	public static String buildDelay(int delay) {
+		if (delay < 3) {
+			return "";
+		} else if (delay < 6) {
+			return "<label class=\"yellow\">+" + delay + "</label>&nbsp;&nbsp;";
+		} else {
+			return "<label class=\"red\">+" + delay + "</label>&nbsp;&nbsp;";
+		}
 	}
 	
 	private static String buildStationListHtml(EntityList<LineStation> stations) {

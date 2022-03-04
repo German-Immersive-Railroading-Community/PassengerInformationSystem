@@ -27,6 +27,7 @@ public class LineListHtml extends Html {
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
 		string = string.replace("{departure}", line.getDeparture().toString());
+		string = string.replace("{delay}", LineHtml.buildDelay(line.getDelay()));
 		if (line.getStations().getFirst() != null) string = string.replace("{fistStation}", line.getStations().getFirst().getDisplayName());
 		string = string.replace("{stations}", buildStationListHtml(line.getStations()));
 		return string;

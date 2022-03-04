@@ -20,6 +20,7 @@
 		{
 			"name": "S5_Roedau_Sued",
 			"displayName": "S5 Rödau Süd",
+			"type": "Unknown",
 			"operator": "DIRC",
 			"driver": "Der_Zauberer",
 			"departure": "16:05",
@@ -50,6 +51,7 @@
 		{
 			"name": "Line_Name",
 			"displayName": "Line Name",
+			"type": "Unknown",
 			"operator": "GIRC",
 			"driver": "Der_Zauberer",
 			"departure": "20:00",
