@@ -69,8 +69,8 @@ body {
 .transparent-green{background-color: #00cc0033 !important; border-color: #00cc00 !important; color: #00cc00 !important;}
 
 .dark-yellow{background-color: #b38f00 !important; border-color: #b38f00 !important; color: white !important;}
-.yellow{background-color: #ffcc00 !important; border-color: #ffcc00 !important; color: white !important;}
-.transparent-yellow{background-color: #ffcc0033 !important; border-color: #ffcc00 !important; color: #ffcc00 !important;}
+.yellow{background-color: #ffb300 !important; border-color: #ffb300 !important; color: white !important;}
+.transparent-yellow{background-color: #ffb30033 !important; border-color: #ffb300 !important; color: #ffb300 !important;}
 
 .dark-orange{background-color: #b35a00 !important; border-color: #b35a00 !important; color: white !important;}
 .orange{background-color: #ff8000 !important; border-color: #ff8000 !important; color: white !important;}
@@ -535,7 +535,7 @@ textarea, select, input, button { outline: none; }
 
 label{
     background-color: black;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 16px;
     border: solid 3px black;
     border-radius: 5px;
@@ -946,44 +946,80 @@ ol li:last-child{padding-bottom: 0px;}
     float: left;
 }
 
-.line-box{
+.info-box{
     font-size: 16px;
 }
 
-.line-box table{
+.info-box table{
     padding: 0px;
     margin: 0px;
 }
 
-.line-box table td, th{
+.info-box table td, th{
     padding: 10px;
     text-align: left;
     border: none;
     vertical-align: top;
 }
 
-.line-box .title{
+.info-box .title{
     font-size: 20px;
 }
 
-.line-box label{
+.info-box label{
     font-size: 16px;
     border-width: 2px;
 }
 
-.line-box .first-station{
+.info-box .secondary{
     color: #808080;
+    font-weight: 100;
     font-size: 16px;
     font-style: italic;
 }
 
-.line-box a{
+.info-box a{
     float: right;
     display: table-cell;
     vertical-align: bottom;
 }
 
-.line-box .button{
+.info-box .button{
     padding: 5px 20px;
+    margin: 0px;
+}
+
+.list-box {
+	padding: 10px 10px 10px 20px;
+}
+
+.list-box table td, th{
+    border: none;
+}
+
+.list-box .title{
+    font-size: 20px;
+}
+
+.list-box label{
+    font-size: 16px;
+    border-width: 2px;
+}
+
+.list-box .secondary{
+    color: #808080;
+    font-weight: 100;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.list-box a{
+    float: right;
+    display: table-cell;
+    vertical-align: bottom;
+}
+
+.list-box .button{
+	padding: 5px 20px;
     margin: 0px;
 }

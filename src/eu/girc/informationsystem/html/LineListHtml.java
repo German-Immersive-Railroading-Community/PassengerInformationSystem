@@ -11,12 +11,12 @@ public class LineListHtml extends Html {
 	private static String linePreview = Resource.getTextFile("line-preview.html");
 	
 	public LineListHtml() {
-		super("lines", buildLineList());
+		super("lines", buildLineList(Main.getLines()));
 	}
 	
-	public static String buildLineList() {
+	public static String buildLineList(EntityList<Line> lines) {
 		String string = "";
-		for (Line line : Main.getLines()) {
+		for (Line line : lines) {
 			string += buildLineComponentHtml(line);
 		}
 		return string;

@@ -17,6 +17,7 @@ import eu.girc.informationsystem.requests.APIIndexRequest;
 import eu.girc.informationsystem.requests.APILineCallback;
 import eu.girc.informationsystem.requests.APILineRequest;
 import eu.girc.informationsystem.requests.ResourcesRequest;
+import eu.girc.informationsystem.requests.StationRequest;
 import eu.girc.informationsystem.requests.IndexRequest;
 import eu.girc.informationsystem.requests.LineRequest;
 import eu.girc.informationsystem.requests.APIStationCallback;
@@ -60,6 +61,7 @@ public class Main {
 	private static void registerRequests() {
 		RequestHandler.setIndex(new IndexRequest());
 		RequestHandler.registerRequest("line", new LineRequest());
+		RequestHandler.registerRequest("station", new StationRequest());
 		RequestHandler.registerRequest("resources", new ResourcesRequest());
 		RequestHandler.set404Html(new Error404Html());
 		RequestHandler.setAPIIndex(new APIIndexRequest());
