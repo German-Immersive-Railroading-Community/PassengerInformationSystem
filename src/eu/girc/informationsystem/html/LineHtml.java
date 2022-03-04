@@ -45,10 +45,10 @@ public class LineHtml extends Html {
 	
 	private static String buildStationListHtml(EntityList<LineStation> stations) {
 		String string = "";
-		for (LineStation station : stations) {
+		for (int i = 0; i < stations.size() - 1; i++) {
 			String stationComponent = LineHtml.stationComponent;
-			stationComponent = stationComponent.replace("{departure}", station.getDeparture().toString());
-			stationComponent = stationComponent.replace("{displayName}", station.getDisplayName());
+			stationComponent = stationComponent.replace("{departure}",  stations.get(i).getDeparture().toString());
+			stationComponent = stationComponent.replace("{displayName}", stations.get(i).getDisplayName());
 			string += stationComponent;
 		}
 		return string;
