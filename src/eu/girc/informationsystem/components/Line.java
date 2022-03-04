@@ -78,13 +78,7 @@ public class Line extends Entity {
 		return null;
 	}
 	
-	public EntityList<LineStation> getLineStations() {
-		return stations;
-	}
-	
-	public EntityList<Station> getStations() {
-		EntityList<Station> stations = new EntityList<>();
-		this.stations.forEach(station -> stations.add(station.getStation()));
+	public EntityList<LineStation> getStations() {
 		return stations;
 	}
 	
@@ -105,7 +99,7 @@ public class Line extends Entity {
 		delay =  parser.getInt("delay");
 		List<JsonParser> stations = parser.getJsonObjectList("stations");
 		for (JsonParser station : stations) {
-			getLineStations().add(new LineStation(station));
+			getStations().add(new LineStation(station));
 		}
 	}
 	

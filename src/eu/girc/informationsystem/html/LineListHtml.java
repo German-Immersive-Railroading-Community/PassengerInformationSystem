@@ -1,7 +1,7 @@
 package eu.girc.informationsystem.html;
 
 import eu.girc.informationsystem.components.Line;
-import eu.girc.informationsystem.components.Station;
+import eu.girc.informationsystem.components.LineStation;
 import eu.girc.informationsystem.main.Main;
 import eu.girc.informationsystem.resources.Resource;
 import eu.girc.informationsystem.util.EntityList;
@@ -33,7 +33,7 @@ public class LineListHtml extends Html {
 		return string;
 	}
 	
-	public static String buildStationListHtml(EntityList<Station> stations) {
+	public static String buildStationListHtml(EntityList<LineStation> stations) {
 		String string = "";
 		for (int i = 0; i < stations.size() - 1; i++) {
 			string += stations.get(i).getDisplayName() + " - ";

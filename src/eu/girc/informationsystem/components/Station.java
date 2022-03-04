@@ -27,7 +27,7 @@ public class Station extends Entity {
 	public EntityList<Line> getLines() {
 		EntityList<Line> lines = new EntityList<>();
 		for (Line line : Main.getLines()) {
-			if (line.getStations().contains(this)) {
+			if (line.getStations().contains(getName())) {
 				lines.add(line);
 			}
 		}
@@ -38,7 +38,7 @@ public class Station extends Entity {
 	public EntityList<Line> getLines(int plattform) {
 		EntityList<Line> lines = new EntityList<>();
 		for (Line line : Main.getLines()) {
-			if (line.getStations().contains(this) && line.getLineStation(this).getPlattform() == plattform) {
+			if (line.getStations().contains(getName()) && line.getLineStation(this).getPlattform() == plattform) {
 				lines.add(line);
 			}
 		}

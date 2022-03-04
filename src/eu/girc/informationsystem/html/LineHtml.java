@@ -26,11 +26,11 @@ public class LineHtml extends Html {
 		line.calculateDepartueTimes();
 		if (line.getStations().getFirst() != null) string = string.replace("{firstStation}", line.getStations().getFirst().getDisplayName());
 		if (line.getStations().getLast() != null) {
-			string = string.replace("{arrival}", line.getLineStations().get(line.getLineStations().size() - 1).getDeparture().toString());
+			string = string.replace("{arrival}", line.getStations().get(line.getStations().size() - 1).getDeparture().toString());
 			string = string.replace("{lastStation}", line.getStations().getLast().getDisplayName());
-			string = string.replace("{plattform}", Integer.toString(line.getLineStations().getLast().getPlattform()));
+			string = string.replace("{plattform}", Integer.toString(line.getStations().getLast().getPlattform()));
 		}
-		string = string.replace("{content}", buildStationListHtml(line.getLineStations()));
+		string = string.replace("{content}", buildStationListHtml(line.getStations()));
 		return string;
 	}
 	
