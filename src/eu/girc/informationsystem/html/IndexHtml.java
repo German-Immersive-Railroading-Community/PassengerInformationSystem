@@ -1,11 +1,13 @@
 package eu.girc.informationsystem.html;
 
-import eu.girc.informationsystem.main.Main;
+import eu.girc.informationsystem.resources.Resource;
 
 public class IndexHtml extends Html {
+	
+	private static String index = Resource.getTextFile("index.html");
 
 	public IndexHtml() {
-		super(LineListHtml.buildLineList(Main.getLines()));
+		super(index, false);
 	}
 
 }
