@@ -2,9 +2,9 @@
 	<table>
 		<tr class="title"><td style="width: 0px;">{departure}</td><td>{displayName}&nbsp; {delay}<span class="secondary">from {firstStation}</span></td></td></tr>
 {content}  
-		<tr style="font-weight: bold;"><td style="float: right;">{arrival}</td><td>{lastStation}&nbsp; <span class="secondary">Pl. {plattform}</span></td></tr>
+		<tr style="font-weight: bold;"><td style="float: right;">{arrival}</td><td><a class="grey" href="/station/{last}">{lastStation}</a>&nbsp; <span class="secondary">Pl. {plattform}</span></td></tr>
 	</table>
 	<table style="margin-top: 10px;">
-		<tr><td>Type: {type}<br>Operator: {operator}<br>Driver: {driver}</td><td><a href="/api/line/{name}" target="blank" style="float: right; margin-top: 70px;">Raw Line Data ></a></td></tr>
+		<tr><td>Type: {type}<br>Operator: {operator}<br>Driver: {driver}</td><td style="vertical-align: bottom;"><a href="/api/line/{name}" target="blank" style="float: right;">Raw Line Data ></a></td></tr>
 	</table>
 </div>

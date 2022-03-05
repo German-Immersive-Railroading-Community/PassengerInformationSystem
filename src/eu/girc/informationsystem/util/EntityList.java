@@ -2,6 +2,8 @@ package eu.girc.informationsystem.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
@@ -84,6 +86,16 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	
 	public int size() {
 		return entities.size();
+	}
+	
+	public EntityList<T> alphabeticalSort() {
+		Collections.sort(entities, new Comparator<Entity>() {
+		    @Override
+		    public int compare(Entity compare1, Entity compare2) {
+		        return compare1.getDisplayName().compareToIgnoreCase(compare2.getDisplayName());
+		    }
+		});
+		return this;
 	}
 	
 	@SuppressWarnings("unchecked")

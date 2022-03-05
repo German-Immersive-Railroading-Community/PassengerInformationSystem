@@ -1,5 +1,6 @@
 package eu.girc.informationsystem.requests;
 
+import eu.girc.informationsystem.html.StationHtml;
 import eu.girc.informationsystem.html.StationListHtml;
 import eu.girc.informationsystem.main.Main;
 import eu.girc.informationsystem.main.RequestHandler;
@@ -13,8 +14,8 @@ public class StationRequest implements HttpHandler {
 		String args[] = RequestHandler.getArgs(exchange.getRequestPath());
 		if (args.length == 1) {
 			RequestHandler.sendHtml(exchange, new StationListHtml());
-		} else if (args.length == 2 && Main.getLines().contains(args[1])) {
-			//Station
+		} else if (args.length == 2 && Main.getStations().contains(args[1])) {
+			RequestHandler.sendHtml(exchange, new StationHtml(Main.getStations().get(args[1])));
 		}
 	}
 

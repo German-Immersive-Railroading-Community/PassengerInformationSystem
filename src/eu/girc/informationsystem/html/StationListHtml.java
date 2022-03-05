@@ -7,22 +7,26 @@ import eu.girc.informationsystem.util.EntityList;
 
 public class StationListHtml extends Html {
 
-	private static String linePreview = Resource.getTextFile("station-preview.html");
+	private static String stationPreview = Resource.getTextFile("station-preview.html");
 	
 	public StationListHtml() {
 		super("stations", buildStationList(Main.getStations()));
 	}
 	
 	public static String buildStationList(EntityList<Station> stations) {
-		String string = "";
-		for (Station station : stations) {
-			string += buildStationComponentHtml(station);
+		if (stations.size() > 0) {
+			String string = "";
+			for (Station station : stations.alphabeticalSort()) {
+				string += buildStationPreviewHtml(station);
+			}
+			return string;
+		} else {
+			return new BoxHtml("No stations found!").toString();
 		}
-		return string;
 	}
 	
-	public static String buildStationComponentHtml(Station station) {
-		String string = linePreview;
+	public static String buildStationPreviewHtml(Station station) {
+		String string = stationPreview;
 		string = string.replace("{name}", station.getName());
 		string = string.replace("{displayName}", station.getDisplayName());
 		return string;

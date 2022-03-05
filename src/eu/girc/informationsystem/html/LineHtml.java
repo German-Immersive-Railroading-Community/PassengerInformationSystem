@@ -27,6 +27,7 @@ public class LineHtml extends Html {
 		if (line.getStations().getFirst() != null) string = string.replace("{firstStation}", line.getStations().getFirst().getDisplayName());
 		if (line.getStations().getLast() != null) {
 			string = string.replace("{arrival}", line.getStations().get(line.getStations().size() - 1).getDeparture().toString());
+			string = string.replace("{last}", line.getStations().getLast().getName());
 			string = string.replace("{lastStation}", line.getStations().getLast().getDisplayName());
 			string = string.replace("{plattform}", Integer.toString(line.getStations().getLast().getPlattform()));
 		}
@@ -49,6 +50,7 @@ public class LineHtml extends Html {
 		for (int i = 0; i < stations.size() - 1; i++) {
 			String stationComponent = LineHtml.stationComponent;
 			stationComponent = stationComponent.replace("{departure}",  stations.get(i).getDeparture().toString());
+			stationComponent = stationComponent.replace("{name}", stations.get(i).getName());
 			stationComponent = stationComponent.replace("{displayName}", stations.get(i).getDisplayName());
 			stationComponent = stationComponent.replace("{plattform}", Integer.toString(stations.get(i).getPlattform()));
 			string += stationComponent;

@@ -18,6 +18,14 @@ public class Html {
 		this("null", content);
 	}
 	
+	public Html() {
+		string = "";
+	}
+	
+	protected void setString(String string) {
+		this.string = string;
+	}
+	
 	@Override
 	public String toString() {
 		return string;
