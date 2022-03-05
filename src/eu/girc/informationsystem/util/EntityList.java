@@ -98,6 +98,16 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 		return this;
 	}
 	
+	public EntityList<T> searchForDisplayName(String name) {
+		EntityList<T> entities = new EntityList<>();
+		for (T entity : this.alphabeticalSort()) {
+			if (entity.getDisplayName().contains(name)) {
+				entities.add(entity);
+			}
+		}
+		return entities;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<JsonParser> toJsonList() {
 		if (!entities.isEmpty() && entities.get(0) instanceof Line) {

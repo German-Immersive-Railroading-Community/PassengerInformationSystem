@@ -938,6 +938,19 @@ ol li:last-child{padding-bottom: 0px;}
 
 /* site-specific components */
 
+.search {
+	font-size: 18px;
+	border: none;
+	border-bottom: solid 3px #004DFF;
+	border-width: 3px;
+	padding: 25px;
+}
+
+.search:focus{
+	border-bottom: solid 3px #004DFF !important;
+}
+
+
 .menu a{
     float: right;
 }

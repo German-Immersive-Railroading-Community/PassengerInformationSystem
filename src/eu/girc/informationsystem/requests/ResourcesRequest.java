@@ -17,7 +17,7 @@ public class ResourcesRequest implements HttpHandler {
 			if (args[1].equals("style.css")) {
 				RequestHandler.sendText(exchange, css, "css");
 			} else if (args[1].equals("script.js")) {
-				RequestHandler.sendText(exchange, js, "js");
+				RequestHandler.sendText(exchange, js, "javascript");
 			}
 		}
 	}

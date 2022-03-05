@@ -10,3 +10,11 @@ function setMenuFocus(string) {
         }
     }
 }
+
+function search(event) {
+	if (event.code === "Enter") {
+		var search = event.explicitOriginalTarget.value
+		search = search.replace(' ', '&');
+		window.location.href = "/search/" + search;
+	}
+}
