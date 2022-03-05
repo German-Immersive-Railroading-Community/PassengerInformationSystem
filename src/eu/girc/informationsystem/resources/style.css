@@ -994,32 +994,3 @@ ol li:last-child{padding-bottom: 0px;}
     padding: 10px 20px;
     margin: 0px;
 }
-
-.list-box {
-	padding: 10px 10px 10px 20px;
-}
-
-.list-box table td, th{
-    border: none;
-}
-
-.list-box .title{
-    font-size: 20px;
-}
-
-.list-box label{
-    font-size: 16px;
-    border-width: 2px;
-}
-
-.list-box .secondary{
-    color: #808080;
-    font-weight: 100;
-    font-size: 16px;
-    font-style: italic;
-}
-
-.list-box .button{
-	padding: 10px 20px;
-    margin: 0px;
-}
