@@ -28,3 +28,6 @@ hs_err_pid*
 /.settings/
 .project
 /target/
+
+# config file
+config.json
