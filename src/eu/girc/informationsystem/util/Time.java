@@ -52,7 +52,6 @@ public class Time {
 	}
 	
 	public static EntityList<Line> timeSort(EntityList<Line> lines, Station station) {
-		System.out.println(lines.get(0));
 		if (station != null) lines.forEach((line) -> line.calculateDepartueTimes());
 		Collections.sort(lines.getEntities(), new Comparator<Line>() {
 			@Override
