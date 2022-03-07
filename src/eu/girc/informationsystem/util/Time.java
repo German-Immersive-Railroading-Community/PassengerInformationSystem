@@ -1,8 +1,7 @@
 package eu.girc.informationsystem.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import java.util.Collections;
+import java.util.Comparator;
 import eu.girc.informationsystem.components.Line;
 import eu.girc.informationsystem.components.Station;
 
@@ -36,6 +35,12 @@ public class Time {
 		return minute;
 	}
 	
+	public int getTimeValue() {
+		int value = minute;
+		value += (hour * 60);
+		return value;
+	}
+	
 	public Time addTime(int hour, int minute) {
 		int newHour = (this.hour + hour + ((this.minute + minute) / 60)) % 24;
 		int newMinute = (this.minute + minute) % 60;
@@ -47,43 +52,20 @@ public class Time {
 	}
 	
 	public static EntityList<Line> timeSort(EntityList<Line> lines, Station station) {
-		if (lines.getEntities().size() > 1) {
-			ArrayList<Time> times = new ArrayList<>();
-			HashMap<Time, Line> objects = new HashMap<>();
-			for (Line line : lines) {
-				line.calculateDepartueTimes();
+		System.out.println(lines.get(0));
+		if (station != null) lines.forEach((line) -> line.calculateDepartueTimes());
+		Collections.sort(lines.getEntities(), new Comparator<Line>() {
+			@Override
+			public int compare(Line line1, Line line2) {
+				int time1 = line1.getDeparture().getTimeValue();
+				int time2 = line1.getDeparture().getTimeValue();
 				if (station != null) {
-					if (line.getLineStation(station) != null) {
-						Time time = line.getDeparture().addTime(0, line.getDelay());
-						line.getLineStation(station).getDeparture();
-						times.add(time);
-						objects.put(time, line);
-					}
-				} else {
-					Time time = line.getDeparture().addTime(0, line.getDelay());
-					times.add(time);
-					objects.put(time, line);
+					if (line1.getLineStation(station) != null) time1 = line1.getLineStation(station).getDeparture().getTimeValue();
+					if (line2.getLineStation(station) != null) time2 = line2.getLineStation(station).getDeparture().getTimeValue();
 				}
+				return (time1 + line1.getDelay()) - (time2 + line2.getDelay());
 			}
-			Time min = null;
-			Time max = null;
-			for (int i = 0; i < times.size() / 2; i++) {
-				min = times.get(i);
-				max = times.get(i);
-				for (int j = i; j < times.size() - i; j++) {
-					if (times.get(j).getValueFromTime() > max.getValueFromTime()) {
-						max = times.get(j);
-					}
-					if (times.get(j).getValueFromTime() < min.getValueFromTime()) {
-						min = times.get(j);
-					}
-				}
-				swap(times, min, i);
-				swap(times, max, times.size() - 1 - i);
-			}
-			lines.clear();
-			times.forEach(time -> lines.add(objects.get(time)));
-		}
+		});
 		return lines;
 	}
 	
@@ -106,7 +88,7 @@ public class Time {
 	}
 	
 	private static int getTimeFromString(String string, int index) {
-		if (string.split(":").length == 2) {
+		if (string.contains(":") && string.split(":").length == 2) {
 			String time[] = string.split(":");
 			int number = 0;
 			try {
@@ -118,19 +100,6 @@ public class Time {
 		} else {
 			throw new IllegalArgumentException("Wrong format, must be hh:mm");
 		}
-	}
-	
-	private int getValueFromTime() {
-		int value = minute;
-		value += (hour * 60);
-		return value;
-	}
-	
-	private static void swap(ArrayList<Time> times, Time time, int pos) {
-		Time swap = times.get(pos);
-		int newPos = times.indexOf(time);
-		times.set(pos, time);
-		times.set(newPos, swap);
 	}
 	
 }
