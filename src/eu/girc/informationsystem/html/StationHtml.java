@@ -8,7 +8,7 @@ public class StationHtml extends Html {
 	private static String stationComponent = Resource.getTextFile("station-component.html");
 	
 	public StationHtml(Station station) {
-		super("stations", buildStationHtml(station));
+		super("Stations", buildStationHtml(station));
 	}
 
 	public static String buildStationHtml(Station station) {

@@ -13,7 +13,7 @@ public class LineListHtml extends Html {
 	private static String linePreview = Resource.getTextFile("line-preview.html");
 	
 	public LineListHtml() {
-		super("lines", buildLineList(Main.getLines()));
+		super("Lines", buildLineList(Main.getLines()));
 	}
 	
 	public static String buildLineList(EntityList<Line> lines) {

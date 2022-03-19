@@ -10,7 +10,7 @@ public class StationListHtml extends Html {
 	private static String stationPreview = Resource.getTextFile("station-preview.html");
 	
 	public StationListHtml() {
-		super("stations", buildStationList(Main.getStations()));
+		super("Stations", buildStationList(Main.getStations()));
 	}
 	
 	public static String buildStationList(EntityList<Station> stations) {

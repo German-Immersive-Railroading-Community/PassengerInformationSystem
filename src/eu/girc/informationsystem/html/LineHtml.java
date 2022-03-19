@@ -11,7 +11,7 @@ public class LineHtml extends Html {
 	private static String stationComponent = Resource.getTextFile("line-station-component.html");
 
 	public LineHtml(Line line) {
-		super("lines", buildLineHtml(line));
+		super("Lines", buildLineHtml(line));
 	}
 	
 	public static String buildLineHtml(Line line) {

@@ -2,20 +2,23 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=0.5">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="/resources/style.css" rel="stylesheet">
         <script src="/resources/script.js"></script>
         <link href="/resources/favicon.png" rel="icon">
         <meta http-equiv="refresh" content="30">
         <title>GIRC</title>
     </head>
-    <body class="darkmode">
+    <body>
 
-        <div class="menu">
-            <a class="menu-title" href="/">PIS</a>
-            <a id="menu-api" href="/api" target="blank">API</a>
-            <a id="menu-stations" href="/station">Stations</a>
-            <a id="menu-lines" href="/line">Lines</a>
+        <div id="smart-menu" class="menu">
+            <img src="https://der-zauberer.github.io/SimpleWebDesign/icons/menu.svg" class="only-mobile" onclick="toggleSmartMenu()">
+            <a href="/" class="menu-title">PIS</a>
+            <div class="float-right">
+            	<a href="/line">Lines</a>
+            	<a href="/station">Stations</a>
+	            <a href="/api" target="blank">API</a>
+            </div>
         </div>
         <script>setMenuFocus("{menu-focus}")</script>
 

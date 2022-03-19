@@ -1,6 +1,14 @@
-<div class="container box info-box">
+<div class="container box pis-box">
 	<table>
-		<tr class="title"><td style="width: 0px;">{departure}</td> <td>{displayName}&nbsp; {delay}<span class="secondary">from {fistStation}</span></td><td></td></tr>
-		<tr><td></td><td>{stations}</td><td style="width: 0px; vertical-align: bottom;"><a href="/line/{name}" class="button">View</a></td></tr>
+		<tr>
+			<td style="width: 0px;" class="title">{departure}</td>
+			<td><span class="title">{displayName}</span>&nbsp; {delay}<i class="grey-text">from {fistStation}</i></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{stations}</td>
+			<td style="width: 0px; vertical-align: bottom;"><a href="/line/{name}" class="button mg-0 not-mobile">View</a></td>
+		</tr>
 	</table>
+	<a href="/line/{name}" class="button line-button only-mobile view">View</a>
 </div>

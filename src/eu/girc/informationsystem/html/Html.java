@@ -17,7 +17,7 @@ public class Html {
 	}
 	
 	public Html(String content, boolean reload) {
-		this("null", content);
+		this("pis", content);
 		if (!reload) string = string.replace("\n        <meta http-equiv=\"refresh\" content=\"30\">", "");
 	}
 	
