@@ -24,7 +24,7 @@ public class LineListHtml extends Html {
 			}
 			return string;
 		} else {
-			return new BoxHtml("No lines found!").toString();
+			return new HtmlTag("div", "No lines found!", "box").toString();
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class LineListHtml extends Html {
 			}
 			return string;
 		} else {
-			return new BoxHtml("No lines found!").toString();
+			return new HtmlTag("div", "No lines found!", "box").toString();
 		}
 	}
 

@@ -21,7 +21,7 @@ public class StationListHtml extends Html {
 			}
 			return string;
 		} else {
-			return new BoxHtml("No stations found!").toString();
+			return new HtmlTag("div", "No stations found!", "box").toString();
 		}
 	}
 	

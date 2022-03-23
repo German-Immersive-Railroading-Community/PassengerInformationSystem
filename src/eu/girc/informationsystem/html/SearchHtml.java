@@ -21,7 +21,7 @@ public class SearchHtml extends Html {
 	
 	public static String buildSeachResults(String search) {
 		String string = searchBar;
-		string += new HeadlineHtml("Seach results for \"" + search + "\"");
+		string += new HtmlTag("h2", "Seach results for \"" + search + "\"");
 		EntityList<Entity> entities = new EntityList<>();
 		Main.getStations().forEach(station -> entities.add(station));
 		Main.getLines().forEach(line -> entities.add(line));
@@ -35,7 +35,7 @@ public class SearchHtml extends Html {
 				}
 			}
 		} else {
-			string += new BoxHtml("No search results found!").toString();
+			string += new HtmlTag("div", "No search results found!", "box").toString();
 		}
 		return string;
 	}
