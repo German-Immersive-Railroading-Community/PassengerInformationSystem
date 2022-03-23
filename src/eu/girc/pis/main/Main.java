@@ -45,7 +45,7 @@ public class Main {
 	private static boolean isStarted(String args[]) {
 		try {
 			if (args.length > 0) {
-				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "localhost").setHandler(RequestHandler::execute).build();
+				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "0.0.0.0").setHandler(RequestHandler::execute).build();
 				server.start();
 				return true;
 			} else {
