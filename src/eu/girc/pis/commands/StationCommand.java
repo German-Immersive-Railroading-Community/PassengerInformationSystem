@@ -1,7 +1,7 @@
 package eu.girc.pis.commands;
 
+import eu.derzauberer.javautils.handler.ConsoleHandler;
 import eu.derzauberer.javautils.util.Command;
-import eu.derzauberer.javautils.util.Console;
 import eu.girc.pis.components.Station;
 import eu.girc.pis.main.Main;
 import eu.girc.pis.util.CommandAssistant;
@@ -9,7 +9,7 @@ import eu.girc.pis.util.CommandAssistant;
 public class StationCommand implements Command {
 
 	@Override
-	public boolean onCommand(Console console, String label, String[] args) {
+	public boolean onCommand(ConsoleHandler console, String label, String[] args) {
 		if (args.length == 0) {
 			console.sendMessage(getCommandHelp());
 		} else {

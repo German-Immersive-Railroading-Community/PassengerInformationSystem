@@ -3,8 +3,8 @@ package eu.girc.pis.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import eu.derzauberer.javautils.handler.ConsoleHandler.MessageType;
 import eu.derzauberer.javautils.parser.JsonParser;
-import eu.derzauberer.javautils.util.Console.MessageType;
 import eu.girc.pis.html.Html;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpHandler;
@@ -13,83 +13,49 @@ import io.undertow.util.Headers;
 
 public class RequestHandler {
 	
-	private static HttpHandler index;
-	private static String html404;
-	private static HashMap<String, HttpHandler> requests = new HashMap<>();
-	private static HashMap<String, FullStringCallback> callbacks = new HashMap<>();
-	private static HttpHandler apiIndex;
-	private static HashMap<String, HttpHandler> apiRequests = new HashMap<>();
-	private static HashMap<String, FullStringCallback> apiCallbacks = new HashMap<>();
+	private HttpHandler index;
+	private String html404;
+	private HashMap<String, HttpHandler> requests = new HashMap<>();
+	private HashMap<String, FullStringCallback> callbacks = new HashMap<>();
 	
-	public static void setIndex(HttpHandler request) {
+	public void setIndex(HttpHandler request) {
 		index = request;
 	}
 	
-	public static void set404Html(String string) {
+	public void set404Html(String string) {
 		html404 = string;
 	}
 	
-	public static void set404Html(Html html) {
+	public void set404Html(Html html) {
 		html404 = html.toString();
 	}
 	
-	public static void registerRequest(String name, HttpHandler request) {
+	public void registerRequest(String name, HttpHandler request) {
 		requests.put(name, request);
 	}
 	
-	public static void registerCallback(String name, FullStringCallback callback) {
+	public void registerCallback(String name, FullStringCallback callback) {
 		callbacks.put(name, callback);
 	}
 	
-	public static void setAPIIndex(HttpHandler request) {
-		apiIndex = request;
-	}
-	
-	public static void registerAPIRequest(String name, HttpHandler request) {
-		apiRequests.put(name, request);
-	}
-	
-	public static void registerAPICallback(String name, FullStringCallback callback) {
-		apiCallbacks.put(name, callback);
-	}
-	
-	public static void execute(HttpServerExchange exchange) throws Exception {
+	public void execute(HttpServerExchange exchange) throws Exception {
 		Main.getConsole().sendMessage("Request from {} for {} {}", MessageType.INFO, exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
-		String args[] = getArgs(exchange.getRequestPath(), false);
-		if (args.length > 0 && args[0].equals("api")) {
-			execute(exchange, apiIndex, apiRequests, apiCallbacks, getArgs(exchange.getRequestPath()));
-			sendAPI404NotFound(exchange);
-		} else {
-			execute(exchange, index, requests, callbacks, args);
-			send404NotFound(exchange);
-		}
-	}
-	
-	private static void execute(HttpServerExchange exchange, HttpHandler index, HashMap<String, HttpHandler> requests, HashMap<String, FullStringCallback> callbacks, String args[]) throws Exception {
-		if (args.length == 0) {
-			if (index != null) {
-				index.handleRequest(exchange);
-			}
+		String path = exchange.getRequestPath();
+		if (path.isEmpty() || path.equals("/")) {
+			if (index != null) index.handleRequest(exchange);
 		} else {
 			for (String name : requests.keySet()) {
-				if (name.equalsIgnoreCase(args[0])) {
-					if (!exchange.isResponseStarted()) {
-						requests.get(name).handleRequest(exchange);
-					} else {
-						return;
-					}
+				if (path.startsWith(name)) {
+					if (!exchange.isResponseStarted()) requests.get(name).handleRequest(exchange);
 				}
 			}
 			for (String name : callbacks.keySet()) {
-				if (name.equalsIgnoreCase(args[0])) {
-					if (!exchange.isResponseStarted()) {
-						exchange.getRequestReceiver().receiveFullString(callbacks.get(name));
-					} else {
-						return;
-					}
+				if (path.startsWith(name)) {
+					if (!exchange.isResponseStarted()) exchange.getRequestReceiver().receiveFullString(callbacks.get(name));
 				}
 			}
 		}
+		send404NotFound(exchange);
 	}
 	
 	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
@@ -112,12 +78,7 @@ public class RequestHandler {
 		exchange.getResponseSender().send(string);
 	}
 	
-	public static void sendImage(HttpServerExchange exchange, String string, String type) {
-		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "image/" + type);
-		exchange.getResponseSender().send(string);
-	}
-	
-	public static void send404NotFound(HttpServerExchange exchange) {
+	public void send404NotFound(HttpServerExchange exchange) {
 		if (!exchange.isResponseStarted()) {
 			exchange.setStatusCode(404);
 			exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");

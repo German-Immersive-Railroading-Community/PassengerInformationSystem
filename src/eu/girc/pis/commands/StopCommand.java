@@ -1,13 +1,13 @@
 package eu.girc.pis.commands;
 
+import eu.derzauberer.javautils.handler.ConsoleHandler;
 import eu.derzauberer.javautils.util.Command;
-import eu.derzauberer.javautils.util.Console;
 import eu.girc.pis.main.Main;
 
 public class StopCommand implements Command {
 
 	@Override
-	public boolean onCommand(Console console, String label, String[] args) {
+	public boolean onCommand(ConsoleHandler console, String label, String[] args) {
 		Main.stop();
 		return true;
 	}

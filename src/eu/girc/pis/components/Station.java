@@ -4,7 +4,6 @@ import eu.derzauberer.javautils.parser.JsonParser;
 import eu.girc.pis.main.Main;
 import eu.girc.pis.util.Entity;
 import eu.girc.pis.util.EntityList;
-import eu.girc.pis.util.Time;
 
 public class Station extends Entity {
 
@@ -29,9 +28,10 @@ public class Station extends Entity {
 		for (Line line : Main.getLines()) {
 			if (line.getStations().contains(getName())) {
 				lines.add(line);
+				line.calculateDepartueTimes();
 			}
 		}
-		Time.timeSort(lines, this);
+		lines.getEntities().sort((line1, line2) -> line1.getLineStation(this).getDeparture().compareTo(line2.getLineStation(this).getDeparture()));
 		return lines;
 	}
 	
@@ -40,9 +40,10 @@ public class Station extends Entity {
 		for (Line line : Main.getLines()) {
 			if (line.getStations().contains(getName()) && line.getLineStation(this).getPlattform() == plattform) {
 				lines.add(line);
+				line.calculateDepartueTimes();
 			}
 		}
-		Time.timeSort(lines, this);
+		lines.getEntities().sort((line1, line2) -> line1.getLineStation(this).getDeparture().compareTo(line2.getLineStation(this).getDeparture()));
 		return lines;
 	}
 	

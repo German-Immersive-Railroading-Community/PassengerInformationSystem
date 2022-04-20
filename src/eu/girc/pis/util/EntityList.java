@@ -2,12 +2,11 @@ package eu.girc.pis.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.girc.pis.components.Line;
+import eu.girc.pis.components.Station;
 
 public class EntityList<T extends Entity> implements Iterable<T> {
 
@@ -88,19 +87,36 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 		return entities.size();
 	}
 	
-	public EntityList<T> alphabeticalSort() {
-		Collections.sort(entities, new Comparator<Entity>() {
-		    @Override
-		    public int compare(Entity compare1, Entity compare2) {
-		        return compare1.getDisplayName().compareToIgnoreCase(compare2.getDisplayName());
-		    }
+	public EntityList<T> sort() {
+		entities.sort((entity1, entity2) -> {
+			if (entity1 instanceof Line && entity2 instanceof Line) {
+				return ((Line) entity1).getDeparture().compareTo(((Line) entity2).getDeparture());
+			} else {
+				return entity1.getDisplayName().compareTo(entity2.getDisplayName());
+			}
+		});
+		return this;
+	}
+	
+	public EntityList<T> sort(Station station) {
+		entities.sort((entity1, entity2) -> {
+			if (entity1 instanceof Line && entity2 instanceof Line) {
+				Line line1 = (Line) entity1;
+				Line line2 = (Line) entity2;
+				if (line1.getLineStation(station) != null && line2.getLineStation(station) != null) {
+					return line1.getLineStation(station).getDeparture().compareTo(line1.getLineStation(station).getDeparture());
+				}
+				return ((Line) entity1).getDeparture().compareTo(((Line) entity2).getDeparture());
+			} else {
+				return entity1.getDisplayName().compareTo(entity2.getDisplayName());
+			}
 		});
 		return this;
 	}
 	
 	public EntityList<T> searchForDisplayName(String name) {
 		EntityList<T> entities = new EntityList<>();
-		for (T entity : this.alphabeticalSort()) {
+		for (T entity : this.sort()) {
 			if (entity.getDisplayName().contains(name)) {
 				entities.add(entity);
 			}
@@ -108,11 +124,7 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 		return entities;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<JsonParser> toJsonList() {
-		if (!entities.isEmpty() && entities.get(0) instanceof Line) {
-			Time.timeSort((EntityList<Line>) this);
-		}
 		List<JsonParser> jsonEntities = new ArrayList<>();
 		forEach(entity -> jsonEntities.add(entity.toJson()));
 		return jsonEntities;

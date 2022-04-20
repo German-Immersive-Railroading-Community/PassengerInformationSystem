@@ -3,10 +3,10 @@ package eu.girc.pis.main;
 import java.io.File;
 import java.io.UncheckedIOException;
 import eu.derzauberer.javautils.handler.CommandHandler;
-import eu.derzauberer.javautils.handler.FileHandler;
+import eu.derzauberer.javautils.handler.ConsoleHandler;
+import eu.derzauberer.javautils.handler.ConsoleHandler.MessageType;
 import eu.derzauberer.javautils.parser.JsonParser;
-import eu.derzauberer.javautils.util.Console;
-import eu.derzauberer.javautils.util.Console.MessageType;
+import eu.derzauberer.javautils.util.FileUtil;
 import eu.girc.pis.commands.LineCommand;
 import eu.girc.pis.commands.StationCommand;
 import eu.girc.pis.commands.StopCommand;
@@ -29,7 +29,9 @@ import io.undertow.Undertow;
 
 public class Main {
 	
-	private static Console console = new Console();
+	private static ConsoleHandler console = new ConsoleHandler();
+	private static CommandHandler commands = new CommandHandler();
+	private static RequestHandler requests = new RequestHandler();
 	private static File file = new File("config.json");
 	private static JsonParser parser = new JsonParser();
 	private static EntityList<Station> stations = new EntityList<>();
@@ -45,7 +47,7 @@ public class Main {
 	private static boolean isStarted(String args[]) {
 		try {
 			if (args.length > 0) {
-				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "0.0.0.0").setHandler(RequestHandler::execute).build();
+				Undertow server = Undertow.builder().addHttpListener(Integer.parseInt(args[0]), "0.0.0.0").setHandler(requests::execute).build();
 				server.start();
 				return true;
 			} else {
@@ -60,26 +62,26 @@ public class Main {
 	}
 	
 	private static void registerRequests() {
-		RequestHandler.setIndex(new IndexRequest());
-		RequestHandler.registerRequest("search", new SeachRequest());
-		RequestHandler.registerRequest("line", new LineRequest());
-		RequestHandler.registerRequest("station", new StationRequest());
-		RequestHandler.registerRequest("resources", new ResourcesRequest());
-		RequestHandler.set404Html(new Error404Html());
-		RequestHandler.setAPIIndex(new APIIndexRequest());
-		RequestHandler.registerAPIRequest("station", new APIStationRequest());
-		RequestHandler.registerAPIRequest("line", new APILineRequest());
-		RequestHandler.registerAPIRequest("template", new APITemplateRequest());
-		RequestHandler.registerAPICallback("station", new APIStationCallback());
-		RequestHandler.registerAPICallback("line", new APILineCallback());
-		CommandHandler.registerCommand("station", new StationCommand());
-		CommandHandler.registerCommand("line", new LineCommand());
-		CommandHandler.registerCommand("stop", new StopCommand());
+		requests.setIndex(new IndexRequest());
+		requests.registerRequest("/search", new SeachRequest());
+		requests.registerRequest("/line", new LineRequest());
+		requests.registerRequest("/station", new StationRequest());
+		requests.registerRequest("/resources", new ResourcesRequest());
+		requests.registerRequest("/api", new APIIndexRequest());
+		requests.registerRequest("/api/station", new APIStationRequest());
+		requests.registerRequest("/api/line", new APILineRequest());
+		requests.registerRequest("/api/template", new APITemplateRequest());
+		requests.registerCallback("/api/station", new APIStationCallback());
+		requests.registerCallback("/api/line", new APILineCallback());
+		requests.set404Html(new Error404Html());
+		commands.registerCommand("station", new StationCommand());
+		commands.registerCommand("line", new LineCommand());
+		commands.registerCommand("stop", new StopCommand());
 	}
 	
 	private static void initializeConfig() {
 		try {
-			parser = new JsonParser(FileHandler.readString(file));
+			parser = new JsonParser(FileUtil.readString(file));
 		} catch (UncheckedIOException exception) {
 			Main.getConsole().sendMessage("Can't access config.json, this file will be ignored!", MessageType.WARNING);
 		}
@@ -87,8 +89,16 @@ public class Main {
 		lines.load("lines", parser, Line.class);
 	}
 	
-	public static Console getConsole() {
+	public static ConsoleHandler getConsole() {
 		return console;
+	}
+	
+	public static CommandHandler getCommands() {
+		return commands;
+	}
+	
+	public static RequestHandler getRequests() {
+		return requests;
 	}
 	
 	public static EntityList<Station> getStations() {
@@ -104,10 +114,10 @@ public class Main {
 	}
 	
 	public static void save() {
-		stations.save("stations", parser);
-		lines.save("lines", parser);
+		stations.sort().save("stations", parser);
+		lines.sort().save("lines", parser);
 		try {
-			FileHandler.writeString(file, parser.toString());
+			FileUtil.writeString(file, parser.toString());
 		} catch (Exception exception) {
 			Main.getConsole().sendMessage("Can't access config.json!", MessageType.ERROR);
 		}

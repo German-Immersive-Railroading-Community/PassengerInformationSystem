@@ -1,13 +1,14 @@
 package eu.girc.pis.util;
 
-import eu.derzauberer.javautils.util.Console;
+import eu.derzauberer.javautils.handler.ConsoleHandler;
+import eu.derzauberer.javautils.util.Time;
 
 public class CommandAssistant {
 
-	private Console console;
+	private ConsoleHandler console;
 	private String args[];
 	
-	public CommandAssistant(Console console, String args[]) {
+	public CommandAssistant(ConsoleHandler console, String args[]) {
 		this.console = console;
 		this.args = args;
 	}
@@ -34,7 +35,7 @@ public class CommandAssistant {
 	
 	public boolean isTime(String time) {
 		try {
-			new Time(time);
+			new Time(time, "hh:mm");
 			return true;
 		} catch (IllegalArgumentException exception) {
 			console.sendMessage("The argument {} is not a time!", time);

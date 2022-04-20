@@ -25,7 +25,7 @@ public class SearchHtml extends Html {
 		EntityList<Entity> entities = new EntityList<>();
 		Main.getStations().forEach(station -> entities.add(station));
 		Main.getLines().forEach(line -> entities.add(line));
-		EntityList<Entity> results = entities.alphabeticalSort().searchForDisplayName(search);
+		EntityList<Entity> results = entities.sort().searchForDisplayName(search);
 		if (results.size() > 0) {
 			for (Entity entity : results) {
 				if (entity instanceof Station) {

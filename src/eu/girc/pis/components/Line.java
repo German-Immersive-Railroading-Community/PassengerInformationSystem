@@ -3,16 +3,16 @@ package eu.girc.pis.components;
 import java.util.ArrayList;
 import java.util.List;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.derzauberer.javautils.util.Time;
 import eu.girc.pis.util.Entity;
 import eu.girc.pis.util.EntityList;
-import eu.girc.pis.util.Time;
 
 public class Line extends Entity {
 	
 	private String type;
 	private String operator;
 	private String driver;
-	private String departure;
+	private Time departure;
 	private int delay;
 	
 	private EntityList<LineStation> stations;
@@ -22,7 +22,7 @@ public class Line extends Entity {
 		type = "Unknown";
 		operator = "Unknown";
 		driver = "Unknown";
-		this.departure = departure.toString();
+		this.departure = departure;
 		delay = 0;
 		stations = new EntityList<>();
 	}
@@ -58,7 +58,7 @@ public class Line extends Entity {
 	}
 	
 	public Time getDeparture() {
-		return new Time(departure);
+		return departure;
 	}
 	
 	public void setDelay(int delay) {
@@ -95,7 +95,7 @@ public class Line extends Entity {
 		operator = parser.getString("type");
 		operator = parser.getString("operator");
 		driver = parser.getString("driver");
-		departure = parser.getString("departure");
+		departure = new Time(parser.getString("departure"), "hh:mm");
 		delay =  parser.getInt("delay");
 		List<JsonParser> stations = parser.getJsonObjectList("stations");
 		for (JsonParser station : stations) {
@@ -111,7 +111,7 @@ public class Line extends Entity {
 		parser.set("type", type);
 		parser.set("operator", operator);
 		parser.set("driver", driver);
-		parser.set("departure", departure);
+		parser.set("departure", departure.toString("hh:mm"));
 		parser.set("delay", getDelay());
 		calculateDepartueTimes();
 		ArrayList<JsonParser> stations = new ArrayList<>();
@@ -124,7 +124,7 @@ public class Line extends Entity {
 	
 	@Override
 	public boolean isValid() {
-		if (super.isValid() && Time.isValid(departure)) {
+		if (super.isValid()) {
 			for (LineStation station : stations) {
 				if (station.getStation() != null && station.getStation().isValid()) {
 					if (station.getPlattform() > 0 && station.getPlattform() <= station.getStation().getPlattforms()) {

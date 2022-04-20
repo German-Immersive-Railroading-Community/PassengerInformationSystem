@@ -1,16 +1,16 @@
 package eu.girc.pis.commands;
 
+import eu.derzauberer.javautils.handler.ConsoleHandler;
 import eu.derzauberer.javautils.util.Command;
-import eu.derzauberer.javautils.util.Console;
+import eu.derzauberer.javautils.util.Time;
 import eu.girc.pis.components.Line;
 import eu.girc.pis.main.Main;
 import eu.girc.pis.util.CommandAssistant;
-import eu.girc.pis.util.Time;
 
 public class LineCommand implements Command {
 
 	@Override
-	public boolean onCommand(Console console, String label, String[] args) {
+	public boolean onCommand(ConsoleHandler console, String label, String[] args) {
 		if (args.length == 0) {
 			console.sendMessage(getCommandHelp());
 		} else {
@@ -23,7 +23,7 @@ public class LineCommand implements Command {
 					switch (args[1]) {
 					case "create": 
 						if (assistant.hasMinLenght(4) && assistant.isTime(args[3])) {
-							Line line = new Line(args[0], args[2], new Time(args[3]));
+							Line line = new Line(args[0], args[2], new Time(args[3], "hh:mm"));
 							Main.getLines().add(line);
 							Main.save();
 							console.sendMessage("Added line {}!", args[0]);

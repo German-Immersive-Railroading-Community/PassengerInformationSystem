@@ -1,13 +1,13 @@
 package eu.girc.pis.components;
 
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.derzauberer.javautils.util.Time;
 import eu.girc.pis.main.Main;
-import eu.girc.pis.util.Time;
 
 public class LineStation extends Station {
 	
 	private int plattform;
-	private String departure;
+	private Time departure;
 	private int travelTimeFromLastStation;
 
 	public LineStation(Station station, int plattform, int travelTimeFromLastStation) {
@@ -38,11 +38,11 @@ public class LineStation extends Station {
 	}
 	
 	protected void setDeparture(Time time) {
-		this.departure = time.toString();
+		this.departure = time;
 	}
 	
 	public Time getDeparture() {
-		return new Time(departure);
+		return departure;
 	}
 	
 	public int getTravelTimeFromLastStation() {
@@ -73,7 +73,7 @@ public class LineStation extends Station {
 		JsonParser parser = new JsonParser();
 		parser.set("station", getStation().toJson());
 		parser.set("plattform", getPlattform());
-		parser.set("departure", departure);
+		parser.set("departure", departure.toString("hh:mm"));
 		parser.set("travelTimeFromLastStation", getTravelTimeFromLastStation());
 		return parser;
 	}

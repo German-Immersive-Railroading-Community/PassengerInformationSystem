@@ -17,6 +17,7 @@ public class APILineRequest implements HttpHandler {
 				RequestHandler.sendJson(exchange, Main.getLines().get(args[1]).toJson());
 			}
 		}
+		RequestHandler.sendAPI404NotFound(exchange);
 	}
 
 }

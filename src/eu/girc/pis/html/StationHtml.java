@@ -17,7 +17,7 @@ public class StationHtml extends Html {
 		string = string.replace("{displayName}", station.getDisplayName());
 		string = string.replace("{plattforms}", Integer.toString(station.getPlattforms()));
 		string += new HtmlTag("h2", "Lines via station " + station.getDisplayName());
-		string += LineListHtml.buildLineList(station.getLines(), station);
+		string += LineListHtml.buildLineList(station);
 		return string;
 	}
 	

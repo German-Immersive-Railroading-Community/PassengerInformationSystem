@@ -16,7 +16,7 @@ public class StationListHtml extends Html {
 	public static String buildStationList(EntityList<Station> stations) {
 		if (stations.size() > 0) {
 			String string = "";
-			for (Station station : stations.alphabeticalSort()) {
+			for (Station station : stations.sort()) {
 				string += buildStationPreviewHtml(station);
 			}
 			return string;

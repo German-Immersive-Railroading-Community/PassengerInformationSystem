@@ -1,12 +1,11 @@
 package eu.girc.pis.requests;
 
 import java.util.ArrayList;
-
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.derzauberer.javautils.util.Time;
 import eu.girc.pis.components.Line;
 import eu.girc.pis.components.Station;
 import eu.girc.pis.main.RequestHandler;
-import eu.girc.pis.util.Time;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
