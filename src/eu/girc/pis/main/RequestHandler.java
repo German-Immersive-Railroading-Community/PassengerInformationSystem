@@ -3,8 +3,8 @@ package eu.girc.pis.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import eu.derzauberer.javautils.handler.ConsoleHandler.MessageType;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.derzauberer.javautils.util.Sender.MessageType;
 import eu.girc.pis.html.Html;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpHandler;
@@ -39,7 +39,7 @@ public class RequestHandler {
 	}
 	
 	public void execute(HttpServerExchange exchange) throws Exception {
-		Main.getConsole().sendMessage("Request from {} for {} {}", MessageType.INFO, exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
+		Main.getConsole().sendMessage(MessageType.INFO, "Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
 		String path = exchange.getRequestPath();
 		if (path.isEmpty() || path.equals("/")) {
 			if (index != null) index.handleRequest(exchange);

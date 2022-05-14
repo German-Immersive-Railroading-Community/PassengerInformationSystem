@@ -1,15 +1,15 @@
 package eu.girc.pis.util;
 
-import eu.derzauberer.javautils.handler.ConsoleHandler;
+import eu.derzauberer.javautils.util.Sender;
 import eu.derzauberer.javautils.util.Time;
 
 public class CommandAssistant {
 
-	private ConsoleHandler console;
+	private Sender sender;
 	private String args[];
 	
-	public CommandAssistant(ConsoleHandler console, String args[]) {
-		this.console = console;
+	public CommandAssistant(Sender sender, String args[]) {
+		this.sender = sender;
 		this.args = args;
 	}
 	
@@ -17,7 +17,7 @@ public class CommandAssistant {
 		if (args.length >= lenght) {
 			return true;
 		} else {
-			console.sendMessage("Not enough arguments!");
+			sender.sendMessage("Not enough arguments!");
 			return false;
 		}
 	}
@@ -27,7 +27,7 @@ public class CommandAssistant {
 			Integer.parseInt(integer);
 			return true;
 		} catch (NumberFormatException exception) {
-			console.sendMessage("The argument {} is not an integer!", integer);
+			sender.sendMessage("The argument {} is not an integer!", integer);
 			return false;
 		}
 		
@@ -38,7 +38,7 @@ public class CommandAssistant {
 			new Time(time, "hh:mm");
 			return true;
 		} catch (IllegalArgumentException exception) {
-			console.sendMessage("The argument {} is not a time!", time);
+			sender.sendMessage("The argument {} is not a time!", time);
 			return false;
 		}
 		
@@ -48,7 +48,7 @@ public class CommandAssistant {
 		if (entities.contains(entity)) {
 			return true;
 		} else {
-			console.sendMessage("The {} {} does not exist!", type, entity);
+			sender.sendMessage("The {} {} does not exist!", type, entity);
 			return false;
 		}
 	}

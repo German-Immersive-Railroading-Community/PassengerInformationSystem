@@ -1,7 +1,7 @@
 package eu.girc.pis.commands;
 
-import eu.derzauberer.javautils.handler.ConsoleHandler;
 import eu.derzauberer.javautils.util.Command;
+import eu.derzauberer.javautils.util.Sender;
 import eu.derzauberer.javautils.util.Time;
 import eu.girc.pis.components.Line;
 import eu.girc.pis.main.Main;
@@ -10,15 +10,15 @@ import eu.girc.pis.util.CommandAssistant;
 public class LineCommand implements Command {
 
 	@Override
-	public boolean onCommand(ConsoleHandler console, String label, String[] args) {
+	public boolean onCommand(Sender sender, String label, String[] args) throws Exception {
 		if (args.length == 0) {
-			console.sendMessage(getCommandHelp());
+			sender.sendMessage(getCommandHelp());
 		} else {
 			if (args[0].equals("list")) {
-				console.sendMessage(CommandAssistant.getStringList(Main.getLines()));
+				sender.sendMessage(CommandAssistant.getStringList(Main.getLines()));
 				return true;
 			} else {
-				CommandAssistant assistant = new CommandAssistant(console, args);
+				CommandAssistant assistant = new CommandAssistant(sender, args);
 				if (assistant.hasMinLenght(2) && (args[1].equals("create") || assistant.containsEntity(Main.getLines(), args[0], "line"))) {
 					switch (args[1]) {
 					case "create": 
@@ -26,13 +26,13 @@ public class LineCommand implements Command {
 							Line line = new Line(args[0], args[2], new Time(args[3], "hh:mm"));
 							Main.getLines().add(line);
 							Main.save();
-							console.sendMessage("Added line {}!", args[0]);
+							sender.sendMessage("Added line {}!", args[0]);
 						}
 						return true;
 					case "remove": 
 						Main.getLines().remove(args[0]);
 						Main.save();
-						console.sendMessage("Removed line {}!", args[0]);
+						sender.sendMessage("Removed line {}!", args[0]);
 						return true;
 					case "info": 
 						Line line = Main.getLines().get(args[0]);
@@ -45,9 +45,9 @@ public class LineCommand implements Command {
 						info += "Departure: " + line.getDeparture() + "\n";
 						info += "Delay: " + line.getDelay() + "\n";
 						info += "------------";
-						console.sendMessage(info);
+						sender.sendMessage(info);
 						return true;
-					default: console.sendMessage("The option {} does not exist!", args[1]); return true;
+					default: sender.sendMessage("The option {} does not exist!", args[1]); return true;
 					}
 				}
 			}
@@ -55,8 +55,6 @@ public class LineCommand implements Command {
 		return true;
 	}
 
-	
-	@Override
 	public String getCommandHelp() {
 		return "";
 	}

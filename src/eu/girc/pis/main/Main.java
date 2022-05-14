@@ -3,10 +3,10 @@ package eu.girc.pis.main;
 import java.io.File;
 import java.io.UncheckedIOException;
 import eu.derzauberer.javautils.handler.CommandHandler;
-import eu.derzauberer.javautils.handler.ConsoleHandler;
-import eu.derzauberer.javautils.handler.ConsoleHandler.MessageType;
 import eu.derzauberer.javautils.parser.JsonParser;
+import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.FileUtil;
+import eu.derzauberer.javautils.util.Sender.MessageType;
 import eu.girc.pis.commands.LineCommand;
 import eu.girc.pis.commands.StationCommand;
 import eu.girc.pis.commands.StopCommand;
@@ -29,7 +29,7 @@ import io.undertow.Undertow;
 
 public class Main {
 	
-	private static ConsoleHandler console = new ConsoleHandler();
+	private static Console console = new Console();
 	private static CommandHandler commands = new CommandHandler();
 	private static RequestHandler requests = new RequestHandler();
 	private static File file = new File("config.json");
@@ -39,7 +39,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		if (!isStarted(args)) System.exit(-1);
-		console.sendMessage("Server is running on port {}!", MessageType.INFO, args[0]);
+		console.sendMessage(MessageType.INFO, "Server is running on port {}!", args[0]);
 		initializeConfig();
 		registerRequests();
 	}
@@ -51,12 +51,12 @@ public class Main {
 				server.start();
 				return true;
 			} else {
-				console.sendMessage("Can't start server! Please use use 'java -jar <jarfile> <port>'", MessageType.ERROR);
+				console.sendMessage(MessageType.ERROR, "Can't start server! Please use use 'java -jar <jarfile> <port>'");
 				return false;
 			}
 		} catch (Exception exception) {
-			console.sendMessage("Can't start server! Please use use 'java -jar <jarfile> <port>'", MessageType.ERROR);
-			console.sendMessage(exception.getMessage(), MessageType.ERROR);
+			console.sendMessage(MessageType.ERROR, "Can't start server! Please use use 'java -jar <jarfile> <port>'");
+			console.sendMessage(MessageType.ERROR, exception.getMessage());
 			return false;
 		}
 	}
@@ -83,13 +83,13 @@ public class Main {
 		try {
 			parser = new JsonParser(FileUtil.readString(file));
 		} catch (UncheckedIOException exception) {
-			Main.getConsole().sendMessage("Can't access config.json, this file will be ignored!", MessageType.WARNING);
+			Main.getConsole().sendMessage(MessageType.WARNING, "Can't access config.json, this file will be ignored!");
 		}
 		stations.load("stations", parser, Station.class);
 		lines.load("lines", parser, Line.class);
 	}
 	
-	public static ConsoleHandler getConsole() {
+	public static Console getConsole() {
 		return console;
 	}
 	
@@ -119,7 +119,7 @@ public class Main {
 		try {
 			FileUtil.writeString(file, parser.toString());
 		} catch (Exception exception) {
-			Main.getConsole().sendMessage("Can't access config.json!", MessageType.ERROR);
+			Main.getConsole().sendMessage(MessageType.ERROR, "Can't access config.json!");
 		}
 	}
 	
