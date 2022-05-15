@@ -42,15 +42,15 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>maven-repository</id>
-			<url>https://maven.pkg.github.com/Der-Zauberer/JavaUtils</url>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io/</url>
 		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>JavaUtils</groupId>
-			<artifactId>javautils</artifactId>
-			<version>1.2.0-RELEASE</version>
+			<groupId>com.github.Der-Zauberer</groupId>
+			<artifactId>JavaUtils</artifactId>
+			<version>v1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.undertow</groupId>
