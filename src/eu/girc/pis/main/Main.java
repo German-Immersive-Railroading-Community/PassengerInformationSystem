@@ -12,7 +12,7 @@ import eu.girc.pis.commands.StationCommand;
 import eu.girc.pis.commands.StopCommand;
 import eu.girc.pis.components.Line;
 import eu.girc.pis.components.Station;
-import eu.girc.pis.html.Error404Html;
+import eu.girc.pis.html.Html;
 import eu.girc.pis.requests.APIIndexRequest;
 import eu.girc.pis.requests.APILineCallback;
 import eu.girc.pis.requests.APILineRequest;
@@ -73,7 +73,7 @@ public class Main {
 		requests.registerRequest("/api/template", new APITemplateRequest());
 		requests.registerCallback("/api/station", new APIStationCallback());
 		requests.registerCallback("/api/line", new APILineCallback());
-		requests.set404Html(new Error404Html());
+		requests.set404Html(Html.build404Html());
 		commands.registerCommand("station", new StationCommand());
 		commands.registerCommand("line", new LineCommand());
 		commands.registerCommand("stop", new StopCommand());

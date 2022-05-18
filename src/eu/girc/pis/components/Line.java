@@ -58,6 +58,7 @@ public class Line extends Entity {
 	}
 	
 	public Time getDeparture() {
+		if (departure == null) calculateDepartueTimes();
 		return departure;
 	}
 	
@@ -99,7 +100,7 @@ public class Line extends Entity {
 		delay =  parser.getInt("delay");
 		List<JsonParser> stations = parser.getJsonObjectList("stations");
 		for (JsonParser station : stations) {
-			getStations().add(new LineStation(station));
+			getStations().add(new LineStation(this, station));
 		}
 	}
 	

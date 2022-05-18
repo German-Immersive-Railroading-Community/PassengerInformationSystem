@@ -3,6 +3,7 @@ package eu.girc.pis.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Sender.MessageType;
 import eu.girc.pis.html.Html;
@@ -58,19 +59,14 @@ public class RequestHandler {
 		send404NotFound(exchange);
 	}
 	
-	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
-		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
-		exchange.getResponseSender().send(parser.toString());
-	}
-	
 	public static void sendHtml(HttpServerExchange exchange, String string) {
 		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
 		exchange.getResponseSender().send(string);
 	}
 	
-	public static void sendHtml(HttpServerExchange exchange, Html html) {
-		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
-		exchange.getResponseSender().send(html.toString());
+	public static void sendJson(HttpServerExchange exchange, JsonParser parser) {
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
+		exchange.getResponseSender().send(parser.toString());
 	}
 	
 	public static void sendText(HttpServerExchange exchange, String string, String type) {

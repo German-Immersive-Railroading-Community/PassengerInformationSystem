@@ -9,9 +9,12 @@ public class LineStation extends Station {
 	private int plattform;
 	private Time departure;
 	private int travelTimeFromLastStation;
+	
+	private Line line;
 
-	public LineStation(Station station, int plattform, int travelTimeFromLastStation) {
+	public LineStation(Line line, Station station, int plattform, int travelTimeFromLastStation) {
 		super(station.getName(), station.getDisplayName(), station.getPlattforms());
+		this.line = line;
 		if (plattform <= station.getPlattforms() && plattform > 0) {
 			this.plattform = plattform;
 		} else {
@@ -21,8 +24,8 @@ public class LineStation extends Station {
 		this.travelTimeFromLastStation = travelTimeFromLastStation;
 	}
 	
-	public LineStation(JsonParser parser) {
-		this(getStationFromJson(parser), 1, 0);
+	public LineStation(Line line, JsonParser parser) {
+		this(line, getStationFromJson(parser), 1, 0);
 		fromJson(parser);
 	}
 
@@ -42,6 +45,7 @@ public class LineStation extends Station {
 	}
 	
 	public Time getDeparture() {
+		if (departure == null) line.calculateDepartueTimes();
 		return departure;
 	}
 	

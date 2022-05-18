@@ -7,16 +7,12 @@ import eu.girc.pis.resources.Resource;
 import eu.girc.pis.util.Entity;
 import eu.girc.pis.util.EntityList;
 
-public class SearchHtml extends Html {
+public class SearchHtml {
 
 	private static String searchBar = Resource.getTextFile("search.html");
 	
-	public SearchHtml() {
-		super(searchBar, false);
-	}
-	
-	public SearchHtml(String search) {
-		super(buildSeachResults(search), false);
+	public static String buildSearch() {
+		return Html.buildHtml(searchBar, false);
 	}
 	
 	public static String buildSeachResults(String search) {
@@ -29,15 +25,15 @@ public class SearchHtml extends Html {
 		if (results.size() > 0) {
 			for (Entity entity : results) {
 				if (entity instanceof Station) {
-					string += StationListHtml.buildStationPreviewHtml((Station) entity);
+					string += StationHtml.buildStationPreview((Station) entity);
 				} else if (entity instanceof Line) {
-					string += LineListHtml.buildLinePreviewHtml((Line) entity);
+					string += LineHtml.buildLinePreview((Line) entity);
 				}
 			}
 		} else {
 			string += new HtmlTag("div", "No search results found!", "box").toString();
 		}
-		return string;
+		return Html.buildHtml(string, false);
 	}
 	
 }

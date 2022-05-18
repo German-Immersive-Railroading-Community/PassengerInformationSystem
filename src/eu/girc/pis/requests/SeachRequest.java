@@ -11,10 +11,10 @@ public class SeachRequest implements HttpHandler {
 	public void handleRequest(HttpServerExchange exchange) throws Exception {
 		String args[] = RequestHandler.getArgs(exchange.getRequestPath());
 		if (args.length == 1) {
-			RequestHandler.sendHtml(exchange, new SearchHtml());
+			RequestHandler.sendHtml(exchange, SearchHtml.buildSearch());
 		} else {
-			String seach = args[1].replace('&', ' ');
-			RequestHandler.sendHtml(exchange, new SearchHtml(seach));
+			String search = args[1].replace('&', ' ');
+			RequestHandler.sendHtml(exchange, SearchHtml.buildSeachResults(search));
 		}
 		
 	}
