@@ -1,9 +1,8 @@
 package eu.girc.pis.requests;
 
-import java.util.ArrayList;
-import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Time;
 import eu.girc.pis.components.Line;
+import eu.girc.pis.components.LineStation;
 import eu.girc.pis.components.Station;
 import eu.girc.pis.main.RequestHandler;
 import io.undertow.server.HttpHandler;
@@ -24,13 +23,12 @@ public class APITemplateRequest implements HttpHandler {
 				Line line = new Line("Line_Name", "Line Name", new Time(9, 0));
 				line.setOperator("GIRC");
 				line.setDriver("Der_Zauberer");
-				line.setDelay(5);
-				ArrayList<JsonParser> stations = new ArrayList<>();
-				stations.add(new JsonParser().set("station", "Station_Name").set("plattform", 1).set("travelTimeFromLastStation", 0));
-				stations.add(new JsonParser().set("station", "Another_Station").set("plattform", 1).set("travelTimeFromLastStation", 5));
-				JsonParser parser = line.toJson();
-				parser.set("stations", stations);
-				RequestHandler.sendJson(exchange, parser);
+				line.setDelay(0);
+				line.getStations().add(new LineStation(line, new Station("Station_Name", "Station Name", 1), 1, 0));
+				line.getStations().add(new LineStation(line, new Station("Another_Station", "Another Station", 1), 1, 5));
+				line.getStations().add(new LineStation(line, new Station("Third_Station", "Third Station", 1), 1, 3));
+				line.calculateDepartueTimes();
+				RequestHandler.sendJson(exchange, line.toJson());
 			}
 		} else {
 			RequestHandler.sendAPI400BadRequet(exchange);

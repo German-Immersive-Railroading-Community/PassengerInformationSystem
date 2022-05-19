@@ -8,6 +8,7 @@ import eu.derzauberer.javautils.util.Console;
 import eu.derzauberer.javautils.util.FileUtil;
 import eu.derzauberer.javautils.util.Sender.MessageType;
 import eu.girc.pis.commands.LineCommand;
+import eu.girc.pis.commands.ReleadCommand;
 import eu.girc.pis.commands.StationCommand;
 import eu.girc.pis.commands.StopCommand;
 import eu.girc.pis.components.Line;
@@ -29,9 +30,9 @@ import io.undertow.Undertow;
 
 public class Main {
 	
-	private static Console console = new Console();
 	private static CommandHandler commands = new CommandHandler();
 	private static RequestHandler requests = new RequestHandler();
+	private static Console console = new Console(commands);
 	private static File file = new File("config.json");
 	private static JsonParser parser = new JsonParser();
 	private static EntityList<Station> stations = new EntityList<>();
@@ -74,12 +75,13 @@ public class Main {
 		requests.registerCallback("/api/station", new APIStationCallback());
 		requests.registerCallback("/api/line", new APILineCallback());
 		requests.set404Html(Html.build404Html());
-		commands.registerCommand("station", new StationCommand());
 		commands.registerCommand("line", new LineCommand());
+		commands.registerCommand("reload", new ReleadCommand());
+		commands.registerCommand("station", new StationCommand());
 		commands.registerCommand("stop", new StopCommand());
 	}
 	
-	private static void initializeConfig() {
+	public static void initializeConfig() {
 		try {
 			parser = new JsonParser(FileUtil.readString(file));
 		} catch (UncheckedIOException exception) {

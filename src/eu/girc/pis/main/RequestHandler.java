@@ -40,6 +40,7 @@ public class RequestHandler {
 	}
 	
 	public void execute(HttpServerExchange exchange) throws Exception {
+		
 		Main.getConsole().sendMessage(MessageType.INFO, "Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
 		String path = exchange.getRequestPath();
 		if (path.isEmpty() || path.equals("/")) {

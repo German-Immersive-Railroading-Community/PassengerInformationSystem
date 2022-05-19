@@ -7,11 +7,12 @@ import eu.girc.pis.util.EntityList;
 
 public class Station extends Entity {
 
-	private int plattforms;
+	private int platforms;
+	private Box box;
 	
-	public Station(String name, String displayName, int plattforms) {
+	public Station(String name, String displayName, int platforms) {
 		super(name, displayName);
-		this.plattforms = plattforms;
+		this.platforms = platforms;
 	}
 	
 	public Station(JsonParser parser) {
@@ -19,8 +20,8 @@ public class Station extends Entity {
 		fromJson(parser);
 	}
 	
-	public int getPlattforms() {
-		return plattforms;
+	public int getPlatforms() {
+		return platforms;
 	}
 	
 	public EntityList<Line> getLines() {
@@ -38,7 +39,7 @@ public class Station extends Entity {
 	public EntityList<Line> getLines(int plattform) {
 		EntityList<Line> lines = new EntityList<>();
 		for (Line line : Main.getLines()) {
-			if (line.getStations().contains(getName()) && line.getLineStation(this).getPlattform() == plattform) {
+			if (line.getStations().contains(getName()) && line.getLineStation(this).getPlatform() == plattform) {
 				lines.add(line);
 				line.calculateDepartueTimes();
 			}
@@ -47,10 +48,19 @@ public class Station extends Entity {
 		return lines;
 	}
 	
+	public Box getBox() {
+		return box;
+	}
+	
+	public void setBox(Box box) {
+		this.box = box;
+	}
+	
 	@Override
 	public void fromJson(JsonParser parser) {
 		super.fromJson(parser);
-		plattforms = parser.getInt("plattforms");
+		platforms = parser.getInt("platforms");
+		if (parser.get("box") != null) box = new Box(parser.getJsonObject("box"));
 	}
 	
 	@Override
@@ -58,13 +68,14 @@ public class Station extends Entity {
 		JsonParser parser = new JsonParser();
 		parser.set("name", getName());
 		parser.set("displayName", getDisplayName());
-		parser.set("plattforms", getPlattforms());
+		parser.set("platforms", getPlatforms());
+		if (box != null) parser.set("box", box.toJson());
 		return parser;
 	}
 	
 	@Override
 	public boolean isValid() {
-		return super.isValid() && plattforms > 0;
+		return super.isValid() && platforms > 0;
 	}
 
 }

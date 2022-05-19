@@ -17,7 +17,7 @@ public class SearchHtml {
 	
 	public static String buildSeachResults(String search) {
 		String string = searchBar;
-		string += new HtmlTag("h2", "Seach results for \"" + search + "\"");
+		string += new HtmlTag("h2", "Search results for \"" + search + "\"");
 		EntityList<Entity> entities = new EntityList<>();
 		Main.getStations().forEach(station -> entities.add(station));
 		Main.getLines().forEach(line -> entities.add(line));

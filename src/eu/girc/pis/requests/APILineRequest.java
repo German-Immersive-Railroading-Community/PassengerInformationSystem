@@ -16,8 +16,8 @@ public class APILineRequest implements HttpHandler {
 			} else if (args.length == 2 && Main.getLines().get(args[1]) != null) {
 				RequestHandler.sendJson(exchange, Main.getLines().get(args[1]).toJson());
 			}
+			RequestHandler.sendAPI404NotFound(exchange);
 		}
-		RequestHandler.sendAPI404NotFound(exchange);
 	}
 
 }

@@ -1,11 +1,11 @@
 <div class="box pis-box">
 	<table>
 		<tr>
-			<td style="width: 0px;" class="title">{departure}</td>
+			<td style="width: 0px" class="title">{departure}</td>
+			<td style="width: 0px; padding: 0px !important" class="title"></td>
 			<td><span class="title">{displayName}</span>&nbsp; {delay}<i class="grey-text">from {first.displayName}</i></td>
 		</tr>
 {content}
-		<tr><td class="float-right"><b>{last.departure}</b></td><td><a class="grey" href="/station/{last.name}"><b>{last.displayname}</b></a>&nbsp;<i><span class="grey-text">Pl. {last.plattform}</span></i></td></tr>
 	</table>
 	<table>
 	<tr><td>Type: {type}<br>Operator: {operator}<br>Driver: {driver}</td><td style="vertical-align: bottom;"><a href="/api/line/{name}" target="blank" class="float-right not-mobile">Raw Line Data ></a></td></tr>

@@ -6,22 +6,30 @@ import eu.girc.pis.main.Main;
 
 public class LineStation extends Station {
 	
-	private int plattform;
+	private int platform;
 	private Time departure;
 	private int travelTimeFromLastStation;
+	private boolean cancelled;
+	private int delay;
+	private int changedPlatform;
+	private boolean passed;
 	
 	private Line line;
 
-	public LineStation(Line line, Station station, int plattform, int travelTimeFromLastStation) {
-		super(station.getName(), station.getDisplayName(), station.getPlattforms());
+	public LineStation(Line line, Station station, int platform, int travelTimeFromLastStation) {
+		super(station.getName(), station.getDisplayName(), station.getPlatforms());
 		this.line = line;
-		if (plattform <= station.getPlattforms() && plattform > 0) {
-			this.plattform = plattform;
+		if (platform <= station.getPlatforms() && platform > 0) {
+			this.platform = platform;
 		} else {
-			this.plattform = 0;
-			throw new IllegalArgumentException("Station " + station.getName() + " only has " + station.getPlattforms() + " plattforms!");
+			this.platform = 0;
+			throw new IllegalArgumentException("Station " + station.getName() + " only has " + station.getPlatforms() + " plattforms!");
 		}
 		this.travelTimeFromLastStation = travelTimeFromLastStation;
+		this.cancelled = false;
+		this.delay = 0;
+		this.changedPlatform = 0;
+		this.passed = false;
 	}
 	
 	public LineStation(Line line, JsonParser parser) {
@@ -33,11 +41,11 @@ public class LineStation extends Station {
 		if (Main.getStations().contains(getName())) {
 			return Main.getStations().get(getName());
 		}
-		return new Station(getName(), getDisplayName(), getPlattforms());
+		return new Station(getName(), getDisplayName(), getPlatforms());
 	}
 	
-	public int getPlattform() {
-		return plattform;
+	public int getPlatform() {
+		return platform;
 	}
 	
 	protected void setDeparture(Time time) {
@@ -51,6 +59,38 @@ public class LineStation extends Station {
 	
 	public int getTravelTimeFromLastStation() {
 		return travelTimeFromLastStation;
+	}
+	
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+	
+	public boolean isCancelled() {
+		return cancelled;
+	}
+	
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+	
+	public int getDelay() {
+		return delay;
+	}
+	
+	public void setChangedPlatform(int changedPlattform) {
+		this.changedPlatform = changedPlattform;
+	}
+	
+	public int getChangedPlatform() {
+		return changedPlatform;
+	}
+	
+	public void setPassed(boolean passed) {
+		this.passed = passed;
+	}
+	
+	public boolean hasPassed() {
+		return passed;
 	}
 	
 	private static Station getStationFromJson(JsonParser parser) {
@@ -69,16 +109,24 @@ public class LineStation extends Station {
 	}
 	
 	public void fromJson(JsonParser parser) {
-		plattform = parser.getInt("plattform");
+		platform = parser.getInt("platform");
 		travelTimeFromLastStation = parser.getInt("travelTimeFromLastStation");
+		cancelled = parser.getBoolean("cancelled");
+		delay = parser.getInt("delay");
+		changedPlatform = parser.getInt("changedPlatform");
+		passed = parser.getBoolean("passed");
 	}
 	
 	public JsonParser toJson() {
 		JsonParser parser = new JsonParser();
 		parser.set("station", getStation().toJson());
-		parser.set("plattform", getPlattform());
+		parser.set("platform", getPlatform());
 		parser.set("departure", departure.toString("hh:mm"));
 		parser.set("travelTimeFromLastStation", getTravelTimeFromLastStation());
+		parser.set("cancelled", cancelled);
+		parser.set("delay", delay);
+		parser.set("changedPlatform", changedPlatform);
+		parser.set("passed", passed);
 		return parser;
 	}
 

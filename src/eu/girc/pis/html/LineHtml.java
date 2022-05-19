@@ -14,21 +14,16 @@ public class LineHtml {
 	
 	public static String buildLine(Line line) {
 		String string = lineComponent;
+		if (line.getBox() != null) string = line.getBox().toHtml() + "\b" + string;
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
 		string = string.replace("{type}", line.getType());
 		string = string.replace("{operator}", line.getOperator().toString());
 		string = string.replace("{driver}", line.getDriver().toString());
 		string = string.replace("{departure}", line.getDeparture().toString("hh:mm"));
-		string = string.replace("{delay}", buildDelay(line.getDelay()));
+		string = string.replace("{delay}", buildLineDelay(line.getDelay()));
 		line.calculateDepartueTimes();
 		if (line.getStations().getFirst() != null) string = string.replace("{first.displayName}", line.getStations().getFirst().getDisplayName());
-		if (line.getStations().getLast() != null) {
-			string = string.replace("{last.departure}", line.getStations().get(line.getStations().size() - 1).getDeparture().toString("hh:mm"));
-			string = string.replace("{last.name}", line.getStations().getLast().getName());
-			string = string.replace("{last.displayname}", line.getStations().getLast().getDisplayName());
-			string = string.replace("{last.plattform}", Integer.toString(line.getStations().getLast().getPlattform()));
-		}
 		string = string.replace("{content}", buildStationList(line.getStations()));
 		return Html.buildHtml("lines", string, true);
 	}
@@ -63,7 +58,7 @@ public class LineHtml {
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
 		string = string.replace("{departure}", line.getDeparture().toString("hh:mm"));
-		string = string.replace("{delay}", LineHtml.buildDelay(line.getDelay()));
+		string = string.replace("{delay}", LineHtml.buildLineDelay(line.getDelay()));
 		if (line.getStations().getFirst() != null) string = string.replace("{first.displayName}", line.getStations().getFirst().getDisplayName());
 		String stationList = "";
 		for (int i = 0; i < line.getStations().size() - 1; i++) {
@@ -74,7 +69,7 @@ public class LineHtml {
 		return string;
 	}
 	
-	private static String buildDelay(int delay) {
+	private static String buildLineDelay(int delay) {
 		if (delay < 3) {
 			return "";
 		} else if (delay < 6) {
@@ -84,14 +79,38 @@ public class LineHtml {
 		}
 	}
 	
+	private static String buildStationDelay(LineStation station) {
+		int delay = station.getDelay();
+		if (station.isCancelled() || delay == 0) {
+			return "";
+		} else if (delay < 6) {
+			return "<span class=\"yellow-text\">+" + delay + "</span>";
+		} else {
+			return "<span class=\"red-text\">+" + delay + "</span>";
+		}
+	}
+	
+	private static String buildLineString(String string, LineStation station, EntityList<LineStation> stations) {
+		if (station == stations.getLast()) string = "<b>" + string + "</b>";
+		if (station.isCancelled()) string = "<s class=\"red-text\">" + string + "</s>";
+		return string;
+	}
+	
 	private static String buildStationList(EntityList<LineStation> stations) {
 		String string = "";
-		for (int i = 0; i < stations.size() - 1; i++) {
+		for (LineStation station : stations) {
 			String stationComponent = LineHtml.stationComponent;
-			stationComponent = stationComponent.replace("{departure}",  stations.get(i).getDeparture().toString("hh:mm"));
-			stationComponent = stationComponent.replace("{name}", stations.get(i).getName());
-			stationComponent = stationComponent.replace("{displayName}", stations.get(i).getDisplayName());
-			stationComponent = stationComponent.replace("{plattform}", Integer.toString(stations.get(i).getPlattform()));
+			stationComponent = stationComponent.replace("{departure}", buildLineString(station.getDeparture().toString("hh:mm"), station, stations));
+			stationComponent = stationComponent.replace("{delay}", buildStationDelay(station));
+			stationComponent = stationComponent.replace("{name}", station.getName());
+			stationComponent = stationComponent.replace("{displayName}", buildLineString(station.getDisplayName(), station, stations));
+			if (station.isCancelled()) {
+				stationComponent = stationComponent.replace("{plattform}", "<s class=\"red-text\"> Pl." + station.getPlatform() + "</s>");
+			} else if (station.getChangedPlatform() != 0 && station.getChangedPlatform() != station.getPlatform()) {
+				stationComponent = stationComponent.replace("{plattform}", "<s> Pl." + station.getPlatform() + "</s><span style=\"color: #e60000 !important\"> Pl. " + station.getChangedPlatform() + "</span>");
+			} else {
+				stationComponent = stationComponent.replace("{plattform}", "Pl. " + station.getPlatform());
+			}
 			string += stationComponent;
 		}
 		return string;

@@ -23,7 +23,7 @@ public class APIStationRequest implements HttpHandler {
 					try {
 						Station station = Main.getStations().get(args[1]);
 						int plattform = Integer.parseInt(args[3]);
-						if (station.getPlattforms() >= plattform && plattform >= 1) {
+						if (station.getPlatforms() >= plattform && plattform >= 1) {
 							RequestHandler.sendJson(exchange, Main.getStations().get(args[1]).getLines(plattform).toJson());
 						}
 					} catch (NumberFormatException exception) {}

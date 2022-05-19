@@ -14,6 +14,7 @@ public class Line extends Entity {
 	private String driver;
 	private Time departure;
 	private int delay;
+	private Box box;
 	
 	private EntityList<LineStation> stations;
 	
@@ -83,6 +84,14 @@ public class Line extends Entity {
 		return stations;
 	}
 	
+	public void setBox(Box box) {
+		this.box = box;
+	}
+	
+	public Box getBox() {
+		return box;
+	}
+	
 	public void calculateDepartueTimes() {
 		Time time = getDeparture();
 		for (LineStation station : stations) {
@@ -102,6 +111,7 @@ public class Line extends Entity {
 		for (JsonParser station : stations) {
 			getStations().add(new LineStation(this, station));
 		}
+		if (parser.get("box") != null) box = new Box(parser.getJsonObject("box"));
 	}
 	
 	@Override
@@ -120,6 +130,7 @@ public class Line extends Entity {
 			stations.add(station.toJson());
 		}
 		parser.set("stations", stations);
+		if (box != null) parser.set("box", box.toJson());
 		return parser;
 	}
 	
@@ -128,7 +139,7 @@ public class Line extends Entity {
 		if (super.isValid()) {
 			for (LineStation station : stations) {
 				if (station.getStation() != null && station.getStation().isValid()) {
-					if (station.getPlattform() > 0 && station.getPlattform() <= station.getStation().getPlattforms()) {
+					if (station.getPlatform() > 0 && station.getPlatform() <= station.getStation().getPlatforms()) {
 						return true;
 					}
 				}

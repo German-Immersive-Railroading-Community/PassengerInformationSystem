@@ -35,7 +35,7 @@ public class StationCommand implements Command {
 						return true;
 					case "info": 
 						Station station = Main.getStations().get(args[0]);
-						sender.sendMessage("------------\n{} ({})\nPlattforms: {}\n------------", station.getName(), station.getDisplayName(), Integer.toString(station.getPlattforms()));
+						sender.sendMessage("------------\n{} ({})\nPlattforms: {}\n------------", station.getName(), station.getDisplayName(), Integer.toString(station.getPlatforms()));
 						return true;
 					default: sender.sendMessage("The option {} does not exist!", args[1]); return true;
 					}

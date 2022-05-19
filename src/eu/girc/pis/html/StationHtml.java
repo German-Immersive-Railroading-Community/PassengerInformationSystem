@@ -12,9 +12,10 @@ public class StationHtml {
 
 	public static String buildStation(Station station) {
 		String string = stationComponent;
+		if (station.getBox() != null) string = station.getBox().toHtml() + "\b" + string;
 		string = string.replace("{name}", station.getName());
 		string = string.replace("{displayName}", station.getDisplayName());
-		string = string.replace("{plattforms}", Integer.toString(station.getPlattforms()));
+		string = string.replace("{plattforms}", Integer.toString(station.getPlatforms()));
 		string += new HtmlTag("h2", "Lines via station " + station.getDisplayName());
 		string += LineHtml.buildLineList(station);
 		return Html.buildHtml("stations", string, true);
