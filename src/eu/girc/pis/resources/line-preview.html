@@ -1,14 +1,16 @@
-<div class="box pis-box">
-	<table>
-		<tr>
-			<td style="width: 0px;" class="title">{departure}</td>
-			<td><span class="title">{displayName}</span>&nbsp; {delay}<i class="grey-text">from {first.displayName}</i></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>{stations}</td>
-			<td style="width: 0px; vertical-align: bottom;"><a href="/line/{name}" class="button mg-0 not-mobile">View</a></td>
-		</tr>
-	</table>
-	<a href="/line/{name}" class="button line-button only-mobile view">View</a>
+<div class="box box-line">
+	<div>
+		<div>
+			<div class="title">{departure}</div>
+		</div>
+		<div class="width-100">
+			<div><span class="title">{displayName}</span>&nbsp; {delay} <i class="grey-text" style="white-space: nowrap;">from {first.displayName}</i></div>
+			<div>{stations}</div>
+		</div>
+		<div class="not-mobile">
+			<div class="title"></div>
+			<div><a class="button mg-0" href="/line/{name}">View</a></div>
+		</div>
+	</div>
+	<div class="only-mobile" style="margin-top: 20px;"><a class="button mg-0 width-100" href="/line/{name}">View</a></div>
 </div>

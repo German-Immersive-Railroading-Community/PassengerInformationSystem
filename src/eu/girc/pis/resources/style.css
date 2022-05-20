@@ -1037,6 +1037,10 @@ h1, h2, h3, h4, h5, h6 {
     color: #004dff;
 }
 
+a{
+    white-space: nowrap;
+}
+
 @media (min-width: 768px) {.container{width: 80%}}
 @media (min-width: 992px) {.container{width: 70%}}
 @media (min-width: 1200px) {.container{width: 60%}}
@@ -1052,39 +1056,72 @@ h1, h2, h3, h4, h5, h6 {
 
 .title{
     font-size: 22px;
+    min-height: 35px;
 }
 
 @media (max-width: 767px) {
     .title{font-size: 20px;}
 }
 
-.pis-box table{
-    font-size: 16px;
-    padding: 0px;
-    margin: 0px;
+.box {padding: 20px;}
+@media (max-width: 767px) {.box{padding: 20px;}}
+
+.box-station{
+    display: flex;
+    display: -webkit-flex;
+    padding: 20px 30px;
+}
+
+.box-station > *:first-child{
+    width: 100%;
+    margin: auto 0px;
 }
 
 @media (max-width: 767px) {
-	.pis-box{padding: 10px}
-    .pis-box table{margin-bottom: 20px}
-    .pis-box .line-button{margin: 0px 10px 10px 10px !important}
+    .box-station{flex-direction: column;}
+    .box-station > *:last-child{margin-top: 20px;}
+    .box-station > *:last-child > a{width: 100%;}
 }
 
-.pis-box table th, .pis-box table td{
+.box-line{
+	padding: 30px;
+}
+
+.box-line > *{
+    display: flex;
+    display: -webkit-flex;
+    gap: 20px;
+}
+
+.box-line > * > *{
+    display: flex;
+    flex-direction: column;
+    display: -webkit-flex;
+    gap: 20px;
+}
+
+.box-table{
+	padding: 20px;
+}
+
+.box-table > *:last-child{
+	padding: 10px;
+}
+
+.box-table table{
+    font-size: 16px;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+    .box-table table{margin-bottom: 20px}
+}
+
+.box-table table th, .box-table table td{
     padding: 10px;
     text-align: left;
     border: none;
     vertical-align: top;
-}
-
-@media (max-width: 767px) {
-    .view{font-size: 18px; width: auto; display: block;}
-}
-
-.station{
-	padding: 5px 20px;
-}
-
-@media (max-width: 767px) {
-	.station{padding: 5px 10px}
 }

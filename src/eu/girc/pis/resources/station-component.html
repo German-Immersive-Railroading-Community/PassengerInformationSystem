@@ -1,8 +1,7 @@
-<div class="box pis-box">
-	<table>
-		<tr class="title"><td>{displayName}</td></tr>
-	</table>
-	<table style="margin-top: 10px;">
-		<tr><td>Plattforms: {plattforms}</td><td style="vertical-align: bottom;"><a href="/api/station/{name}" target="blank" class="float-right not-mobile">Raw Station Data ></a></td></tr>
-	</table>
+<div class="box">
+	<div class="title" style="margin-bottom: 20px;">{displayName}</div>
+		<div style="display:flex; gap: 20px;">
+		<div class="width-100">Plattforms: {plattforms}</div>
+		<a href="/api/station/{name}" target="blank" class="not-mobile">Raw Station Data ></a>
+	</div>
 </div>
