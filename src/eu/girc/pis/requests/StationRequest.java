@@ -1,12 +1,12 @@
 package eu.girc.pis.requests;
 
 import eu.girc.pis.components.Station;
-import eu.girc.pis.html.Html;
-import eu.girc.pis.html.HtmlTag;
 import eu.girc.pis.main.Main;
 import eu.girc.pis.main.RequestHandler;
 import eu.girc.pis.resources.Resource;
 import eu.girc.pis.util.EntityList;
+import eu.girc.pis.util.Html;
+import eu.girc.pis.util.HtmlTag;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
@@ -46,7 +46,7 @@ public class StationRequest implements HttpHandler {
 
 	private static String buildStationComponent(Station station) {
 		String string = stationComponent;
-		if (station.getBox() != null) string = station.getBox().toHtml() + "\b" + string;
+		if (station.getBox() != null) string = station.getBox().toHtml() + "\n" + string;
 		string = string.replace("{name}", station.getName());
 		string = string.replace("{displayName}", station.getDisplayName());
 		string = string.replace("{plattforms}", Integer.toString(station.getPlatforms()));

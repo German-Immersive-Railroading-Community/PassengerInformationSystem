@@ -3,12 +3,12 @@ package eu.girc.pis.requests;
 import eu.girc.pis.components.Line;
 import eu.girc.pis.components.LineStation;
 import eu.girc.pis.components.Station;
-import eu.girc.pis.html.Html;
-import eu.girc.pis.html.HtmlTag;
 import eu.girc.pis.main.Main;
 import eu.girc.pis.main.RequestHandler;
 import eu.girc.pis.resources.Resource;
 import eu.girc.pis.util.EntityList;
+import eu.girc.pis.util.Html;
+import eu.girc.pis.util.HtmlTag;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
@@ -24,7 +24,7 @@ public class LineRequest implements HttpHandler{
 		if (args.length == 1) {
 			RequestHandler.sendHtml(exchange, buildLineList(Main.getLines()));
 		} else if (args.length == 2 && Main.getLines().contains(args[1])) {
-			RequestHandler.sendHtml(exchange, buildLine(Main.getLines().get(args[1])));
+			RequestHandler.sendHtml(exchange, buildLineComponent(Main.getLines().get(args[1])));
 		}
 	}
 	
@@ -33,7 +33,7 @@ public class LineRequest implements HttpHandler{
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
 		string = string.replace("{departure}", line.getDeparture().toString("hh:mm"));
-		string = string.replace("{delay}", buildLineDelay(line.getDelay()));
+		string = string.replace("{delay}", buildLineInformation(line, false));
 		if (line.getStations().getFirst() != null) string = string.replace("{first.displayName}", line.getStations().getFirst().getDisplayName());
 		String stationList = "";
 		for (int i = 0; i < line.getStations().size() - 1; i++) {
@@ -69,16 +69,17 @@ public class LineRequest implements HttpHandler{
 		}
 	}
 	
-	private static String buildLine(Line line) {
+	private static String buildLineComponent(Line line) {
 		String string = lineComponent;
-		if (line.getBox() != null) string = line.getBox().toHtml() + "\b" + string;
+		if (line.getBox() != null) string = line.getBox().toHtml() + "\n" + string;
 		string = string.replace("{name}", line.getName());
 		string = string.replace("{displayName}", line.getDisplayName());
 		string = string.replace("{type}", line.getType());
 		string = string.replace("{operator}", line.getOperator().toString());
 		string = string.replace("{driver}", line.getDriver().toString());
 		string = string.replace("{departure}", line.getDeparture().toString("hh:mm"));
-		string = string.replace("{delay}", buildLineDelay(line.getDelay()));
+		string = string.replace("{delay}", buildLineInformation(line, true));
+		string = string.replace("{cancelled}", (line.isCancelled()) ? "<label class=\"red\">CANCELLED</label>&nbsp;&nbsp;" : "");
 		line.calculateDepartueTimes();
 		if (line.getStations().getFirst() != null) string = string.replace("{first.displayName}", line.getStations().getFirst().getDisplayName());
 		string = string.replace("{content}", buildStationList(line.getStations()));
@@ -87,6 +88,7 @@ public class LineRequest implements HttpHandler{
 	
 	private static String buildStationList(EntityList<LineStation> stations) {
 		String string = "";
+		boolean statusActive = stations.getFirst().hasPassed() && !stations.getLast().hasPassed() && !stations.getFirst().getLine().isCancelled();
 		for (LineStation station : stations) {
 			String stationComponent = LineRequest.stationComponent;
 			stationComponent = stationComponent.replace("{departure}", buildLineString(station.getDeparture().toString("hh:mm"), station, stations));
@@ -100,30 +102,32 @@ public class LineRequest implements HttpHandler{
 			} else {
 				stationComponent = stationComponent.replace("{plattform}", "Pl. " + station.getPlatform());
 			}
+			if (statusActive) {
+				if (station.hasPassed()) stationComponent = stationComponent.replace("{status}", "red");
+				else stationComponent = stationComponent.replace("{status}", "grey");
+			} else {
+				stationComponent = stationComponent.replace("{status}", "light-grey");
+			}
 			string += stationComponent;
 		}
 		return string;
 	}
 	
-	private static String buildLineDelay(int delay) {
-		if (delay < 3) {
-			return "";
-		} else if (delay < 6) {
-			return "<label class=\"yellow\">+" + delay + "</label>&nbsp;&nbsp;";
-		} else {
-			return "<label class=\"red\">+" + delay + "</label>&nbsp;&nbsp;";
-		}
+	private static String buildLineInformation(Line line, boolean onlyDelay) {
+		int delay = line.getDelay();
+		String string = "";
+		if (line.isCancelled()) if (!onlyDelay) return "<label class=\"red\">CANCELLED</label>&nbsp;&nbsp;"; else return "";
+		if (delay > 2 && delay < 6) string += "<label class=\"yellow\">+" + delay + "</label>" + ((onlyDelay) ? "" : "&nbsp;&nbsp;");
+		else if (delay > 5) string += "<label class=\"red\">+" + delay + "</label>" + ((onlyDelay) ? "" : "&nbsp;&nbsp;");
+		if (!onlyDelay && line.getBox() != null) string += "<label class=\"" + line.getBox().getColor() + "\">&nbsp;!&nbsp;</label>&nbsp;&nbsp;";
+		return string;
 	}
 	
 	private static String buildStationDelay(LineStation station) {
 		int delay = station.getDelay();
-		if (station.isCancelled() || delay == 0) {
-			return "";
-		} else if (delay < 6) {
-			return "<span class=\"yellow-text\">+" + delay + "</span>";
-		} else {
-			return "<span class=\"red-text\">+" + delay + "</span>";
-		}
+		if (station.isCancelled() || delay == 0) return "";
+		else if (delay < 6) return "<span class=\"yellow-text\">+" + delay + "</span>";
+		else return "<span class=\"red-text\">+" + delay + "</span>";
 	}
 	
 	private static String buildLineString(String string, LineStation station, EntityList<LineStation> stations) {

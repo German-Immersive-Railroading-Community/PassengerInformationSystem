@@ -13,7 +13,6 @@ import eu.girc.pis.commands.StationCommand;
 import eu.girc.pis.commands.StopCommand;
 import eu.girc.pis.components.Line;
 import eu.girc.pis.components.Station;
-import eu.girc.pis.html.Html;
 import eu.girc.pis.requests.APIIndexRequest;
 import eu.girc.pis.requests.APILineCallback;
 import eu.girc.pis.requests.APILineRequest;
@@ -26,6 +25,7 @@ import eu.girc.pis.requests.ResourcesRequest;
 import eu.girc.pis.requests.SeachRequest;
 import eu.girc.pis.requests.StationRequest;
 import eu.girc.pis.util.EntityList;
+import eu.girc.pis.util.Html;
 import io.undertow.Undertow;
 
 public class Main {

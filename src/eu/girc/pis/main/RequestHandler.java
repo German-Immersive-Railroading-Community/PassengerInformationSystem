@@ -6,7 +6,7 @@ import java.util.List;
 
 import eu.derzauberer.javautils.parser.JsonParser;
 import eu.derzauberer.javautils.util.Sender.MessageType;
-import eu.girc.pis.html.Html;
+import eu.girc.pis.util.Html;
 import io.undertow.io.Receiver.FullStringCallback;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;

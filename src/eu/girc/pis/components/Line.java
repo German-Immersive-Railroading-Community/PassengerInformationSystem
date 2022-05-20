@@ -13,6 +13,7 @@ public class Line extends Entity {
 	private String operator;
 	private String driver;
 	private Time departure;
+	private boolean cancelled;
 	private int delay;
 	private Box box;
 	
@@ -24,6 +25,7 @@ public class Line extends Entity {
 		operator = "Unknown";
 		driver = "Unknown";
 		this.departure = departure;
+		cancelled = false;
 		delay = 0;
 		stations = new EntityList<>();
 	}
@@ -61,6 +63,14 @@ public class Line extends Entity {
 	public Time getDeparture() {
 		if (departure == null) calculateDepartueTimes();
 		return departure;
+	}
+	
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+	
+	public boolean isCancelled() {
+		return cancelled;
 	}
 	
 	public void setDelay(int delay) {
@@ -106,6 +116,7 @@ public class Line extends Entity {
 		operator = parser.getString("operator");
 		driver = parser.getString("driver");
 		departure = new Time(parser.getString("departure"), "hh:mm");
+		cancelled =  parser.getBoolean("cancelled");
 		delay =  parser.getInt("delay");
 		List<JsonParser> stations = parser.getJsonObjectList("stations");
 		for (JsonParser station : stations) {
@@ -123,7 +134,8 @@ public class Line extends Entity {
 		parser.set("operator", operator);
 		parser.set("driver", driver);
 		parser.set("departure", departure.toString("hh:mm"));
-		parser.set("delay", getDelay());
+		parser.set("cancelled", cancelled);
+		parser.set("delay", delay);
 		calculateDepartueTimes();
 		ArrayList<JsonParser> stations = new ArrayList<>();
 		for (LineStation station : this.stations) {

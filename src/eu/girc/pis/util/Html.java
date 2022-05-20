@@ -1,4 +1,4 @@
-package eu.girc.pis.html;
+package eu.girc.pis.util;
 
 import eu.girc.pis.resources.Resource;
 

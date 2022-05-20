@@ -66,7 +66,7 @@ public class LineStation extends Station {
 	}
 	
 	public boolean isCancelled() {
-		return cancelled;
+		return cancelled || line.isCancelled();
 	}
 	
 	public void setDelay(int delay) {
@@ -91,6 +91,10 @@ public class LineStation extends Station {
 	
 	public boolean hasPassed() {
 		return passed;
+	}
+	
+	public Line getLine() {
+		return line;
 	}
 	
 	private static Station getStationFromJson(JsonParser parser) {

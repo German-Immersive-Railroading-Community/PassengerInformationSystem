@@ -1,4 +1,4 @@
-package eu.girc.pis.html;
+package eu.girc.pis.util;
 
 import java.util.ArrayList;
 import java.util.List;
