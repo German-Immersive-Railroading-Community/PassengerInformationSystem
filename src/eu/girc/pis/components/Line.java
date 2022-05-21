@@ -105,7 +105,8 @@ public class Line extends Entity {
 	public void calculateDepartueTimes() {
 		Time time = getDeparture();
 		for (LineStation station : stations) {
-			station.setDeparture(time.addTime(0, station.getTravelTimeFromLastStation()));
+			time = time.addTime(0, station.getTravelTimeFromLastStation());
+			station.setDeparture(time);
 		}
 	}
 	

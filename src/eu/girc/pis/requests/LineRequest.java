@@ -103,8 +103,8 @@ public class LineRequest implements HttpHandler{
 				stationComponent = stationComponent.replace("{plattform}", "Pl. " + station.getPlatform());
 			}
 			if (statusActive) {
-				if (station.hasPassed()) stationComponent = stationComponent.replace("{status}", "red");
-				else stationComponent = stationComponent.replace("{status}", "grey");
+				if (station.hasPassed()) stationComponent = stationComponent.replace("{status}", "blue");
+				else stationComponent = stationComponent.replace("{status}", "dark-grey");
 			} else {
 				stationComponent = stationComponent.replace("{status}", "light-grey");
 			}
