@@ -4,9 +4,9 @@ import eu.girc.pis.resources.Resource;
 
 public class Html {
 	
-	private static String site = Resource.getTextFile("site.html");
-	private static String index = Resource.getTextFile("index.html");
-	private static String error404 = Resource.getTextFile("404.html");
+	private static final String site = Resource.getTextFile("site.html");
+	private static final String index = Resource.getTextFile("index.html");
+	private static final String error404 = Resource.getTextFile("404.html");
 	
 	public static String buildHtml(String content, boolean reload) {
 		return buildHtml("pis", content, reload);

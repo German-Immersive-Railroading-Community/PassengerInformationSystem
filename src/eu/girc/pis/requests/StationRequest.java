@@ -12,8 +12,8 @@ import io.undertow.server.HttpServerExchange;
 
 public class StationRequest implements HttpHandler {
 	
-	private static String stationPreview = Resource.getTextFile("station-preview.html");
-	private static String stationComponent = Resource.getTextFile("station-component.html");
+	private static final String stationPreview = Resource.getTextFile("station-preview.html");
+	private static final String stationComponent = Resource.getTextFile("station-component.html");
 
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {

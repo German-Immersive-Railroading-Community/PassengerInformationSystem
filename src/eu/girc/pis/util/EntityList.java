@@ -17,7 +17,7 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	}
 	
 	public void add(T entity) {
-		Entity oldEntity = get(entity.getName());
+		final Entity oldEntity = get(entity.getName());
 		if (oldEntity != null) {
 			entities.remove(oldEntity);
 		}
@@ -29,7 +29,7 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	}
 	
 	public void remove(String name) {
-		Entity oldEntity = get(name);
+		final Entity oldEntity = get(name);
 		if (oldEntity != null) {
 			entities.remove(oldEntity);
 		}
@@ -101,8 +101,8 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	public EntityList<T> sort(Station station) {
 		entities.sort((entity1, entity2) -> {
 			if (entity1 instanceof Line && entity2 instanceof Line) {
-				Line line1 = (Line) entity1;
-				Line line2 = (Line) entity2;
+				final Line line1 = (Line) entity1;
+				final Line line2 = (Line) entity2;
 				if (line1.getLineStation(station) != null && line2.getLineStation(station) != null) {
 					return line1.getLineStation(station).getDeparture().compareTo(line1.getLineStation(station).getDeparture());
 				}
@@ -115,7 +115,7 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	}
 	
 	public EntityList<T> searchForDisplayName(String name) {
-		EntityList<T> entities = new EntityList<>();
+		final EntityList<T> entities = new EntityList<>();
 		for (T entity : this.sort()) {
 			if (entity.getDisplayName().contains(name)) {
 				entities.add(entity);
@@ -125,19 +125,19 @@ public class EntityList<T extends Entity> implements Iterable<T> {
 	}
 	
 	public List<JsonParser> toJsonList() {
-		List<JsonParser> jsonEntities = new ArrayList<>();
+		final List<JsonParser> jsonEntities = new ArrayList<>();
 		forEach(entity -> jsonEntities.add(entity.toJson()));
 		return jsonEntities;
 	}
 	
 	public JsonParser toJson() {
-		JsonParser parser = new JsonParser();
+		final JsonParser parser = new JsonParser();
 		parser.set("", toJsonList());
 		return parser;
 	}
 
 	public void load(String key, JsonParser parser, Class<T> clazz) {
-		List<JsonParser> jsonEntities = parser.getJsonObjectList(key);
+		final List<JsonParser> jsonEntities = parser.getJsonObjectList(key);
 		for (JsonParser jsonEntity : jsonEntities) {
 			try {
 				T entity = clazz.getDeclaredConstructor(JsonParser.class).newInstance(jsonEntity);

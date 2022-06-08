@@ -10,7 +10,7 @@ public class APILineRequest implements HttpHandler {
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {
 		if (exchange.getRequestMethod().toString().equals("GET")) {
-			String args[] = RequestHandler.getArgs(exchange.getRequestPath());
+			final String args[] = RequestHandler.getArgs(exchange.getRequestPath());
 			if (args.length == 1) {
 				RequestHandler.sendJson(exchange, Main.getLines().toJson());
 			} else if (args.length == 2 && Main.getLines().get(args[1]) != null) {

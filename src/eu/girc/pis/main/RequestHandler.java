@@ -16,8 +16,8 @@ public class RequestHandler {
 	
 	private HttpHandler index;
 	private String html404;
-	private HashMap<String, HttpHandler> requests = new HashMap<>();
-	private HashMap<String, FullStringCallback> callbacks = new HashMap<>();
+	private final HashMap<String, HttpHandler> requests = new HashMap<>();
+	private final HashMap<String, FullStringCallback> callbacks = new HashMap<>();
 	
 	public void setIndex(HttpHandler request) {
 		index = request;
@@ -40,7 +40,6 @@ public class RequestHandler {
 	}
 	
 	public void execute(HttpServerExchange exchange) throws Exception {
-		
 		Main.getConsole().sendMessage(MessageType.INFO, "Request from {} for {} {}", exchange.getConnection().getPeerAddress().toString(), exchange.getRequestMethod().toString(), exchange.getRequestPath());
 		String path = exchange.getRequestPath();
 		if (path.isEmpty() || path.equals("/")) {
@@ -119,13 +118,13 @@ public class RequestHandler {
 	}
 	
 	private static String[] getArgs(String path, boolean apiSplit) {
-		List<String> argList = new ArrayList<>();
+		final List<String> argList = new ArrayList<>();
 		for (String string : path.split("/")) {
 			if (!string.isEmpty() && !(apiSplit && string.equals("api"))) {
 				argList.add(string);
 			}
 		}
-		String[] args = new String[argList.size()];
+		final String[] args = new String[argList.size()];
 		for (int i = 0; i < argList.size(); i++) {
 			args[i] = argList.get(i);
 		}

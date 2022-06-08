@@ -122,7 +122,7 @@ public class LineStation extends Station {
 	}
 	
 	public JsonParser toJson() {
-		JsonParser parser = new JsonParser();
+		final JsonParser parser = new JsonParser();
 		parser.set("station", getStation().toJson());
 		parser.set("platform", getPlatform());
 		parser.set("departure", departure.toString("hh:mm"));

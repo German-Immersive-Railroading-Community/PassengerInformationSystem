@@ -13,14 +13,14 @@ public class APITemplateRequest implements HttpHandler {
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {
 		if (exchange.getRequestMethod().toString().equals("GET")) {
-			String args[] = RequestHandler.getArgs(exchange.getRequestPath());
+			final String args[] = RequestHandler.getArgs(exchange.getRequestPath());
 			if (args.length == 1) {
 				RequestHandler.sendAPI400BadRequet(exchange);
 			} else if (args.length == 2 && RequestHandler.isPath(args, 1, "station")) {
-				Station station = new Station("Station_Name", "Station Name", 1);
+				final Station station = new Station("Station_Name", "Station Name", 1);
 				RequestHandler.sendJson(exchange, station.toJson());
 			} else if (args.length == 2 && RequestHandler.isPath(args, 1, "line")) {
-				Line line = new Line("Line_Name", "Line Name", new Time(9, 0));
+				final Line line = new Line("Line_Name", "Line Name", new Time(9, 0));
 				line.setOperator("GIRC");
 				line.setDriver("Der_Zauberer");
 				line.setDelay(0);

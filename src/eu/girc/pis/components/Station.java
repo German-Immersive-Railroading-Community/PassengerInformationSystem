@@ -25,7 +25,7 @@ public class Station extends Entity {
 	}
 	
 	public EntityList<Line> getLines() {
-		EntityList<Line> lines = new EntityList<>();
+		final EntityList<Line> lines = new EntityList<>();
 		for (Line line : Main.getLines()) {
 			if (line.getStations().contains(getName())) {
 				lines.add(line);
@@ -37,7 +37,7 @@ public class Station extends Entity {
 	}
 	
 	public EntityList<Line> getLines(int plattform) {
-		EntityList<Line> lines = new EntityList<>();
+		final EntityList<Line> lines = new EntityList<>();
 		for (Line line : Main.getLines()) {
 			if (line.getStations().contains(getName()) && line.getLineStation(this).getPlatform() == plattform) {
 				lines.add(line);
@@ -65,7 +65,7 @@ public class Station extends Entity {
 	
 	@Override
 	public JsonParser toJson() {
-		JsonParser parser = new JsonParser();
+		final JsonParser parser = new JsonParser();
 		parser.set("name", getName());
 		parser.set("displayName", getDisplayName());
 		parser.set("platforms", getPlatforms());

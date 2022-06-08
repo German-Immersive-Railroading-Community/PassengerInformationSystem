@@ -14,7 +14,7 @@ import io.undertow.server.HttpServerExchange;
 
 public class SeachRequest implements HttpHandler {
 	
-	private static String searchBar = Resource.getTextFile("search.html");
+	private static final String searchBar = Resource.getTextFile("search.html");
 
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {
@@ -34,7 +34,7 @@ public class SeachRequest implements HttpHandler {
 	private static String buildSeachResults(String search) {
 		String string = searchBar;
 		string += new HtmlTag("h2", "Search results for \"" + search + "\"");
-		EntityList<Entity> entities = new EntityList<>();
+		final EntityList<Entity> entities = new EntityList<>();
 		Main.getStations().forEach(station -> entities.add(station));
 		Main.getLines().forEach(line -> entities.add(line));
 		EntityList<Entity> results = entities.sort().searchForDisplayName(search);

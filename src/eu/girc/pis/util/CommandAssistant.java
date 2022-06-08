@@ -54,7 +54,7 @@ public class CommandAssistant {
 	}
 	
 	public static String getStringList(EntityList<?> entities) {
-		StringBuilder string = new StringBuilder();
+		final StringBuilder string = new StringBuilder();
 		for (Entity entity : entities) {
 			string.append(entity.getName() + " (" + entity.getDisplayName() + "), ");
 		}

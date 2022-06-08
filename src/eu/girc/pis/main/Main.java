@@ -30,13 +30,13 @@ import io.undertow.Undertow;
 
 public class Main {
 	
-	private static CommandHandler commands = new CommandHandler();
-	private static RequestHandler requests = new RequestHandler();
-	private static Console console = new Console(commands);
-	private static File file = new File("config.json");
+	private static final CommandHandler commands = new CommandHandler();
+	private static final RequestHandler requests = new RequestHandler();
+	private static final  Console console = new Console(commands);
+	private static final  File file = new File("config.json");
 	private static JsonParser parser = new JsonParser();
-	private static EntityList<Station> stations = new EntityList<>();
-	private static EntityList<Line> lines = new EntityList<>();
+	private static final EntityList<Station> stations = new EntityList<>();
+	private static final EntityList<Line> lines = new EntityList<>();
 	
 	public static void main(String[] args) {
 		if (!isStarted(args)) System.exit(-1);

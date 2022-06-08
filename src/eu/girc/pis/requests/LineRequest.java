@@ -14,13 +14,13 @@ import io.undertow.server.HttpServerExchange;
 
 public class LineRequest implements HttpHandler{
 
-	private static String linePreview = Resource.getTextFile("line-preview.html");
-	private static String lineComponent = Resource.getTextFile("line-component.html");
-	private static String stationComponent = Resource.getTextFile("line-station-component.html");
+	private static final String linePreview = Resource.getTextFile("line-preview.html");
+	private static final String lineComponent = Resource.getTextFile("line-component.html");
+	private static final String stationComponent = Resource.getTextFile("line-station-component.html");
 	
 	@Override
 	public void handleRequest(HttpServerExchange exchange) throws Exception {
-		String args[] = RequestHandler.getArgs(exchange.getRequestPath());
+		final String args[] = RequestHandler.getArgs(exchange.getRequestPath());
 		if (args.length == 1) {
 			RequestHandler.sendHtml(exchange, buildLineList(Main.getLines()));
 		} else if (args.length == 2 && Main.getLines().contains(args[1])) {

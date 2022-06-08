@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+
 public class Resource {
 
 	public static String getResource(String string) {
@@ -18,7 +19,7 @@ public class Resource {
 	
 	public static String getTextFile(String name) {
 		try (Scanner scanner = new Scanner(Resource.class.getResourceAsStream(name)).useDelimiter("\\A")) {
-			String string = scanner.hasNext() ? scanner.next() : "";
+			final String string = scanner.hasNext() ? scanner.next() : "";
 			return string;
 		}
 	}

@@ -25,7 +25,7 @@ public class APIStationCallback implements FullStringCallback {
 				RequestHandler.sendAPI400BadRequet(exchange);
 			}
 		} else if (exchange.getRequestMethod().toString().equals("DELETE")) {
-			String name = new JsonParser(message).getString("name");
+			final String name = new JsonParser(message).getString("name");
 			if (name != null && Main.getStations().contains(name)) {
 				Main.getStations().remove(new JsonParser(message).getString("name"));
 				RequestHandler.sendAPI200Success(exchange);

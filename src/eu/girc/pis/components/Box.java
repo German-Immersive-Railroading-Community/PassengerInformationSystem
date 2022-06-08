@@ -50,7 +50,7 @@ public class Box {
 	}
 	
 	public JsonParser toJson() {
-		JsonParser parser = new JsonParser();
+		final JsonParser parser = new JsonParser();
 		parser.set("title", title);
 		parser.set("text", text);
 		parser.set("color", color);

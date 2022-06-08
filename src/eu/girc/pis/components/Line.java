@@ -128,7 +128,7 @@ public class Line extends Entity {
 	
 	@Override
 	public JsonParser toJson() {
-		JsonParser parser = new JsonParser();
+		final JsonParser parser = new JsonParser();
 		parser.set("name", getName());
 		parser.set("displayName", getDisplayName());
 		parser.set("type", type);
@@ -138,7 +138,7 @@ public class Line extends Entity {
 		parser.set("cancelled", cancelled);
 		parser.set("delay", delay);
 		calculateDepartueTimes();
-		ArrayList<JsonParser> stations = new ArrayList<>();
+		final ArrayList<JsonParser> stations = new ArrayList<>();
 		for (LineStation station : this.stations) {
 			stations.add(station.toJson());
 		}
