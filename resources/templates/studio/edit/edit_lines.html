@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title th:text="'PIS Studio - Edit Line'"></title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+		<script>setMenuFocus("Studio")</script>
+		
+		<div th:replace="components :: navigation"></div>
+		<script>setNavigationFocus("Lines")</script>
+		<div class="navigation-content">
+	        <div class="container fit-content" th:with="exists=${line.id != null and !line.id.isEmpty()}">
+	        	<div class="blue-border box-table" style="border-radius: 10px;">
+	        		<form class="mg-0 pd-0" action="#" th:action="@{/studio/lines/edit}" th:object="${line}" method="POST">
+	        			<table style="height: 1px;">
+	        				<tr>
+								<td class="fit-content">ID:</td>
+								<td><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${exists} ? ${line.id} : 'auto'"></span></td>
+							</tr>
+	        				<tr style="display: none">
+								<td class="fit-content">ID:</td>
+								<td><input type="text" th:field="*{id}" pattern="^([A-Za-z0-9]|-|_)+$" required></td>
+							</tr>
+							<tr>
+								<td class="fit-content">Type:</td>
+								<td>
+									<select id="type" name="type" th:field="*{type}">
+	    								<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
+	  								</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="fit-content">Number:</td>
+								<td><input type="number" min="1" max="9999" th:field="*{number}" required></td>
+							</tr>
+							<tr>
+								<td class="fit-content">Operator:</td>
+								<td><input type="text" th:field="*{operator}" required></td>
+							</tr>
+							<tr>
+								<td class="fit-content">Driver:</td>
+								<td><input type="text" th:field="*{driver}" required></td>
+							</tr>
+							<tr>
+								<td class="fit-content">Departure:</td>
+								<td><input type="time" th:field="*{departure}" required></td>
+							</tr>
+							<tr>
+								<td class="fit-content">Cancelled:</td>
+								<td>
+									<select id="cancelled" name="cancelled" th:field="*{cancelled}">
+	    								<option value="false" th:selected="!${line.cancelled}">False</option>
+	    								<option value="true" th:selected="${line.cancelled}">True</option>
+	  								</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="fit-content">Delay:</td>
+								<td><input type="number" min="0" max="9999" th:field="*{delay}" required></td>
+							</tr>
+							<tr>
+								<td>
+									<a class="button red mg-0 width-100" th:if="${exists}" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
+									<a class="button red mg-0 width-100" th:unless="${exists}" href="/studio/lines">Cancel</a>
+								</td>
+								<td><input type="submit" value="Save" class="mg-0"></td>
+							</tr>
+	        			</table>
+	        		</form>
+	        		
+	        	</div>
+	        </div>
+		</div>
+
+    </body>
+</html>

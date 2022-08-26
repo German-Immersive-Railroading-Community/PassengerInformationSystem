@@ -30,4 +30,5 @@ hs_err_pid*
 /target/
 
 # config file
+/data/
 config.json

@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>PassengerInformationSystem</groupId>
-	<artifactId>PassengerInformationSystem</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
-	<name>PassengerInformationSystem</name>
+	<groupId>PIS</groupId>
+	<artifactId>PIS</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<build>
+		<finalName>PIS</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
@@ -40,32 +40,21 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io/</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>com.github.Der-Zauberer</groupId>
-			<artifactId>JavaUtils</artifactId>
-			<version>v1.2</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-core</artifactId>
-			<version>2.2.16.Final</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>2.7.3</version>
 		</dependency>
 		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-servlet</artifactId>
-			<version>2.2.16.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-websockets-jsr</artifactId>
-			<version>2.2.16.Final</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>2.7.2</version>
 		</dependency>
 	</dependencies>
 </project>

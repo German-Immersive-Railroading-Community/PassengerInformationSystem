@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title th:text="'PIS - ' + ${station.name}"></title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+        <script>setMenuFocus("Stations")</script>
+        <script>reload()</script>
+
+        <div class="container">
+        	<div class="box">
+				<div class="title" style="margin-bottom: 20px;" th:text="${station.name}"></div>
+				<div style="display:flex; gap: 20px;">
+					<div class="width-100">
+						<span>Platforms: </span><i th:text="${station.platforms}"></i><br>
+					</div>
+					<a th:href="@{'/api/stations/' + ${station.id}}" target="blank" class="not-mobile">Raw Station Data ></a>
+				</div>
+			</div>
+			<h2 th:text="'Lines via station ' + ${station.name}"></h2>
+			<th:block th:insert="components :: line" th:each="line : ${lines}"></th:block>
+			<div th:if="${lines.isEmpty()}">
+ 				<div class="box">No lines found!</div>
+			</div>
+        </div>
+
+    </body>
+</html>

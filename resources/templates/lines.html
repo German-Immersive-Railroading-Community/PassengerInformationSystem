@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title>PIS - Lines</title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+        <script>setMenuFocus("Lines")</script>
+        <script>reload()</script>
+
+        <div class="container">
+        	<th:block th:insert="components :: line" th:each="line : ${lines}"></th:block>
+			<div th:if="${lines.isEmpty()}">
+ 				<div class="box">No lines found!</div>
+			</div>
+        </div>
+
+    </body>
+</html>

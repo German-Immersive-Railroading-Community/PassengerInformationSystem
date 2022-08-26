@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title>PIS</title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+		<script>setMenuFocus("PIS")</script>
+
+        <div class="container">
+			<div class="box" style="padding: 30px;">
+				<h2 style="margin-bottom: 10px;">Welcome on board of GIRC</h2><br>
+				we wish you a present journey!
+			</div>
+			<input class="search" type="search" placeholder="Search" onkeyup="search(event);">
+        </div>
+
+    </body>
+</html>

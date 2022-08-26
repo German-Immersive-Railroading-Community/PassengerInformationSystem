@@ -1,0 +1,63 @@
+<th:block th:fragment="head">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="/resources/style.css" rel="stylesheet">
+	<script src="/resources/jquery.js"></script>
+	<script src="/resources/script.js"></script>
+	<link href="/resources/favicon.png" rel="icon">
+</th:block>
+
+<div th:fragment="menu" id="smart-menu" class="menu">
+	<img src="https://der-zauberer.github.io/SimpleWebDesign/icons/menu.svg" class="only-mobile" onclick="toggleSmartMenu()">
+	<a href="/" class="menu-title">PIS</a>
+	<div class="float-right">
+		<a href="/lines">Lines</a>
+		<a href="/stations">Stations</a>
+		<a href="/api" target="blank">API</a>
+		<a href="/login" th:if="${session.user} == null">Login</a>
+		<a href="/studio" th:if="${session.user} != null">Studio</a>
+		<a href="/logout" th:if="${session.user} != null">Logout</a>
+	</div>
+</div>
+
+<div th:fragment="navigation" id="navigation" class="navigation">
+	<h2>PIS Studio</h2>
+	<a href="/studio">Dashboard</a>
+	<a href="/studio/stations">Stations</a>
+	<a href="/studio/lines">Lines</a>
+	<a>Line Archive</a>
+	<a>Line Templates</a>
+	<a href="/studio/users">Users</a>
+	<a>Settings</a>
+</div>
+
+<div class="box box-station" th:fragment="station">
+	<div class="title" th:text="${station.name}"></div>
+	<div><a class="button mg-0" th:href="@{'/lines/' + ${station.id}}">View</a></div>
+</div>
+
+<div class="box box-line" th:fragment="line">
+	<div>
+		<div>
+			<div class="title" th:text="${line.departure}"></div>
+		</div>
+		<div class="width-100">
+			<div>
+				<span class="title" th:text="${line.getName()}"></span>&nbsp;
+				<label class="red" th:if="${line.cancelled}">CANCELLED</label>
+				<label th:classappend="${line.delay} > 5? 'red' : 'yellow'" th:text="'+' + ${line.delay}" th:unless="${line.delay} < 2 or ${line.cancelled}"></label>
+				<i class="grey-text" style="white-space: nowrap;" th:text="'from ' + ${line.getFirstStation().name}" th:unless="${line.stations.isEmpty()}"></i>
+			</div>
+			<div>
+				<th:block th:each="station, status : ${line.stations}">
+					<span th:text="${station.name}"></span><span th:unless="${status.last}"> - </span>
+				</th:block>
+			</div>
+		</div>
+		<div class="not-mobile">
+			<div class="title"></div>
+			<div style="margin-top: auto;"><a class="button" th:href="@{'/lines/' + ${line.id}}">View</a></div>
+		</div>
+	</div>
+	<div class="only-mobile" style="margin-top: 20px;"><a class="button width-100" th:href="@{'/lines/' + ${line.id}}">View</a></div>
+</div>

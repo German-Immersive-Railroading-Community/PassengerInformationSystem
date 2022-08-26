@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title>PIS - Search</title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+		<script>reload()</script>
+
+        <div class="container">
+			<input class="search" type="search" placeholder="Search" onkeyup="search(event);">
+			<div th:unless="${param.query} == null">
+				<h2 th:text="'Search results for: ' + ${param.query}"></h2>
+				<th:block th:each="result : ${results}">
+					<th:block th:if="${result.class.name == 'eu.girc.pis.entities.Station'}" th:with="station=${#conversions.convert(result, 'eu.girc.pis.entities.Station')}" th:insert="components :: station"></th:block>
+					<th:block th:if="${result.class.name == 'eu.girc.pis.entities.Line'}" th:with="line=${#conversions.convert(result, 'eu.girc.pis.entities.Line')}" th:insert="components :: line"></th:block>
+				</th:block>
+				<div th:if="${results.isEmpty()}">
+ 					<div class="box">No search results found!</div>
+				</div>
+			</div>
+        </div>
+    </body>
+</html>

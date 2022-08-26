@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title>PIS Studio - Stations</title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+		<script>setMenuFocus("Studio")</script>
+		<script>reload()</script>
+		
+		<div th:replace="components :: navigation"></div>
+		<script>setNavigationFocus("Stations")</script>
+		<div class="navigation-content">
+			<div style="margin: 0px auto; padding: 50px 50px; max-width: 1200px;">
+				<div style="display:flex;"><div class="width-100"></div>
+					<a class="button mg-b" th:href="@{/studio/stations/edit}">New</a>
+				</div>	
+				<div class="overflow r-1 nowrap">
+					<table>
+						<tr>
+							<th>ID</th>
+							<th class='width-100'>Name</th>
+							<th>Platforms</th>
+							<th></th>
+						</tr>
+						<tr th:each="station : ${stations}">
+							<td><span class="transparent-blue r-1" style="padding: 0px 5px;" th:text="${station.id}"></span></td>
+							<td th:text="${station.name}"></td>
+							<td th:text="${station.platforms}"></td>
+							<td><a class="button" th:href="@{'/studio/stations/edit?id=' + ${station.id}}">Edit</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+    </body>
+</html>

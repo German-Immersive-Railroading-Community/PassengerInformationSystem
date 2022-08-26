@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title>PIS - Login</title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+		<script>setMenuFocus("Login")</script>
+
+        <div class="container blue-border" style="border-radius: 10px; width: 405px; margin-top: 50px;">
+			<form action="/forgot" method="POST">
+				<h2 style="margin-top: 0; margin-bottom: 40px;">Forgot password</h2>
+				<span>Email:</span>
+				<input type="email" name='email' path="email" required>
+				<input style="margin: 40px 0px 0px 0px;" name="submit" type="submit" value="Send reset email">
+			</form>
+        </div>
+
+    </body>
+</html>
