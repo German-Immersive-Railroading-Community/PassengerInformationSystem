@@ -20,6 +20,54 @@ function reload() {
 	});
 }
 
+function addStation() {
+	const stations = document.getElementById("stations").getElementsByTagName("tbody")[0];
+	const tabeRows = stations.getElementsByTagName("tr");
+	const newStation = document.getElementById("template").cloneNode(true);
+	newStation.removeAttribute("id");
+	stations.appendChild(newStation);
+	changeIndex(tabeRows.item(tabeRows.length - 1), tabeRows.length - 3);
+}
+
+function removeStation(index) {
+	console.log(index)
+	const stations = document.getElementById("stations").getElementsByTagName("tbody")[0];
+	let childToRemove;
+	let alreadyRemoved;
+	Array.from(stations.children).forEach(element => {
+		if (element.getAttribute("index") != null) {
+			if (element.getAttribute("index") == index) {
+				childToRemove = element;
+				alreadyRemoved = true;
+			} else if (alreadyRemoved) {
+				changeIndex(element, element.getAttribute("index") - 1)
+			}
+		}
+	});
+	stations.removeChild(childToRemove);
+}
+
+function removeTemplate() {
+	document.getElementById("template").remove();
+}
+
+function changeIndex(element, newIndex) {
+	const oldIndex = element.getAttribute("index");
+	element.setAttribute("index", newIndex);
+	const inputs = element.getElementsByTagName("input");
+	const selects = element.getElementsByTagName("select");
+	const remove = element.getElementsByTagName("a")[0];
+	Array.from(inputs).forEach(elements => {
+		elements.setAttribute("id", elements.getAttribute("id").replace(oldIndex, newIndex));
+		elements.setAttribute("name", elements.getAttribute("name").replace(oldIndex, newIndex));
+	});
+		Array.from(selects).forEach(elements => {
+		elements.setAttribute("id", elements.getAttribute("id").replace(oldIndex, newIndex));
+		elements.setAttribute("name", elements.getAttribute("name").replace(oldIndex, newIndex));
+	});
+	remove.setAttribute("onclick", remove.getAttribute("onclick").replace(oldIndex, newIndex));
+}
+
 /* --- */
 
 document.addEventListener('readystatechange', event => { 

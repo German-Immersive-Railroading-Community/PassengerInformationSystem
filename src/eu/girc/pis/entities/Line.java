@@ -2,7 +2,6 @@ package eu.girc.pis.entities;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import eu.girc.pis.main.PIS;
 import eu.girc.pis.utils.TimeDeserializer;
 import eu.girc.pis.utils.TimeSerializer;
@@ -33,7 +31,7 @@ public class Line implements Entity, Comparable<Line> {
 	private boolean cancelled;
 	private int delay;
 
-	final List<LineStation> stations = new ArrayList<>();
+	private ArrayList<LineStation> stations = new ArrayList<>();
 	
 	@JsonCreator
 	public Line(
@@ -45,7 +43,7 @@ public class Line implements Entity, Comparable<Line> {
 			@JsonProperty("departure") LocalTime departure,
 			@JsonProperty("cancelled") boolean cancelled, 
 			@JsonProperty("delay") int delay,
-			@JsonProperty("stations") List<LineStation> stations) {
+			@JsonProperty("stations") ArrayList<LineStation> stations) {
 		this.id = id;
 		this.type = type;
 		this.number = number;
@@ -156,6 +154,18 @@ public class Line implements Entity, Comparable<Line> {
 			}
 		}
 	}
+	
+	public void calculateTime() {
+		if (stations.isEmpty()) return;
+		stations.get(0).setDeparture(departure);
+		LineStation lastStation = stations.get(0);
+		LineStation currentStation;
+		for (int i = 0; i < stations.size(); i++) {
+			currentStation = stations.get(i);
+			currentStation.setDeparture(lastStation.getDeparture().plusMinutes(currentStation.getTravelTimeFromLastStation()));
+			lastStation = currentStation;
+		}
+	}
 
 	public LineStation getFirstStation() {
 		if (stations.isEmpty()) return null; else return stations.get(0);
@@ -173,9 +183,8 @@ public class Line implements Entity, Comparable<Line> {
 		return stations.size();
 	}
 
-	public List<LineStation> getStations() {
-		final List<LineStation> lineStations = new ArrayList<>();
-		lineStations.addAll(stations);
+	public ArrayList<LineStation> getStations() {
+		calculateTime();
 		return stations;
 	}
 

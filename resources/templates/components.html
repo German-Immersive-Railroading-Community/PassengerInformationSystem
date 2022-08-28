@@ -33,7 +33,7 @@
 
 <div class="box box-station" th:fragment="station">
 	<div class="title" th:text="${station.name}"></div>
-	<div><a class="button mg-0" th:href="@{'/lines/' + ${station.id}}">View</a></div>
+	<div><a class="button mg-0" th:href="@{'/stations/' + ${station.id}}">View</a></div>
 </div>
 
 <div class="box box-line" th:fragment="line">

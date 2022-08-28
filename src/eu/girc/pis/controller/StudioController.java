@@ -46,7 +46,10 @@ public class StudioController {
 		model.addAttribute(
 				dataType.name().toLowerCase().substring(0, dataType.name().length() - 1), 
 				entity.isPresent() ? entity.get() : dataType.getStandard());
-		if (dataType == DataType.LINES) model.addAttribute("trainType", TrainType.values());
+		if (dataType == DataType.LINES) {
+			model.addAttribute("trainType", TrainType.values());
+			model.addAttribute("stationObjects", PIS.getStations());
+		}
 		return "studio/edit/edit_" + dataType.name().toLowerCase() + ".html";
 	}
 	
@@ -59,6 +62,10 @@ public class StudioController {
 	public static String postLineEditPage(@ModelAttribute Line line, Model model) {
 		return processPost(DataType.LINES, line, model, () -> {
 			line.generate12BitIdIfUnset();
+			line.calculateTime();
+			line.getStations().forEach(station -> {
+				station.setName(PIS.find(PIS.getStations(), station.getId()).map(lineStation -> lineStation.getName()).orElse(station.getId()));
+			});
 			PIS.getLines().add(line);
 		});
 	}

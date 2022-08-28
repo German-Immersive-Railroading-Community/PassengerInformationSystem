@@ -16,32 +16,22 @@ import eu.girc.pis.utils.TimeSerializer;
 @JsonPropertyOrder({"id", "name", "platform", "departure", "travelTimeFromLastStation", "cancelled", "delay", "changedPlatform", "passed"})
 public class LineStation implements Entity {
 
-	private final String id;
-	private final String name;
-	private final int platform;
+	private String id;
+	private String name;
+	private int platform;
 	@JsonSerialize(using = TimeSerializer.class)
 	@JsonDeserialize(using = TimeDeserializer.class)
 	private LocalTime departure;
-	private final int travelTimeFromLastStation;
+	private int travelTimeFromLastStation;
 	private boolean cancelled;
 	private int delay;
 	private int changedPlatform;
 	private boolean passed;
-
-	public LineStation(Station station, int platform, int travelTimeFromLastStation) {
-		this.id = station.getId();
-		this.name = station.getName();
-		this.platform = platform;
-		this.travelTimeFromLastStation = travelTimeFromLastStation;
-		this.departure = LocalTime.of(0, 0);
-		this.cancelled = false;
-		this.delay = 0;
-		this.changedPlatform = 0;
-		this.passed = false;
-	}
+	
+	public LineStation() {}
 
 	@JsonCreator
-	private LineStation(
+	public LineStation(
 			@JsonProperty("id") String id,
 			@JsonProperty("name") String name,
 			@JsonProperty("platform") int platform,
@@ -62,14 +52,26 @@ public class LineStation implements Entity {
 		this.passed = passed;
 	}
 	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String getId() {
 		return id;
+	}
+		
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	public void setPlatform(int platform) {
+		this.platform = platform;
 	}
 
 	public int getPlatform() {
@@ -80,6 +82,10 @@ public class LineStation implements Entity {
 		return delay;
 	}
 
+	public void setTravelTimeFromLastStation(int travelTimeFromLastStation) {
+		this.travelTimeFromLastStation = travelTimeFromLastStation;
+	}
+	
 	public int getTravelTimeFromLastStation() {
 		return travelTimeFromLastStation;
 	}
@@ -116,15 +122,15 @@ public class LineStation implements Entity {
 		this.passed = passed;
 	}
 
-	public boolean hasPassed() {
+	public boolean isPassed() {
 		return passed;
 	}
 	
 	public String getStatusColor(Line line) {
-		boolean statusActive = line.getFirstStation().hasPassed() && !line.getLastStation().hasPassed() && !line.isCancelled();
+		boolean statusActive = line.getFirstStation().isPassed() && !line.getLastStation().isPassed() && !line.isCancelled();
 		if (!statusActive) {
 			return "light-grey";
-		} else if (hasPassed()) {
+		} else if (isPassed()) {
 			return "blue";
 		} else {
 			return "dark-grey";

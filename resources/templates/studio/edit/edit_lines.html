@@ -10,23 +10,23 @@
 		
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Lines")</script>
-		<div class="navigation-content">
-	        <div class="container fit-content" th:with="exists=${line.id != null and !line.id.isEmpty()}">
-	        	<div class="blue-border box-table" style="border-radius: 10px;">
-	        		<form class="mg-0 pd-0" action="#" th:action="@{/studio/lines/edit}" th:object="${line}" method="POST">
-	        			<table style="height: 1px;">
-	        				<tr>
+		<div class="navigation-content" style="padding: 50px" th:with="exists=${line.id != null and !line.id.isEmpty()}">
+			<form class="mg-0 pd-0" action="#" th:action="@{/studio/lines/edit}" th:object="${line}" method="POST" onsubmit="removeTemplate()">
+				<div class="row blue-border r-1 pd-3" style="margin: 0px auto 50px auto; max-width: 1200px">
+					<div class="col-xl-6 box-table line-edit-col" style="padding-top: 0px;">
+						<table class="pd-0 mg-0" style="height: 1px;">
+							<tr>
 								<td class="fit-content">ID:</td>
 								<td><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${exists} ? ${line.id} : 'auto'"></span></td>
 							</tr>
 	        				<tr style="display: none">
 								<td class="fit-content">ID:</td>
-								<td><input type="text" th:field="*{id}" pattern="^([A-Za-z0-9]|-|_)+$" required></td>
+								<td><input type="text" th:field="*{id}"></td>
 							</tr>
 							<tr>
 								<td class="fit-content">Type:</td>
 								<td>
-									<select id="type" name="type" th:field="*{type}">
+									<select th:field="*{type}">
 	    								<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
 	  								</select>
 								</td>
@@ -41,8 +41,13 @@
 							</tr>
 							<tr>
 								<td class="fit-content">Driver:</td>
-								<td><input type="text" th:field="*{driver}" required></td>
+								<td><input type="text" th:field="*{driver}" class="mg-0" required></td>
 							</tr>
+						</table>
+					</div>
+					<div class="col-xl-6 box-table line-edit-col" style="padding-bottom: 0px;">
+						<div style="min-height: 55px;" class="table-placeholder"></div>
+						<table class="pd-0 mg-0" style="height: 1px;">
 							<tr>
 								<td class="fit-content">Departure:</td>
 								<td><input type="time" th:field="*{departure}" required></td>
@@ -50,7 +55,7 @@
 							<tr>
 								<td class="fit-content">Cancelled:</td>
 								<td>
-									<select id="cancelled" name="cancelled" th:field="*{cancelled}">
+									<select th:field="*{cancelled}">
 	    								<option value="false" th:selected="!${line.cancelled}">False</option>
 	    								<option value="true" th:selected="${line.cancelled}">True</option>
 	  								</select>
@@ -67,11 +72,101 @@
 								</td>
 								<td><input type="submit" value="Save" class="mg-0"></td>
 							</tr>
-	        			</table>
-	        		</form>
-	        		
-	        	</div>
-	        </div>
+						</table>
+					</div>
+				</div>
+				<div class="row blue-border r-1 box-table">
+					<div class="overflow">
+						<table class="pd-0 mg-0" style="height: 1px;" id="stations">
+							<tr>
+								<th style="min-width: 150px;">Station</th>
+								<th>Platform</th>
+								<th>TravelTime</th>
+								<th style="min-width: 100px;">Cancelled</th>
+								<th>Delay</th>
+								<th>ChangePlattform</th>
+								<th style="min-width: 100px;">Passed</th>
+								<th></th>
+							</tr>
+							<tr index="INDEX" id="template">
+								<td>
+									<input list="stationNames" id="stationsINDEX.id" name="stations[INDEX].id"/>
+		  							<input style="display: none;" type="text" id="stationsINDEX.name" name="stations[INDEX].name">
+								</td>
+								<td>
+									<input type="number" min="1" max="9999" required id="stationsINDEX.platform" name="stations[INDEX].platform" value="1">
+								</td>
+								<td>
+									<input style="display: none;" type="time" required id="stationsINDEX.departure" name="stations[INDEX].departure" value="00:00">
+									<input type="number" min="0" max="9999" required id="stationsINDEX.travelTimeFromLastStation" name="stations[INDEX].travelTimeFromLastStation" value="0">
+								</td>
+								<td>
+									<select id="stationsINDEX.cancelled" name="stations[INDEX].cancelled">
+		    							<option value="false" selected="selected">False</option>
+		    							<option value="true">True</option>
+		  							</select>
+								</td>
+								<td>
+									<input type="number" min="0" max="9999" required id="stationsINDEX.delay" name="stations[INDEX].delay" value="0">
+								</td>
+								<td>
+									<input type="number" min="0" max="9999" required id="stationsINDEX.changedPlatform" name="stations[INDEX].changedPlatform" value="0">
+								</td>
+								<td>
+									<select id="stationsINDEX.passed" name="stations[INDEX].passed">
+		    							<option value="false" selected="selected">False</option>
+		    							<option value="true">True</option>
+		  							</select>
+								</td>
+								<td>
+									<a class="button" onclick="removeStation(INDEX)">Remove</a>
+								</td>
+							</tr>
+							<tr th:each="station, status : *{stations}" th:attrappend="index=${status.index}">
+								<td>
+									<input list="stationNames" th:field="*{stations[__${status.index}__].id}"/>
+		  							<input style="display: none;" type="text" th:field="*{stations[__${status.index}__].name}">
+								</td>
+								<td>
+									<input type="number" th:field="*{stations[__${status.index}__].platform}" min="1" max="9999" required>
+								</td>
+								<td>
+									<input style="display: none;" type="time" th:field="*{stations[__${status.index}__].departure}" required>
+									<input type="number" th:field="*{stations[__${status.index}__].travelTimeFromLastStation}" min="0" max="9999" required>
+								</td>
+								<td>
+									<select th:field="*{stations[__${status.index}__].cancelled}">
+		    							<option value="false" th:selected="!*{stations[__${status.index}__].cancelled}">False</option>
+		    							<option value="true" th:selected="*{stations[__${status.index}__].cancelled}">True</option>
+		  							</select>
+								</td>
+								<td>
+									<input type="number" th:field="*{stations[__${status.index}__].delay}" min="0" max="9999" required>
+								</td>
+								<td>
+									<input type="number" th:field="*{stations[__${status.index}__].changedPlatform}" min="0" max="9999" required>
+								</td>
+								<td>
+									<select th:field="*{stations[__${status.index}__].passed}">
+		    							<option value="false" th:selected="!*{stations[__${status.index}__].passed}">False</option>
+		    							<option value="true" th:selected="*{stations[__${status.index}__].passed}">True</option>
+		  							</select>
+								</td>
+								<td>
+									<a class="button" th:attrappend="onclick=${'removeStation(' + status.index + ')'}">Remove</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div style="display:flex; gap: 20px;"><div class="width-100"></div>
+						<input type="submit" value="Save" class="mg-0" style="display: inline-block; width: auto;">
+						<a class="button" style="margin-left: auto;" onclick="addStation()">Add Station</a>
+					</div>
+					<datalist id="stationNames">
+						<option th:each="stationObject : ${stationObjects}" th:value="${stationObject.id}" th:text="${stationObject.id} + ' (' + ${stationObject.name} + ')'"></option>
+					</datalist>
+				</div>
+			</form>
 		</div>
 
     </body>

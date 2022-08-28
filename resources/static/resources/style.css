@@ -1212,4 +1212,18 @@ a{
     text-align: left;
     border: none;
     vertical-align: top;
+    background-color: transparent;
+}
+
+@media only screen and (max-width: 1023px){
+	.table-placeholder{
+	 	display: none;
+	}
+	.line-edit-col{
+		padding: 15px 0px;
+	}
+}
+
+#template{
+	display: none;
 }
