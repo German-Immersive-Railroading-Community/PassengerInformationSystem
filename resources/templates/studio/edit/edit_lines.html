@@ -42,16 +42,16 @@
 					<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/lines">Cancel</a>
 					<input type="submit" value="Save" class="mg-0">
 				</div>
-				<div class="row blue-border r-1 box-table">
+				<div class="row blue-border r-2 box-table" style="max-width: 883px; margin: 0px auto;">
 					<div class="overflow">
 						<table class="pd-0 mg-0" style="height: 1px;" id="stations">
 							<tr>
 								<th style="min-width: 150px;">Station</th>
-								<th>Platform</th>
-								<th>TravelTime</th>
+								<th>Pl.</th>
+								<th>Time</th>
 								<th style="min-width: 100px;">Cancelled</th>
 								<th>Delay</th>
-								<th>ChangePlattform</th>
+								<th>New Pl.</th>
 								<th style="min-width: 100px;">Passed</th>
 								<th></th>
 							</tr>
@@ -126,7 +126,7 @@
 						</table>
 					</div>
 					<div style="display:flex; gap: 20px;"><div class="width-100"></div>
-						<input type="submit" value="Save" class="mg-0" style="display: inline-block; width: auto;">
+						<input type="submit" value="Save" class="mg-0 button" style="display: inline-block; width: auto;">
 						<a class="button" style="margin-left: auto;" onclick="addStation()">Add Station</a>
 					</div>
 					<datalist id="stationNames">
