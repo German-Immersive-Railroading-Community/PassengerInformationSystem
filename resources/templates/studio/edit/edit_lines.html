@@ -10,70 +10,37 @@
 		
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Lines")</script>
-		<div class="navigation-content" style="padding: 50px" th:with="exists=${line.id != null and !line.id.isEmpty()}">
-			<form class="mg-0 pd-0" action="#" th:action="@{/studio/lines/edit}" th:object="${line}" method="POST" onsubmit="removeTemplate()">
-				<div class="row blue-border r-1 pd-3" style="margin: 0px auto 50px auto; max-width: 1200px">
-					<div class="col-xl-6 box-table line-edit-col" style="padding-top: 0px;">
-						<table class="pd-0 mg-0" style="height: 1px;">
-							<tr>
-								<td class="fit-content">ID:</td>
-								<td><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${exists} ? ${line.id} : 'auto'"></span></td>
-							</tr>
-	        				<tr style="display: none">
-								<td class="fit-content">ID:</td>
-								<td><input type="text" th:field="*{id}"></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Type:</td>
-								<td>
-									<select th:field="*{type}">
-	    								<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
-	  								</select>
-								</td>
-							</tr>
-							<tr>
-								<td class="fit-content">Number:</td>
-								<td><input type="number" min="1" max="9999" th:field="*{number}" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Operator:</td>
-								<td><input type="text" th:field="*{operator}" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Driver:</td>
-								<td><input type="text" th:field="*{driver}" class="mg-0" required></td>
-							</tr>
-						</table>
-					</div>
-					<div class="col-xl-6 box-table line-edit-col" style="padding-bottom: 0px;">
-						<div style="min-height: 55px;" class="table-placeholder"></div>
-						<table class="pd-0 mg-0" style="height: 1px;">
-							<tr>
-								<td class="fit-content">Departure:</td>
-								<td><input type="time" th:field="*{departure}" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Cancelled:</td>
-								<td>
-									<select th:field="*{cancelled}">
-	    								<option value="false" th:selected="!${line.cancelled}">False</option>
-	    								<option value="true" th:selected="${line.cancelled}">True</option>
-	  								</select>
-								</td>
-							</tr>
-							<tr>
-								<td class="fit-content">Delay:</td>
-								<td><input type="number" min="0" max="9999" th:field="*{delay}" required></td>
-							</tr>
-							<tr>
-								<td>
-									<a class="button red mg-0 width-100" th:if="${exists}" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
-									<a class="button red mg-0 width-100" th:unless="${exists}" href="/studio/lines">Cancel</a>
-								</td>
-								<td><input type="submit" value="Save" class="mg-0"></td>
-							</tr>
-						</table>
-					</div>
+		<div class="navigation-content" style="padding: 50px 20px;" th:with="exists=${line.id != null and !line.id.isEmpty()}">
+			<form th:action="@{/studio/lines/edit}" th:object="${line}" method="POST" onsubmit="removeTemplate()">
+				<div class="blue-border r-2 form-grid form-grid-4 fit-content overflow" style="margin: 0px auto 50px auto;">
+					<span th:if="${exists}" class="fit-content">ID:</span>
+					<div th:if="${exists}" class="mg-b"><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${line.id}"></span></div>
+	        		<span th:style="${exists} ? 'display: none' : ''">ID:</span>
+					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" required>
+					<span>Type:</span>
+					<select th:field="*{type}">
+	    				<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
+	  				</select>
+					<span>Number:</span>
+					<input type="number" min="1" max="9999" th:field="*{number}" required>
+					<span>Operator:</span>
+					<input type="text" th:field="*{operator}" required>
+					<span>Driver:</span>
+					<input type="text" th:field="*{driver}" required>
+					<span>Departure:</span>
+					<input type="time" th:field="*{departure}" required>
+					<span>Cancelled:</span>
+					<select th:field="*{cancelled}">
+	    				<option value="false" th:selected="!${line.cancelled}">False</option>
+	    				<option value="true" th:selected="${line.cancelled}">True</option>
+	  				</select>
+					<span>Delay:</span>
+					<input type="number" min="0" max="9999" th:field="*{delay}" required>
+					<div></div>
+					<div></div>
+					<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
+					<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/lines">Cancel</a>
+					<input type="submit" value="Save" class="mg-0">
 				</div>
 				<div class="row blue-border r-1 box-table">
 					<div class="overflow">

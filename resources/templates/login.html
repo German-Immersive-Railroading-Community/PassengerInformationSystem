@@ -7,10 +7,10 @@
     <body>
 		<div th:replace="components :: menu"></div>
 		<script>setMenuFocus("Login")</script>
-
-        <div class="container blue-border" style="border-radius: 10px; width: 405px; margin-top: 50px;">
-			<form action="login" method="post">
-				<h2 style="margin-top: 0; margin-bottom: 40px;">Login</h2>
+        
+        <div style="padding: 50px 20px 50px 20px;">
+        	<form class="blue-border r-2 pd-3 fit-content form-grid form-grid-1" style="margin: 0px auto 0px auto;" action="login" method="post">
+        		<h2 style="margin-top: 0; margin-bottom: 40px;">Login</h2>
 				<span>Username:</span>
 				<input type="text" name='username' required>
 				<span>Password:</span>
@@ -19,7 +19,7 @@
 					Your credentials aren't correct, please try again!
 				</span>
 				<input style="margin: 40px 0px 0px 0px;" name="submit" type="submit" value="Login">
-			</form>
+        	</formm>
         </div>
 
     </body>

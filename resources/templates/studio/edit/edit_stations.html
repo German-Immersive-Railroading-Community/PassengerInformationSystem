@@ -10,39 +10,22 @@
 
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Stations")</script>
-		<div class="navigation-content">
-	        <div class="container fit-content" th:with="exists=${station.id != null and !station.id.isEmpty()}">
-	        	<div class="blue-border box-table" style="border-radius: 10px;">
-	        		<form class="mg-0 pd-0" action="#" th:action="@{/studio/stations/edit}" th:object="${station}" method="POST">
-	        			<table style="height: 1px;">
-	        				<tr th:if="${exists}">
-								<td class="fit-content">ID:</td>
-								<td><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${station.id}"></span></td>
-							</tr>
-	        				<tr th:style="${exists} ? 'display: none' : ''">
-								<td class="fit-content">ID:</td>
-								<td><input type="text" th:field="*{id}" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Name:</td>
-								<td><input type="text" th:field="*{name}" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Platfroms:</td>
-								<td><input type="number" th:field="*{platforms}" min="1" max="99" value="1" required></td>
-							</tr>
-							<tr>
-								<td>
-									<a class="button red mg-0 width-100" th:if="${exists}" th:href="@{'/studio/stations/delete?id=' + ${station.id}}">Delete</a>
-									<a class="button red mg-0 width-100" th:unless="${exists}" href="/studio/stations">Cancel</a>
-								</td>
-								<td><input type="submit" value="Save" class="mg-0"></td>
-							</tr>
-	        			</table>
-	        		</form>
-	        		
-	        	</div>
-	        </div>
+		<div class="navigation-content overflow" style="padding: 50px 20px;" th:with="exists=${station.id != null and !station.id.isEmpty()}">
+			<div class="blue-border r-2 fit-content" style="margin: 0 auto;">
+				<form class="form-grid form-grid-2" th:action="@{/studio/stations/edit}" th:object="${station}" method="POST">
+	        		<span th:if="${exists}" class="fit-content">ID:</span>
+					<div th:if="${exists}" class="mg-b"><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${station.id}"></span></div>
+	        		<span th:style="${exists} ? 'display: none' : ''">ID:</span>
+					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" required>
+	        		<span>Name:</span>
+					<input type="text" th:field="*{name}" required>
+					<span>Platfroms:</span>
+					<input type="number" th:field="*{platforms}" min="1" max="99" value="1" required>
+					<a th:if="${exists}" class="button red mg-0 width-100"  th:href="@{'/studio/stations/delete?id=' + ${station.id}}">Delete</a>
+					<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/stations">Cancel</a>
+					<input type="submit" value="Save" class="mg-0">
+	        	</form>
+			</div>
         </div>
 
     </body>

@@ -50,7 +50,7 @@ body {
     white-space: nowrap !important;
 }
 
-.fir-content{
+.fit-content{
     width: fit-content !important;
 }
 
@@ -1222,6 +1222,32 @@ a{
 	.line-edit-col{
 		padding: 15px 0px;
 	}
+}
+
+.form-grid{
+	display: grid;
+	grid-gap: 0px 30px;
+	padding: 30px;
+}
+
+.form-grid-1{
+	grid-template-columns: minmax(auto, 300px);
+}
+
+.form-grid-2{
+	grid-template-columns: fit-content(100%) minmax(auto, 300px);
+}
+
+.form-grid-4{
+	grid-template-columns: fit-content(100%) minmax(auto, 300px) fit-content(100%) minmax(auto, 300px);
+}
+
+.form-grid-table{
+	grid-template-columns: minmax(150px, 200px) repeat(6, minmax(80px, 80px)) fit-content(100%);
+}
+
+@media only screen and (max-width: 1023px){
+	.form-grid-4{grid-template-columns: fit-content(100%) minmax(auto, 300px);}
 }
 
 #template{

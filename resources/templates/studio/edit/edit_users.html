@@ -10,58 +10,28 @@
 
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Users")</script>
-		<div class="navigation-content">
-	        <div class="container fit-content" th:with="exists=${user.id != null and !user.id.isEmpty()}">
-	        	<div class="blue-border box-table" style="border-radius: 10px;">
-	        		<form class="mg-0 pd-0" action="#" th:action="@{/studio/users/edit}" th:object="${user}" method="POST">
-	        			<table style="height: 1px;">
-	        				<tr th:if="${exists}">
-								<td class="fit-content">ID:</td>
-								<td><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${user.id}"></span></td>
-							</tr>
-	        				<tr th:style="${exists} ? 'display: none' : ''">
-								<td class="fit-content">ID:</td>
-								<td><input type="text" th:field="*{id}" pattern="^([A-Za-z0-9]|-|_)+$" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Email:</td>
-								<td><input type="email" th:field="*{email}"></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Name:</td>
-								<td><input type="text" th:field="*{name}" required></td>
-							</tr>
-							<tr style="display: none;">
-								<td class="fit-content">Pw-Hash (Do not Edit!):</td>
-								<td><input type="text" th:field="*{password}" required></td>
-							</tr>
-							<td style="display: none">
-								<select id="forcePasswordChange" name="forcePasswordChange" th:field="*{forcePasswordChange}">
-	    							<option value="false" th:selected="!${user.forcePasswordChange}">False</option>
-	    							<option value="true" th:selected="${user.forcePasswordChange}">True</option>
-	  							</select>
-							</td>
-							<tr>
-								<td class="fit-content">Roles:</td>
-								<td><input type="text" th:field="*{roles}" required></td>
-							</tr>
-							<tr>
-								<td class="fit-content">Password</td>
-								<td><a th:href="@{'/password?id=' + ${user.id}}">Change Password</a></td>
-							</tr>
-							<tr>
-								<td>
-									<a class="button red mg-0 width-100" th:if="${exists}" th:href="@{'/studio/users/delete?id=' + ${user.id}}">Delete</a>
-									<a class="button red mg-0 width-100" th:unless="${exists}" href="/studio/users">Cancel</a>
-								</td>
-								<td><input type="submit" value="Save" class="mg-0"></td>
-							</tr>
-	        			</table>
-	        		</form>
-	        		
-	        	</div>
-	        </div>
+		<div class="navigation-content overflow" style="padding: 50px 20px;" th:with="exists=${user.id != null and !user.id.isEmpty()}">
+			<div class="blue-border r-2 fit-content" style="margin: 0 auto;">
+				<form class="form-grid form-grid-2" th:action="@{/studio/users/edit}" th:object="${user}" method="POST">
+	        		<span th:if="${exists}" class="fit-content">ID:</span>
+					<div th:if="${exists}" class="mg-b"><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${user.id}"></span></div>
+	        		<span th:style="${exists} ? 'display: none' : ''">ID:</span>
+					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" required>
+	        		<span>Name:</span>
+					<input type="text" th:field="*{name}" required>
+					<span>Email:</span>
+					<input type="email" th:field="*{email}">
+					<span>Roles:</span>
+					<input type="text" th:field="*{roles}" required>
+					<span>Password:</span>
+					<div class="mg-b"><a th:href="@{'/password?id=' + ${user.id}}">Change Password</a></div>
+					<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/users/delete?id=' + ${user.id}}">Delete</a>
+					<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/users">Cancel</a>
+					<input type="submit" value="Save" class="mg-0">
+					<input style="display: none;" type="text" th:field="*{password}">
+					<input style="display: none;" type="text" th:field="*{forcePasswordChange}">
+	        	</form>
+			</div>
         </div>
-
     </body>
 </html>
