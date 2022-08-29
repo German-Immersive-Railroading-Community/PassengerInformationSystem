@@ -2,34 +2,30 @@
 <html>
     <head>
     	<div th:replace="components :: head"></div>
-        <title>PIS Studio - Lines</title>
-        
+        <title>PIS Studio - Templates</title>
     </head>
     <body>
 		<div th:replace="components :: menu"></div>
 		<script>setMenuFocus("Studio")</script>
 		
 		<div th:replace="components :: navigation"></div>
-		<script>setNavigationFocus("Lines")</script>
+		<script>setNavigationFocus("Templates")</script>
 		<div class="navigation-content">
 			<div style="margin: 0px auto; padding: 50px 50px; max-width: 1200px;">
 				<div style="display: flex;"><div class="width-100"></div>
-					<a class="button mg-b" th:href="@{/studio/lines/edit}">New Line</a>
+					<a class="button mg-b" th:href="@{/studio/templates/edit}">New Template</a>
 				</div>	
 				<div class="overflow r-1 nowrap">
 					<table id="reload">
 						<tr>
-							<th style="width: fit-content;">ID</th>
 							<th>Departure</th>
 							<th class='width-100'>Name</th>
 							<th>From</th>
 							<th>To</th>
 							<th>Operator</th>
-							<th>Driver</th>
 							<th></th>
 						</tr>
 						<tr th:each="line : ${lines}">
-							<td style="width: fit-content;"><span class="transparent-blue r-1" style="padding: 0px 5px;" th:text="${line.id}"></span></td>
 							<td th:text="${line.departure}"></td>
 							<td>
 								<span th:text="${line.getName()}"></span>&nbsp;
@@ -39,8 +35,7 @@
 							<td th:text="${line.getFirstStation() != null ? line.getFirstStation().name : ''}"></td>
 							<td th:text="${line.getLastStation() != null ? line.getLastStation().name : ''}"></td>
 							<td th:text="${line.operator}"></td>
-							<td th:text="${line.driver}"></td>
-							<td><a class="button" th:href="@{'/studio/lines/edit?&id=' + ${line.id}}">Edit</a></td>
+							<td><a class="button" th:href="@{'/studio/templates/edit?&id=' + ${line.id}}">Edit</a></td>
 						</tr>
 					</table>
 				</div>

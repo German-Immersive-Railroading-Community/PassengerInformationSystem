@@ -7,17 +7,16 @@
     <body>
 		<div th:replace="components :: menu"></div>
 		<script>setMenuFocus("Studio")</script>
-		<script>reload()</script>
 		
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Users")</script>
 		<div class="navigation-content">
 			<div style="margin: 0px auto; padding: 50px 50px; max-width: 1200px;">
 				<div style="display: flex;"><div class="width-100"></div>
-					<a class="button mg-b" th:href="@{/studio/users/edit}">New</a>
+					<a class="button mg-b" th:href="@{/studio/users/edit}">New User</a>
 				</div>	
 				<div class="overflow r-1 nowrap">
-					<table>
+					<table id="reload">
 						<tr>
 							<th>ID</th>
 							<th>Email</th>

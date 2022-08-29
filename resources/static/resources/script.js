@@ -1,3 +1,13 @@
+document.addEventListener('readystatechange', event => { 
+    if (event.target.readyState === "interactive") {
+		if (document.getElementById("reload") != null) {
+			setInterval(function() {
+				$('#reload').replaceWith($("#reload").load(document.URL +  " #reload > *"));
+			}, 5000);
+		}
+	}
+})
+
 function search(event) {
 	if (event.code === "Enter") {
 		var search = event.explicitOriginalTarget.value
@@ -6,18 +16,6 @@ function search(event) {
 			window.location.href = "/search?query=" + search;
 		}
 	}
-}
-
-function startRefresh() {
-	$.get('', function(data) {
-		$(document.body).html(data);    
-	});
-}
-
-function reload() {
-	$(function() {
-		setTimeout(startRefresh, 10000);
-	});
 }
 
 function addStation() {

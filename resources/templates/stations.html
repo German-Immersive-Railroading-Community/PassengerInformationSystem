@@ -7,9 +7,8 @@
     <body>
 		<div th:replace="components :: menu"></div>
         <script>setMenuFocus("Stations")</script>
-        <script>reload()</script>
 
-        <div class="container">
+        <div class="container" id="reload">
         	<th:block th:insert="components :: station" th:each="station : ${stations}"></th:block>
 			<div th:if="${stations.isEmpty()}">
  				<div class="box">No stations found!</div>

@@ -27,34 +27,34 @@ public class PIS {
 	private static final TreeSet<User> users = new TreeSet<>();
 	private static final TreeSet<Station> stations = new TreeSet<>();
 	private static final TreeSet<Line> lines = new TreeSet<>();
-	private static final TreeSet<Line> lineTemplates = new TreeSet<>();
-	private static final TreeSet<Line> lineArchive = new TreeSet<>();
+	private static final TreeSet<Line> templates = new TreeSet<>();
+	private static final TreeSet<Line> archived = new TreeSet<>();
 	
 	private static final Random RANDOM = new Random();
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	private static final File INTERAL_DATA = new File("data/internal_data.json");
 	private static final File USERS_FILE = new File("data/user.json");
-	private static final File STATION_FILE = new File("data/stations.json");
-	private static final File LINE_FILE = new File("data/lines.json");
-	private static final File LINE_TEMPLATE_FILE = new File("data/line_templates.json");
-	private static final File LINE_ARCHIVE_FILE = new File("data/line_archive.json");
+	private static final File STATIONS_FILE = new File("data/stations.json");
+	private static final File LINES_FILE = new File("data/lines.json");
+	private static final File TEMPLATES_FILE = new File("data/templates.json");
+	private static final File ARCHIVE_FILE = new File("data/archived.json");
 
 	public static void main(String[] args) {
 		new File("data").mkdir();
 		try {
 			if (INTERAL_DATA.exists()) data = MAPPER.readValue(INTERAL_DATA, InternalData.class);
 			if (USERS_FILE.exists()) users.addAll(MAPPER.readValue(USERS_FILE, new TypeReference<TreeSet<User>>(){}));
-			if (STATION_FILE.exists()) stations.addAll(MAPPER.readValue(STATION_FILE, new TypeReference<TreeSet<Station>>(){}));
-			if (LINE_FILE.exists()) lines.addAll(MAPPER.readValue(LINE_FILE, new TypeReference<TreeSet<Line>>(){}));
-			if (LINE_TEMPLATE_FILE.exists()) lineTemplates.addAll(MAPPER.readValue(LINE_TEMPLATE_FILE, new TypeReference<TreeSet<Line>>(){}));
-			if (LINE_ARCHIVE_FILE.exists()) lineArchive.addAll(MAPPER.readValue(LINE_ARCHIVE_FILE, new TypeReference<TreeSet<Line>>(){}));
+			if (STATIONS_FILE.exists()) stations.addAll(MAPPER.readValue(STATIONS_FILE, new TypeReference<TreeSet<Station>>(){}));
+			if (LINES_FILE.exists()) lines.addAll(MAPPER.readValue(LINES_FILE, new TypeReference<TreeSet<Line>>(){}));
+			if (TEMPLATES_FILE.exists()) templates.addAll(MAPPER.readValue(TEMPLATES_FILE, new TypeReference<TreeSet<Line>>(){}));
+			if (ARCHIVE_FILE.exists()) archived.addAll(MAPPER.readValue(ARCHIVE_FILE, new TypeReference<TreeSet<Line>>(){}));
 			MAPPER.writerWithDefaultPrettyPrinter().writeValue(INTERAL_DATA, data);
 			MAPPER.writerWithDefaultPrettyPrinter().writeValue(USERS_FILE, users);
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(STATION_FILE, stations);
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINE_FILE, lines);
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINE_TEMPLATE_FILE, lineTemplates);
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINE_ARCHIVE_FILE, lineArchive);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(STATIONS_FILE, stations);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINES_FILE, lines);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(TEMPLATES_FILE, templates);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(ARCHIVE_FILE, archived);
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
@@ -85,7 +85,7 @@ public class PIS {
 	
 	public static void saveStations() {
 		try {
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(STATION_FILE, stations);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(STATIONS_FILE, stations);
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
@@ -97,7 +97,7 @@ public class PIS {
 	
 	public static void saveLines() {
 		try {
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINE_FILE, lines);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINES_FILE, lines);
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
@@ -107,28 +107,28 @@ public class PIS {
 		return lines;
 	}
 	
-	public static void saveLineTemplates() {
+	public static void saveTemplates() {
 		try {
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINE_TEMPLATE_FILE, lineTemplates);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(TEMPLATES_FILE, templates);
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
 	}
 	
-	public static TreeSet<Line> getLineTemplates() {
-		return lineTemplates;
+	public static TreeSet<Line> getTemplates() {
+		return templates;
 	}
 	
-	public static void saveLineArchive() {
+	public static void saveArchives() {
 		try {
-			MAPPER.writerWithDefaultPrettyPrinter().writeValue(LINE_ARCHIVE_FILE, lineArchive);
+			MAPPER.writerWithDefaultPrettyPrinter().writeValue(ARCHIVE_FILE, archived);
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
 	}
 	
-	public static TreeSet<Line> getLineArchive() {
-		return lineArchive;
+	public static TreeSet<Line> getArchived() {
+		return archived;
 	}
 	
 	public static void saveUsers() {

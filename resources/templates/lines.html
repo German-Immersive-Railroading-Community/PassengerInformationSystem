@@ -7,9 +7,8 @@
     <body>
 		<div th:replace="components :: menu"></div>
         <script>setMenuFocus("Lines")</script>
-        <script>reload()</script>
 
-        <div class="container">
+        <div class="container" id="reload">
         	<th:block th:insert="components :: line" th:each="line : ${lines}"></th:block>
 			<div th:if="${lines.isEmpty()}">
  				<div class="box">No lines found!</div>
