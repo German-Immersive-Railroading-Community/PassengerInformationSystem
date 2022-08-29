@@ -3,7 +3,7 @@ document.addEventListener('readystatechange', event => {
 		if (document.getElementById("reload") != null) {
 			setInterval(function() {
 				$('#reload').replaceWith($("#reload").load(document.URL +  " #reload > *"));
-			}, 5000);
+			}, 15000);
 		}
 	}
 })
@@ -19,17 +19,15 @@ function search(event) {
 }
 
 function addStation() {
-	const stations = document.getElementById("stations").getElementsByTagName("tbody")[0];
-	const tabeRows = stations.getElementsByTagName("tr");
+	const stations = document.getElementById("stations");
 	const newStation = document.getElementById("template").cloneNode(true);
 	newStation.removeAttribute("id");
 	stations.appendChild(newStation);
-	changeIndex(tabeRows.item(tabeRows.length - 1), tabeRows.length - 3);
+	changeIndex(stations.children.item(stations.children.length - 1), stations.children.length - 3);
 }
 
 function removeStation(index) {
-	console.log(index)
-	const stations = document.getElementById("stations").getElementsByTagName("tbody")[0];
+	const stations = document.getElementById("stations");
 	let childToRemove;
 	let alreadyRemoved;
 	Array.from(stations.children).forEach(element => {

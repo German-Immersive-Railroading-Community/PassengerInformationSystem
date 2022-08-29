@@ -18,7 +18,7 @@
 				</div>	
 				<div class="overflow r-1 nowrap">
 					<table id="reload">
-						<tr>
+						<tr th:if="!${lines.isEmpty()}">
 							<th style="width: fit-content;">ID</th>
 							<th>Departure</th>
 							<th class='width-100'>Name</th>

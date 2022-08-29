@@ -668,6 +668,7 @@ input:focus, select:focus, textarea:focus{
 
 .button{
 	font-size: 18px;
+	line-height: 35px;
     display: inline-block;
     box-sizing: border-box;
     background-color: #004dff;
@@ -1220,7 +1221,11 @@ a{
 .form-grid{
 	display: grid;
 	grid-gap: 0px 30px;
-	padding: 30px;
+	padding: 50px;
+}
+
+@media only screen and (max-width: 1024px){
+    .form-grid{padding: 30px}
 }
 
 .form-grid-1{
@@ -1235,14 +1240,14 @@ a{
 	grid-template-columns: fit-content(100%) minmax(auto, 300px) fit-content(100%) minmax(auto, 300px);
 }
 
-.form-grid-table{
-	grid-template-columns: minmax(150px, 200px) repeat(6, minmax(80px, 80px)) fit-content(100%);
+.form-grid-stations{
+	grid-template-columns: minmax(120px, 250px) repeat(2, minmax(60px, 80px)) 80px repeat(2, minmax(60px, 80px)) 80px fit-content(100%);
 }
 
-@media only screen and (max-width: 1023px){
+@media only screen and (max-width: 1024px){
 	.form-grid-4{grid-template-columns: fit-content(100%) minmax(auto, 300px);}
 }
 
 #template{
-	display: none;
+	display: none !important;
 }

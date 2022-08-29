@@ -17,7 +17,7 @@
 				</div>	
 				<div class="overflow r-1 nowrap">
 					<table id="reload">
-						<tr>
+						<tr th:if="!${stations.isEmpty()}">
 							<th>ID</th>
 							<th class='width-100'>Name</th>
 							<th>Platforms</th>

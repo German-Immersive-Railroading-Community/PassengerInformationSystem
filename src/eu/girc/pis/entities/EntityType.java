@@ -13,8 +13,8 @@ public enum EntityType {
 	
 	STATIONS(PIS.getStations(), () -> PIS.saveStations(), () -> new Station("", "", 1)),
 	LINES(PIS.getLines(), () -> PIS.saveLines(), () -> new Line(null, TrainType.INTERCITY_EXPRESS, 1, "", "", LocalTime.of(0, 0), false, 0, null)),
-	ARCHIVED(PIS.getLines(), () -> PIS.saveLines(), () -> new Line(null, TrainType.INTERCITY_EXPRESS, 1, "", "", LocalTime.of(0, 0), false, 0, null)),
-	TEMPLATES(PIS.getLines(), () -> PIS.saveLines(), () -> new Line(null, TrainType.INTERCITY_EXPRESS, 1, "", "", LocalTime.of(0, 0), false, 0, null)),
+	ARCHIVED(PIS.getArchived(), () -> PIS.saveArchived(), () -> new Line(null, TrainType.INTERCITY_EXPRESS, 1, "", "", LocalTime.of(0, 0), false, 0, null)),
+	TEMPLATES(PIS.getTemplates(), () -> PIS.saveTemplates(), () -> new Line(null, TrainType.INTERCITY_EXPRESS, 1, "", "", LocalTime.of(0, 0), false, 0, null)),
 	USERS(PIS.getUsers(), () -> PIS.saveUsers(), () -> new User("", "", "", SecurityConfig.getPasswordEncoder().encode("1234"), false, ""));
 	
 	private final Set<? extends Entity> set;

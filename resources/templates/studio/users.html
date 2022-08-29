@@ -17,7 +17,7 @@
 				</div>	
 				<div class="overflow r-1 nowrap">
 					<table id="reload">
-						<tr>
+						<tr th:if="!${users.isEmpty()}">
 							<th>ID</th>
 							<th>Email</th>
 							<th class='width-100'>Name</th>

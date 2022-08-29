@@ -17,7 +17,7 @@
 				</div>	
 				<div class="overflow r-1 nowrap">
 					<table id="reload">
-						<tr>
+						<tr th:if="!${templates.isEmpty()}">
 							<th>Departure</th>
 							<th class='width-100'>Name</th>
 							<th>From</th>
@@ -25,7 +25,7 @@
 							<th>Operator</th>
 							<th></th>
 						</tr>
-						<tr th:each="line : ${lines}">
+						<tr th:each="line : ${templates}">
 							<td th:text="${line.departure}"></td>
 							<td>
 								<span th:text="${line.getName()}"></span>&nbsp;

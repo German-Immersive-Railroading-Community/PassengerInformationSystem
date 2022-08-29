@@ -119,7 +119,7 @@ public class PIS {
 		return templates;
 	}
 	
-	public static void saveArchives() {
+	public static void saveArchived() {
 		try {
 			MAPPER.writerWithDefaultPrettyPrinter().writeValue(ARCHIVE_FILE, archived);
 		} catch (IOException exception) {
