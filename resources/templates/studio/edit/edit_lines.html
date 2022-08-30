@@ -13,10 +13,9 @@
 		<div class="navigation-content" style="padding: 50px 20px;" th:with="exists=${line.id != null and !line.id.isEmpty()}">
 			<form th:action="@{/studio/lines/edit}" th:object="${line}" method="POST" onsubmit="removeTemplate()">
 				<div class="blue-border r-2 form-grid form-grid-4 fit-content overflow" style="margin: 0px auto 50px auto;">
-					<span th:if="${exists}" class="fit-content">ID:</span>
-					<div th:if="${exists}" class="mg-b"><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${line.id}"></span></div>
-	        		<span th:style="${exists} ? 'display: none' : ''">ID:</span>
-					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" required>
+					<span>ID:</span>
+					<div class="mg-b"><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${exists ? line.id : 'auto'}"></span></div>
+					<input style="display: none" type="text" th:field="*{id}">
 					<span>Type:</span>
 					<select th:field="*{type}">
 	    				<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
