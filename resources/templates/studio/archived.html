@@ -23,8 +23,6 @@
 							<th class='width-100'>Name</th>
 							<th>From</th>
 							<th>To</th>
-							<th>Operator</th>
-							<th>Driver</th>
 							<th></th>
 						</tr>
 						<tr th:each="line : ${archived}">
@@ -37,8 +35,6 @@
 							</td>
 							<td th:text="${line.getFirstStation() != null ? line.getFirstStation().name : ''}"></td>
 							<td th:text="${line.getLastStation() != null ? line.getLastStation().name : ''}"></td>
-							<td th:text="${line.operator}"></td>
-							<td th:text="${line.driver}"></td>
 							<td><a class="button" th:href="@{'/studio/archived/edit?&id=' + ${line.id}}">Edit</a></td>
 						</tr>
 					</table>
