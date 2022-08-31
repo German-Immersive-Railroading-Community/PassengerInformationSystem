@@ -20,8 +20,8 @@
 				</div>
 			</div>
 			<h2 th:text="'Lines via station ' + ${station.name}"></h2>
-			<th:block th:insert="components :: line" th:each="line : ${lines}"></th:block>
-			<div th:if="${lines.isEmpty()}">
+			<th:block th:insert="components :: line" th:each="line : ${station.getLines()}"></th:block>
+			<div th:if="${station.getLines().isEmpty()}">
  				<div class="box">No lines found!</div>
 			</div>
         </div>

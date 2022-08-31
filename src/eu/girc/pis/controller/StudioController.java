@@ -1,6 +1,7 @@
 package eu.girc.pis.controller;
 
-import java.util.Optional;
+import java.time.LocalTime;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-import eu.girc.pis.entities.EntityType;
-import eu.girc.pis.entities.Entity;
 import eu.girc.pis.entities.Line;
 import eu.girc.pis.entities.Station;
 import eu.girc.pis.entities.User;
-import eu.girc.pis.main.PIS;
+import eu.girc.pis.main.Pis;
+import eu.girc.pis.utils.PisService;
 import eu.girc.pis.utils.TrainType;
 
 @Controller
@@ -25,15 +25,14 @@ public class StudioController {
 	
 	@GetMapping
 	public static String getDashboardPage(Model model) {
-		model.addAttribute("lines", PIS.getLines());
 		return "studio/dashboard.html";
 	}
 	
 	@GetMapping("/{type}")
 	public static String getPage(@PathVariable("type") String type, Model model) {
-		EntityType entityType = EntityType.fromString(type).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		model.addAttribute(entityType.name().toLowerCase(), entityType.getSet());
-		return "studio/" + entityType.name().toLowerCase() + ".html";
+		List<?> entities = PisService.getService(type).map(service -> service.getAsList()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		model.addAttribute(type, entities);
+		return "studio/" + type + ".html";
 	}
 	
 	@GetMapping("/{type}/edit")
@@ -41,54 +40,55 @@ public class StudioController {
 			@PathVariable("type") String type,
 			@RequestParam(name = "id", required = false) String id,
 			Model model) {
-		EntityType entityType = EntityType.fromString(type).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		Optional<? extends Entity> entity = entityType.getSet().stream().filter(entry -> entry.getId().equals(id)).findAny();
-		model.addAttribute(
-				entityType.name().toLowerCase().substring(0, entityType.name().length() - 1), 
-				entity.isPresent() ? entity.get() : entityType.getStandard());
-		if (entityType == EntityType.LINES) {
-			model.addAttribute("trainType", TrainType.values());
-			model.addAttribute("stationObjects", PIS.getStations());
+		if (type.equals("stations")) {
+			model.addAttribute("station", Pis.getStationService().get(id).orElse(new Station("", "", 1)));
+		} else if (type.equals("lines")) {
+			model.addAttribute("line", Pis.getLineService().get(id).orElse(new Line(null, TrainType.INTERCITY_EXPRESS, 0, "", "", LocalTime.of(0, 0), false, 0, null)));
+		} else if (type.equals("templates")) {
+			//
+		} else if (type.equals("archived")) {
+			//
+		} else if (type.equals("users")) {
+			model.addAttribute("user", Pis.getUserService().get(id).orElse(new User("", "", "", "", false, "")));
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
-		return "studio/edit/edit_" + entityType.name().toLowerCase() + ".html";
+		model.addAttribute("trainType", TrainType.values());
+		model.addAttribute("stationObjects", Pis.getStationService().getAsList());
+		return "studio/edit/edit_" + type + ".html";
 	}
 	
 	@PostMapping("/stations/edit")
-	public static String postStationEditPage(@ModelAttribute Station station, Model model) {
-		return processPost(EntityType.STATIONS, station, model, () -> PIS.getStations().add(station));
+	public static String postStationEditPage(@ModelAttribute Station station) {
+		Pis.getStationService().remove(station);
+		Pis.getStationService().add(station);
+		return "redirect:/studio/stations";
 	}
 	
 	@PostMapping("/lines/edit")
-	public static String postLineEditPage(@ModelAttribute Line line, Model model) {
-		return processPost(EntityType.LINES, line, model, () -> {
-			line.generate12BitIdIfUnset();
-			line.calculateTime();
-			line.getStations().forEach(station -> {
-				station.setName(PIS.find(PIS.getStations(), station.getId()).map(lineStation -> lineStation.getName()).orElse(station.getId()));
-			});
-			PIS.getLines().add(line);
+	public static String postLineEditPage(@ModelAttribute Line line) {
+		Pis.getLineService().remove(line);
+		line.generate12BitIdIfUnset();
+		line.calculateTime();
+		line.getStations().forEach(station -> {
+			station.setName(Pis.getStationService().get(line.getId()).map(lineStation -> lineStation.getName()).orElse(station.getId()));
 		});
+		Pis.getLineService().add(line);
+		return "redirect:/studio/lines";
 	}
 	
 	@PostMapping("/users/edit")
-	public static String postLineEditPage(@ModelAttribute User user, Model model) {
-		return processPost(EntityType.USERS, user, model, () -> PIS.getUsers().add(user));
+	public static String postLineEditPage(@ModelAttribute User user) {
+		Pis.getUserService().remove(user);
+		Pis.getUserService().add(user);
+		return "redirect:/studio/users";
 	}
 	
 	@GetMapping("/{type}/delete")
 	public static String deleteEditPage(@PathVariable("type") String type, @RequestParam(name = "id", required = false) String id) {
-		EntityType entityType = EntityType.fromString(type).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		PIS.find(entityType.getSet(), id).ifPresent(entityType.getSet()::remove);
-		entityType.save();
-		return "redirect:/studio/" + entityType.name().toLowerCase();
-	}
-	
-	private static String processPost(EntityType type, Entity entity, Model model, Runnable add) {
-		model.addAttribute(type.name().toLowerCase().substring(0, type.name().length() - 1), entity);
-		PIS.find(type.getSet(), entity.getId()).ifPresent(type.getSet()::remove);
-		add.run();
-		type.save();
-		return "redirect:/studio/" + type.name().toLowerCase();
+		PisService<?> service = PisService.getService(type).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		boolean success = service.remove(id);
+		return "redirect:/studio/" + type;
 	}
 	
 }

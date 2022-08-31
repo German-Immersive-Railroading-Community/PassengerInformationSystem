@@ -8,7 +8,7 @@ import eu.girc.pis.utils.SecurityConfig;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "email", "name", "password", "forcePasswordChange", "roles"})
-public class User implements Entity, Comparable<User> {
+public class User implements PisEntity, Comparable<User> {
 	
 	private final String id;
 	private String email;

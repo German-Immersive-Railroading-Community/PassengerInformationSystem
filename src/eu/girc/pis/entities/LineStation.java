@@ -14,7 +14,7 @@ import eu.girc.pis.utils.TimeSerializer;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "name", "platform", "departure", "travelTimeFromLastStation", "cancelled", "delay", "changedPlatform", "passed"})
-public class LineStation implements Entity {
+public class LineStation implements PisEntity {
 
 	private String id;
 	private String name;

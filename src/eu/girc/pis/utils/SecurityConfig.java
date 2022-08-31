@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import eu.girc.pis.entities.User;
-import eu.girc.pis.main.PIS;
+import eu.girc.pis.main.Pis;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		for (User user : PIS.getUsers()) {
+		for (User user : Pis.getUserService()) {
 			auth.inMemoryAuthentication().withUser(user.getId()).password(user.getPassword()).roles(user.getRolesAsStringArray());
 		}
 		auth.inMemoryAuthentication()

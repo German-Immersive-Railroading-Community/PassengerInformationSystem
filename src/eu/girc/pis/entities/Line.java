@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import eu.girc.pis.main.PIS;
+import eu.girc.pis.main.Pis;
 import eu.girc.pis.utils.TimeDeserializer;
 import eu.girc.pis.utils.TimeSerializer;
 import eu.girc.pis.utils.TrainType;
@@ -18,7 +18,7 @@ import eu.girc.pis.utils.TrainType;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "type", "number", "operator", "driver", "departure", "cancelled", "delay", "stations"})
 @JsonIgnoreProperties({"empty"})
-public class Line implements Entity, Comparable<Line> {
+public class Line implements PisEntity, Comparable<Line> {
 
 	private String id;
 	private TrainType type;
@@ -56,7 +56,7 @@ public class Line implements Entity, Comparable<Line> {
 	}
 	
 	public void generate12BitIdIfUnset() {
-		if (id == null || id.isEmpty()) id = PIS.generate8BitId();
+		if (id == null || id.isEmpty()) id = Pis.generate8BitId();
 	}
 
 	@Override

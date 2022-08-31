@@ -1,6 +1,6 @@
 package eu.girc.pis.entities;
 
-public interface Entity {
+public interface PisEntity {
 	
 	String getId();
 	String getName();

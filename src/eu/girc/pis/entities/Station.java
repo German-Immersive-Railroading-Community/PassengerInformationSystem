@@ -1,14 +1,19 @@
 package eu.girc.pis.entities;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
+import eu.girc.pis.main.Pis;
+
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "name", "platforms"})
-public class Station implements Entity, Comparable<Station> {
+public class Station implements PisEntity, Comparable<Station> {
 
 	private final String id;
 	private final String name;
@@ -36,6 +41,13 @@ public class Station implements Entity, Comparable<Station> {
 
 	public int getPlatforms() {
 		return platforms;
+	}
+	
+	public List<Line> getLines() {
+		return Pis.getLineService()
+			.stream()
+			.filter(line -> line.getStations().stream().filter(lineStation -> lineStation.getId().equals(id)).findAny().isPresent())
+			.collect(Collectors.toList());
 	}
 
 	@Override
