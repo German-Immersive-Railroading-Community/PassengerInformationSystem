@@ -12,37 +12,40 @@
 		<script>setNavigationFocus("Lines")</script>
 		<div class="navigation-content" style="padding: 50px 20px;" th:with="exists=${line.id != null and !line.id.isEmpty()}">
 			<form th:action="@{/studio/lines/edit}" th:object="${line}" method="POST" onsubmit="removeTemplate()">
-				<div class="blue-border r-2 form-grid form-grid-4 fit-content overflow" style="margin: 0px auto 50px auto;">
-					<span>ID:</span>
-					<div class="mg-b"><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${exists ? line.id : 'auto'}"></span></div>
-					<input style="display: none" type="text" th:field="*{id}">
-					<span>Type:</span>
-					<select th:field="*{type}">
-	    				<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
-	  				</select>
-					<span>Number:</span>
-					<input type="number" min="1" max="9999" th:field="*{number}" required>
-					<span>Operator:</span>
-					<input type="text" th:field="*{operator}" required>
-					<span>Driver:</span>
-					<input type="text" th:field="*{driver}" required>
-					<span>Departure:</span>
-					<input type="time" th:field="*{departure}" required>
-					<span>Cancelled:</span>
-					<select th:field="*{cancelled}">
-	    				<option value="false" th:selected="!${line.cancelled}">False</option>
-	    				<option value="true" th:selected="${line.cancelled}">True</option>
-	  				</select>
-					<span>Delay:</span>
-					<input type="number" min="0" max="9999" th:field="*{delay}" required>
-					<div></div>
-					<div></div>
-					<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
-					<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/lines">Cancel</a>
-					<input type="submit" value="Save" class="mg-0">
-				</div>
-				<div class="row blue-border r-2 fit-content overflow" style="margin: 0px auto;">
-					<div class="overflow form-grid form-grid-stations" style="padding-bottom: 0;" id="stations">
+				<div class="overflow"></div>
+					<div class="form-grid-4">
+						<span>ID:</span>
+						<div><span class="transparent-blue r-1" style="padding: 0px 5px; font-size: 18px;" th:text="${exists ? line.id : 'auto'}"></span></div>
+						<input style="display: none" type="text" th:field="*{id}">
+						<span>Type:</span>
+						<select th:field="*{type}">
+	    					<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>
+	  					</select>
+						<span>Number:</span>
+						<input type="number" min="1" max="9999" th:field="*{number}" required>
+						<span>Operator:</span>
+						<input type="text" th:field="*{operator}" required>
+						<span>Driver:</span>
+						<input type="text" th:field="*{driver}" required>
+						<span>Departure:</span>
+						<input type="time" th:field="*{departure}" required>
+						<span>Cancelled:</span>
+						<select th:field="*{cancelled}">
+	    					<option value="false" th:selected="!${line.cancelled}">False</option>
+	    					<option value="true" th:selected="${line.cancelled}">True</option>
+	  					</select>
+						<span>Delay:</span>
+						<input type="number" min="0" max="9999" th:field="*{delay}" required>
+						<div></div>
+						<div></div>
+						<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
+						<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/lines">Cancel</a>
+						<input type="submit" value="Save" class="mg-0">
+					</div>
+				<div>
+				<div class="overflow" style="margin-top: 50px;">
+					<div class="blue-border r-10 mg-center fit-content">
+					<div class="form-grid-stations" style="border: none;" id="stations">
 						<div style="display: contents; font-size: 15px;">
 							<span>Station</span>
 							<span>Pl.</span>
@@ -90,13 +93,14 @@
 		  					<span><a class="button" th:attrappend="onclick=${'removeStation(' + status.index + ')'}">Remove</a></span>
 						</div>
 					</div>
-					<div class="form-grid" style="display:flex; gap: 20px; padding-top: 0px;"><div class="width-100"></div>
+					<div class="form-grid-1 mg-0" style="display:grid; gap: 30px; grid-template-columns: repeat(2, fit-content(100px)); border: none; padding-top: 0px; margin-left: auto !important;">
 						<input type="submit" value="Save" class="mg-0 button" style="display: inline-block; width: auto;">
 						<a class="button" onclick="addStation()">Add Station</a>
 					</div>
 					<datalist id="stationNames">
 						<option th:each="stationObject : ${stationObjects}" th:value="${stationObject.id}" th:text="${stationObject.id} + ' (' + ${stationObject.name} + ')'"></option>
 					</datalist>
+				</div>
 				</div>
 			</form>
 		</div>

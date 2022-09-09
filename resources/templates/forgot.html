@@ -2,17 +2,19 @@
 <html>
     <head>
     	<div th:replace="components :: head"></div>
-        <title>PIS - Login</title>
+        <title>PIS - Forgot Password</title>
     </head>
     <body>
 		<div th:replace="components :: menu"></div>
 		<script>setMenuFocus("Login")</script>
 
-        <div style="padding: 50px 20px 50px 20px;">
-        	<form class="blue-border r-2 fit-content form-grid form-grid-1" style="margin: 0px auto 0px auto;" action="/forgot" method="POST">
-				<h2 style="margin-top: 0; margin-bottom: 40px;">Forgot password</h2>
-				<span>Email:</span>
-				<input type="email" name='email' path="email" required>
+        <div style="padding: 50px 20px;">
+        	<form class="form-grid-1"action="/forgot" method="POST">
+				<h2>Forgot password</h2>
+				<div>
+					<span>Email:</span>
+					<input type="email" name='email' path="email" required>
+				</div>
 				<input style="margin: 40px 0px 0px 0px;" name="submit" type="submit" value="Send reset email">
 			</form>
         </div>
