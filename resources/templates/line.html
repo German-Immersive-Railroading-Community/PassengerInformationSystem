@@ -9,26 +9,24 @@
         <script>setMenuFocus("Lines")</script>
 
         <div class="container" id="reload">
-        	<div class="box box-table">
-				<table style="height: 1px;">
-					<tr>
-						<td class="title" colspan="2" th:text="${line.departure}"></td>
-						<td style="padding: 10px 0px !important"><span th:text="'+' + ${line.delay}" th:if="${line.delay} > 1 and !${line.cancelled}" th:classappend="${line.delay} > 5 ? red-text : yellow-text"></span></td>
-						<td style="width: 100%;">
-							<span class="title" th:text="${line.getName()}"></span>&nbsp; 
-							<label class="red" th:if="${line.cancelled}">CANCELLED</label>
-							<i class="grey-text" style="white-space: nowrap;" th:text="'from ' + ${line.getFirstStation().name}" th:unless="${line.stations.isEmpty()}"></i>
-						</td>
-					</tr>
-					<s class="red-text"></s>
-					<tr class="height-100" th:each="station : ${line.stations}">
-						<td style="padding: 0px;"><div style="box-sizing: border-box; height: 100%; margin-left: 10px;" th:classappend="${station.getStatusColor(line)}">&nbsp;</div></td>
-						<td css="float-right">
+        	<div class="box box-table pd-30">
+				<div class="grid">
+					<div class="title" th:text="${line.departure}"></div>
+					<div style="min-width: 20px;"><span th:text="'+' + ${line.delay}" th:if="${line.delay} > 1 and !${line.cancelled}" th:classappend="${line.delay} > 5 ? red-text : yellow-text"></span></div>
+					<div>
+						<span class="title" th:text="${line.getName()}"></span>&nbsp;
+						<label class="red" th:if="${line.cancelled}">CANCELLED</label>
+						<i class="grey-text" style="white-space: nowrap;" th:text="'from ' + ${line.getFirstStation().name}" th:unless="${line.stations.isEmpty()}"></i>
+					</div>
+					<div th:each="station, status : ${line.stations}" class="content">
+						<div style="text-align: right; position: relative;" th:classappend="${station.passed} ? passed : ''">
+							<div class="line" th:unless="${status.first}" th:classappend="${station.getStatusColor(line)}"></div>
+							<div class="circle" th:classappend="${station.getStatusColor(line)}"></div>
 							<span th:text="${station.departure}" th:unless="${station.cancelled}"></span>
 							<s class="red-text" th:text="${station.departure}" th:if="${station.cancelled}"></s>
-						</td>
-						<td style="padding: 10px 0px !important"><span th:text="'+' + ${station.delay}" th:if="${station.delay} > 1 and !${line.cancelled} and !${station.cancelled}" th:classappend="${station.delay} > 5 ? red-text : yellow-text"></span></td>
-						<td>
+						</div>
+						<div><span th:text="'+' + ${station.delay}" th:if="${station.delay} > 1 and !${line.cancelled} and !${station.cancelled}" th:classappend="${station.delay} > 5 ? red-text : yellow-text"></span></div>
+						<div>
 							<a class="grey" th:href="@{'/stations/' + ${station.id}}" th:text="${station.name}" th:unless="${station.cancelled}"></a>
 							<s class="red-text" th:text="${station.name}" th:if="${station.cancelled}"></s>
 							&nbsp;
@@ -37,9 +35,9 @@
 								<s class="red-text" th:text="' Pl.' + ${station.platform}"></s>
 								<i class="red-text" th:text="' Pl.' + ${station.changedPlatform}" th:unless="${station.cancelled}"></i>
 							</i>
-						</td>
-					</tr>
-				</table>
+						</div>
+					</div>
+				</div>
 				<div style="display:flex; gap: 20px;">
 					<div class="width-100">
 						<span>ID: </span><span class="transparent-blue id" th:text="${line.id}"></span><br>
@@ -48,7 +46,7 @@
 						<span>Operator: </span><i th:text="${line.operator}"></i><br>
 						<span>Driver: </span><i th:text="${line.driver}"></i><br>
 					</div>
-					<a class="not-mobile" style="margin-top: auto;" target="blank" th:href="@{'/api/lines/' + ${line.id}}">Raw Line Data ></a>
+					<a class="not-mobile" style="margin-top: auto;" target="blank" th:href="@{'/api/lines/' + ${line.id}}">Raw Line Data &rarr;</a>
 				</div>
 			</div>
         </div>

@@ -1119,13 +1119,13 @@ a{
 }
 
 .id{
-	padding: 2px 7px;
+	padding: 1px 6px;
 	border-radius: 5px;
 	border: none !important;
 }
 
 .title{
-    font-size: 22px;
+    font-size: 24px;
     min-height: 35px;
 }
 
@@ -1133,13 +1133,9 @@ a{
     .title{font-size: 20px;}
 }
 
-.box {padding: 20px;}
-@media (max-width: 767px) {.box{padding: 20px;}}
-
 .box-station{
     display: flex;
     display: -webkit-flex;
-    padding: 20px 30px;
 }
 
 .box-station > *:first-child{
@@ -1153,48 +1149,52 @@ a{
     .box-station > *:last-child > a{width: 100%;}
 }
 
-.box-line{
-	padding: 30px;
-}
-
 .box-line > *{
     display: flex;
     display: -webkit-flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .box-line > * > *{
     display: flex;
     flex-direction: column;
     display: -webkit-flex;
-    gap: 20px;
+    gap: 30px;
 }
 
-.box-table{
-	padding: 20px;
+.box-table > *:first-child{
+	 display: grid;
+	 grid-template-columns: repeat(2, fit-content(100px)) auto;
+	 padding-bottom: 30px;
+	 gap: 20px 10px;
 }
 
-.box-table > *:last-child{
-	padding: 10px;
+.box-table > *:first-child > .content {
+	display: contents;
+	padding: 0px;
 }
 
-.box-table table{
-    font-size: 16px;
-    padding: 0px;
-    margin: 0px;
-    margin-bottom: 20px;
+.box-table .passed{
+	min-width: 65px;
 }
 
-@media (max-width: 767px) {
-    .box-table table{margin-bottom: 20px}
+.box-table .circle{
+	position: absolute; 
+	width: 12px; 
+	height: 12px; 
+	border-radius: 6px;
+	margin-top: 10px;
+	z-index: 1;
 }
 
-.box-table table th, .box-table table td{
-    padding: 10px;
-    text-align: left;
-    border: none;
-    vertical-align: top;
-    background-color: transparent;
+.box-table .line{
+	position: absolute;
+	width: 4px; 
+	height: calc(100% + 20px);
+	border-radius: 5px;
+	margin-left: 4px;
+	margin-top: 17px;
+	top: calc(-100% - 20px);
 }
 
 .table-grid{
@@ -1209,8 +1209,10 @@ a{
 }
 
 .table-grid > *, .table-grid > .content > *{
+	box-sizing: border-box;
+	height: 100% !important;
+	width: 100% !important;
 	padding: 15px;
-	vertical-align: middle;
 	background-color: white;
 }
 
