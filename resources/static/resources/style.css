@@ -1118,6 +1118,12 @@ a{
 	font-size: 18px;
 }
 
+.id{
+	padding: 2px 7px;
+	border-radius: 5px;
+	border: none !important;
+}
+
 .title{
     font-size: 22px;
     min-height: 35px;
@@ -1189,6 +1195,38 @@ a{
     border: none;
     vertical-align: top;
     background-color: transparent;
+}
+
+.table-grid{
+	display:grid;
+	gap: 3px 0px;
+	border-radius: 5px;
+	padding: 3px;
+	min-width: fit-content;
+	align-items: center;
+	line-height: 42px;
+	background-color: #e6e6e6;
+}
+
+.table-grid > *, .table-grid > .content > *{
+	padding: 15px;
+	vertical-align: middle;
+	background-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+	.table-grid{background-color: #1a1a1a;}
+	.table-grid > *, .table-grid > .content > *{background-color: black;}
+}
+
+.lightmode .table-grid{background-color: #e6e6e6;}
+.lightmode .table-grid > *, .lightmode  .table-grid > .content > *{background-color: white;}
+.darkmode td, th{background-color: #1a1a1a;}
+.darkmode .table-grid > *, .darkmode .table-grid > .content > *{background-color: black;}
+
+.table-grid > .content {
+	display: contents;
+	padding: 0px;
 }
 
 [class*="form-grid"]{

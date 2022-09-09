@@ -11,32 +11,30 @@
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Templates")</script>
 		<div class="navigation-content">
-			<div style="margin: 0px auto; padding: 50px 50px; max-width: 1200px;">
+			<div style="margin: 0px auto; padding: 50px 20px; max-width: 1200px;">
 				<div style="display: flex;"><div class="width-100"></div>
 					<a class="button mg-b" th:href="@{/studio/templates/edit}">New Template</a>
-				</div>	
-				<div class="overflow r-1 nowrap">
-					<table id="reload">
-						<tr th:if="!${templates.isEmpty()}">
-							<th>Departure</th>
-							<th class='width-100'>Name</th>
-							<th>From</th>
-							<th>To</th>
-							<th></th>
-						</tr>
-						<tr th:each="line : ${templates}">
-							<td th:text="${line.departure}"></td>
-							<td>
+				</div>
+				<div class="overflow nowrap">
+					<div class="table-grid" style="grid-template-columns: repeat(2, fit-content(100px)) auto repeat(3, fit-content(100px));">
+						<div class="grey">Departure</div>
+						<div class="grey">Name</div>
+						<div class="grey">From</div>
+						<div class="grey">To</div>
+						<div class="grey"></div>
+						<div th:each="line : ${templates}" class="content">
+							<div th:text="${line.departure}"></div>
+							<div>
 								<span th:text="${line.getName()}"></span>&nbsp;
 								<label class="red" th:if="${line.cancelled}">CANCELLED</label>
 								<label th:classappend="${line.delay} > 5? 'red' : 'yellow'" th:text="'+' + ${line.delay}" th:unless="${line.delay} < 2 or ${line.cancelled}"></label>
-							</td>
-							<td th:text="${line.getFirstStation() != null ? line.getFirstStation().name : ''}"></td>
-							<td th:text="${line.getLastStation() != null ? line.getLastStation().name : ''}"></td>
-							<td><a class="button" th:href="@{'/studio/templates/edit?&id=' + ${line.id}}">Edit</a></td>
-						</tr>
-					</table>
-				</div>
+							</div>
+							<div th:text="${line.getFirstStation() != null ? line.getFirstStation().name : ''}"></div> 
+							<div th:text="${line.getLastStation() != null ? line.getLastStation().name : ''}"></div>
+							<div><a class="button" th:href="@{'/studio/templates/edit?&id=' + ${line.id}}">Edit</a></div>
+						</div>
+					</div>
+				<div>
 			</div>
 		</div>
 

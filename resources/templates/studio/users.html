@@ -11,26 +11,24 @@
 		<div th:replace="components :: navigation"></div>
 		<script>setNavigationFocus("Users")</script>
 		<div class="navigation-content">
-			<div style="margin: 0px auto; padding: 50px 50px; max-width: 1200px;">
+			<div style="margin: 0px auto; padding: 50px 20px; max-width: 1200px;">
 				<div style="display: flex;"><div class="width-100"></div>
 					<a class="button mg-b" th:href="@{/studio/users/edit}">New User</a>
-				</div>	
-				<div class="overflow r-1 nowrap">
-					<table id="reload">
-						<tr th:if="!${users.isEmpty()}">
-							<th>ID</th>
-							<th>Email</th>
-							<th class='width-100'>Name</th>
-							<th></th>
-						</tr>
-						<tr th:each="user : ${users}">
-							<td><span class="transparent-blue r-1" style="padding: 0px 5px;" th:text="${user.id}"></span></td>
-							<td th:text="${user.email}"></td>
-							<td th:text="${user.name}"></td>
-							<td><a class="button" th:href="@{'/studio/users/edit?id=' + ${user.id}}">Edit</a></td>
-						</tr>
-					</table>
 				</div>
+				<div class="overflow nowrap">
+					<div class="table-grid" style="grid-template-columns: repeat(2, fit-content(100px)) auto fit-content(100px);">
+						<div class="grey">ID</div>
+						<div class="grey">Email</div>
+						<div class="grey">Name</div>
+						<div class="grey"></div>
+						<tr th:each="user : ${users}" class="content">
+							<div><span class="transparent-blue id" th:text="${user.id}"></span></div>
+							<div th:text="${user.email}"></div>
+							<div th:text="${user.name}"></div>
+							<div><a class="button" th:href="@{'/studio/users/edit?id=' + ${user.id}}">Edit</a></div>
+						</tr>
+					</div>
+				<div>
 			</div>
 		</div>
 
