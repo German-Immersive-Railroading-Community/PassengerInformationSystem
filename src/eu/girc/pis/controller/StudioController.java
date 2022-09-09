@@ -60,14 +60,15 @@ public class StudioController {
 	
 	@PostMapping("/stations/edit")
 	public static String postStationEditPage(@ModelAttribute Station station) {
-		Pis.getStationService().remove(station);
+		System.out.println(station.getId() + " " + station.getName() + " " + station.getPlatforms());
+		Pis.getStationService().remove(station.getId());
 		Pis.getStationService().add(station);
 		return "redirect:/studio/stations";
 	}
 	
 	@PostMapping("/lines/edit")
 	public static String postLineEditPage(@ModelAttribute Line line) {
-		Pis.getLineService().remove(line);
+		Pis.getLineService().remove(line.getId());
 		line.generate12BitIdIfUnset();
 		line.calculateTime();
 		line.getStations().forEach(station -> {
@@ -79,7 +80,7 @@ public class StudioController {
 	
 	@PostMapping("/users/edit")
 	public static String postLineEditPage(@ModelAttribute User user) {
-		Pis.getUserService().remove(user);
+		Pis.getUserService().remove(user.getId());
 		Pis.getUserService().add(user);
 		return "redirect:/studio/users";
 	}
