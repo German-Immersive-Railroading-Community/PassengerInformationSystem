@@ -16,20 +16,23 @@
 	        		<span th:if="${exists}">ID:</span>
 					<div th:if="${exists}" class="mg-b"><span class="transparent-blue id" th:text="${user.id}"></span></div>
 	        		<span th:style="${exists} ? 'display: none' : ''">ID:</span>
-					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" required>
+					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" pattern="^([A-Za-z0-9]|-|_|@|.){3,20}$" title="You need between 3 and 20 characters, following characters are allowed A-Z, a-z, 0-9, _, -" required>
 	        		<span>Name:</span>
 					<input type="text" th:field="*{name}" required>
 					<span>Email:</span>
 					<input type="email" th:field="*{email}">
+					<span>Passworld change reqired</span>
+					<select th:field="*{passwordChangeRequired}">
+		    			<option value="false">False</option>
+		    			<option value="true">True</option>
+		  			</select>
 					<span>Roles:</span>
-					<input type="text" th:field="*{roles}" required>
+					<input type="text" th:field="*{roles}">
 					<span>Password:</span>
 					<a th:href="@{'/password?id=' + ${user.id}}">Change Password</a>
 					<a th:if="${exists}" class="button red width-100" th:href="@{'/studio/users/delete?id=' + ${user.id}}">Delete</a>
 					<a th:unless="${exists}" class="button red width-100" href="/studio/users">Cancel</a>
 					<input type="submit" value="Save" class="mg-0">
-					<input style="display: none;" type="text" th:field="*{password}">
-					<input style="display: none;" type="text" th:field="*{forcePasswordChange}">
 	        	</form>
 			</div>
         </div>

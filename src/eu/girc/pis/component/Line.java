@@ -1,4 +1,4 @@
-package eu.girc.pis.entities;
+package eu.girc.pis.component;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import eu.girc.pis.utils.TrainType;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "type", "number", "operator", "driver", "departure", "cancelled", "delay", "stations"})
 @JsonIgnoreProperties({"empty"})
-public class Line implements PisEntity, Comparable<Line> {
+public class Line implements PisComponent, Comparable<Line> {
 
 	private String id;
 	private TrainType type;

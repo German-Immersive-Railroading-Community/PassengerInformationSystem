@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-import eu.girc.pis.entities.Line;
-import eu.girc.pis.entities.Station;
-import eu.girc.pis.entities.User;
+
+import eu.girc.pis.component.Line;
+import eu.girc.pis.component.Station;
+import eu.girc.pis.dtos.UserDto;
 import eu.girc.pis.main.Pis;
 import eu.girc.pis.utils.PisService;
 import eu.girc.pis.utils.TrainType;
@@ -30,8 +31,8 @@ public class StudioController {
 	
 	@GetMapping("/{type}")
 	public static String getPage(@PathVariable("type") String type, Model model) {
-		List<?> entities = PisService.getService(type).map(service -> service.getAsList()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		model.addAttribute(type, entities);
+		List<?> components = PisService.getService(type).map(service -> service.getAsList()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		model.addAttribute(type, components);
 		return "studio/" + type + ".html";
 	}
 	
@@ -49,7 +50,7 @@ public class StudioController {
 		} else if (type.equals("archived")) {
 			//
 		} else if (type.equals("users")) {
-			model.addAttribute("user", Pis.getUserService().get(id).orElse(new User("", "", "", "", false, "")));
+			model.addAttribute("user", Pis.getUserService().get(id).orElse(UserDto.empty()));
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
@@ -79,7 +80,7 @@ public class StudioController {
 	}
 	
 	@PostMapping("/users/edit")
-	public static String postLineEditPage(@ModelAttribute User user) {
+	public static String postLineEditPage(@ModelAttribute UserDto user) {
 		Pis.getUserService().remove(user.getId());
 		Pis.getUserService().add(user);
 		return "redirect:/studio/users";

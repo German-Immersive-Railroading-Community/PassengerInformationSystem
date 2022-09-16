@@ -1,4 +1,4 @@
-package eu.girc.pis.entities;
+package eu.girc.pis.component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import eu.girc.pis.main.Pis;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "name", "platforms"})
-public class Station implements PisEntity, Comparable<Station> {
+public class Station implements PisComponent, Comparable<Station> {
 
 	private final String id;
 	private final String name;

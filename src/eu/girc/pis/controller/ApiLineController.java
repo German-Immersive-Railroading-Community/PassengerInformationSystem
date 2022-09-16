@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import eu.girc.pis.entities.Line;
+
+import eu.girc.pis.component.Line;
 import eu.girc.pis.main.Pis;
 
 @RestController

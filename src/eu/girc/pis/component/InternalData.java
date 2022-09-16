@@ -1,4 +1,4 @@
-package eu.girc.pis.entities;
+package eu.girc.pis.component;
 
 import java.util.Set;
 import java.util.TreeSet;

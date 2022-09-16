@@ -1,4 +1,4 @@
-package eu.girc.pis.entities;
+package eu.girc.pis.component;
 
 import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -14,7 +14,7 @@ import eu.girc.pis.utils.TimeSerializer;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "name", "platform", "departure", "travelTimeFromLastStation", "cancelled", "delay", "changedPlatform", "passed"})
-public class LineStation implements PisEntity {
+public class LineStation implements PisComponent {
 
 	private String id;
 	private String name;

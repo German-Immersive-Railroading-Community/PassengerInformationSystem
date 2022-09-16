@@ -16,7 +16,7 @@
 					<div class="form-grid-4">
 						<span>ID:</span>
 						<div><span class="transparent-blue id" th:text="${exists ? line.id : 'auto'}"></span></div>
-						<input style="display: none" type="text" th:field="*{id}">
+						<input style="display: none" type="text" th:field="*{id}" pattern="^([A-Za-z0-9]|-|_|@|.){3,20}$" title="You need between 3 and 20 characters, following characters are allowed A-Z, a-z, 0-9, _, -" >
 						<span>Type:</span>
 						<select th:field="*{type}">
 	    					<option th:each="type : ${trainType}" th:value="${type}" th:text="${type.getToken()} + ' (' + ${type.getName()} + ')'" th:selected="${line.type == type}"></option>

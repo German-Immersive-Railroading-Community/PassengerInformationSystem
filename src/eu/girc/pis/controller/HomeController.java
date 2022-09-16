@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import eu.girc.pis.entities.PisEntity;
-import eu.girc.pis.entities.Line;
-import eu.girc.pis.entities.Station;
-import eu.girc.pis.entities.User;
+import eu.girc.pis.component.Line;
+import eu.girc.pis.component.PisComponent;
+import eu.girc.pis.component.Station;
+import eu.girc.pis.component.User;
 import eu.girc.pis.main.Pis;
 import eu.girc.pis.utils.SecurityConfig;
 
@@ -31,7 +31,7 @@ public class HomeController {
 	@GetMapping("/search")
 	public static String getStationsPage(@RequestParam(name = "query", required = false) String query, Model model) {
 		if (query == null) return "search.html";
-		List<PisEntity> results = new ArrayList<>();
+		List<PisComponent> results = new ArrayList<>();
 		results.addAll(Pis.getStationService()
 			.stream()
 			.filter(station -> station.getName().contains(query) || query.contains(station.getName()) || station.getId().equals(query))
