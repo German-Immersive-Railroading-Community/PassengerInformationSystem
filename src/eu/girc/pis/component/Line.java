@@ -1,12 +1,12 @@
 package eu.girc.pis.component;
 
+import java.beans.ConstructorProperties;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -34,16 +34,8 @@ public class Line implements PisComponent, Comparable<Line> {
 	private ArrayList<LineStation> stations = new ArrayList<>();
 	
 	@JsonCreator
-	public Line(
-			@JsonProperty("id") String id,
-			@JsonProperty("type") TrainType type, 
-			@JsonProperty("number") int number, 
-			@JsonProperty("operator") String operator, 
-			@JsonProperty("driver") String driver, 
-			@JsonProperty("departure") LocalTime departure,
-			@JsonProperty("cancelled") boolean cancelled, 
-			@JsonProperty("delay") int delay,
-			@JsonProperty("stations") ArrayList<LineStation> stations) {
+	@ConstructorProperties({"id", "type", "number", "operator", "driver", "departure", "cancelled", "delay", "stations"})
+	public Line(String id, TrainType type, int number, String operator, String driver, LocalTime departure, boolean cancelled, int delay, ArrayList<LineStation> stations) {
 		this.id = id;
 		this.type = type;
 		this.number = number;

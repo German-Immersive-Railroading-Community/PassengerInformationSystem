@@ -1,14 +1,12 @@
 package eu.girc.pis.component;
 
+import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-
 import eu.girc.pis.main.Pis;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
@@ -20,10 +18,8 @@ public class Station implements PisComponent, Comparable<Station> {
 	private final int platforms;
 
 	@JsonCreator
-	public Station(
-			@JsonProperty("id") String id, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("platforms") int platforms) {
+	@ConstructorProperties({"id", "name", "platforms"})
+	public Station(String id, String name, int platforms) {
 		this.id = id;
 		this.name = name;
 		this.platforms = platforms;
