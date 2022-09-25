@@ -1,4 +1,4 @@
-package eu.girc.pis.utils;
+package eu.girc.pis.model;
 
 public enum TrainType {
 	

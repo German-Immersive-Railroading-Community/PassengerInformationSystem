@@ -2,6 +2,7 @@ package eu.girc.pis.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import eu.girc.pis.component.Line;
-import eu.girc.pis.component.Station;
 import eu.girc.pis.main.Pis;
+import eu.girc.pis.model.Line;
+import eu.girc.pis.model.Station;
 
 @RestController
 @RequestMapping("/api/stations")

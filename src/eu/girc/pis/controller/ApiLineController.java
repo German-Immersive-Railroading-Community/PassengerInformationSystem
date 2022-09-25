@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import eu.girc.pis.component.Line;
 import eu.girc.pis.main.Pis;
+import eu.girc.pis.model.Line;
 
 @RestController
 @RequestMapping("/api/lines")

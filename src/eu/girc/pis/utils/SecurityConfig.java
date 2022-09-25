@@ -16,8 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import eu.girc.pis.component.User;
+
 import eu.girc.pis.main.Pis;
+import eu.girc.pis.model.User;
 
 @SuppressWarnings("deprecation")
 @Configuration

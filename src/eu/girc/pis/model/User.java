@@ -1,4 +1,4 @@
-package eu.girc.pis.component;
+package eu.girc.pis.model;
 
 import java.beans.ConstructorProperties;
 
@@ -80,6 +80,10 @@ public class User implements PisComponent, Comparable<User>{
 	@Override
 	public int compareTo(User user) {
 		return this.id.compareTo(user.getId());
+	}
+
+	public static User empty() {
+		return new User(null, null, null, "0000", false, new String[0]);
 	}
 
 }

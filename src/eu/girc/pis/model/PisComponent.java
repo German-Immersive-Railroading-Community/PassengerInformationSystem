@@ -1,4 +1,4 @@
-package eu.girc.pis.component;
+package eu.girc.pis.model;
 
 public interface PisComponent {
 	

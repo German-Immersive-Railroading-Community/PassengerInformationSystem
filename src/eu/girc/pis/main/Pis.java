@@ -11,10 +11,11 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.ComponentScan;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.girc.pis.component.InternalData;
-import eu.girc.pis.component.Line;
-import eu.girc.pis.component.Station;
-import eu.girc.pis.component.User;
+
+import eu.girc.pis.model.InternalData;
+import eu.girc.pis.model.Line;
+import eu.girc.pis.model.Station;
+import eu.girc.pis.model.User;
 import eu.girc.pis.utils.PisService;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })

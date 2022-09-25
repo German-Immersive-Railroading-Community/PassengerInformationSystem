@@ -1,14 +1,13 @@
-package eu.girc.pis.component;
+package eu.girc.pis.model;
 
+import java.beans.ConstructorProperties;
 import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import eu.girc.pis.utils.TimeDeserializer;
 import eu.girc.pis.utils.TimeSerializer;
 
@@ -27,20 +26,14 @@ public class LineStation implements PisComponent {
 	private int delay;
 	private int changedPlatform;
 	private boolean passed;
-	
-	public LineStation() {}
+
+	public LineStation() {
+	}
 
 	@JsonCreator
-	public LineStation(
-			@JsonProperty("id") String id,
-			@JsonProperty("name") String name,
-			@JsonProperty("platform") int platform,
-			@JsonProperty("departure") LocalTime departure,
-			@JsonProperty("travelTimeFromLastStation") int travelTimeFromLastStation,
-			@JsonProperty("cancelled") boolean cancelled,
-			@JsonProperty("delay") int delay,
-			@JsonProperty("changedPlatform") int changedPlatform,
-			@JsonProperty("passed") boolean passed) {
+	@ConstructorProperties({"id", "name", "platform", "departure", "travelTimeFromLastStation", "cancelled", "delay", "changedPlatform", "passed"})
+	public LineStation(String id, String name, int platform, LocalTime departure, int travelTimeFromLastStation,
+			boolean cancelled, int delay, int changedPlatform, boolean passed) {
 		this.id = id;
 		this.name = name;
 		this.platform = platform;
@@ -51,16 +44,16 @@ public class LineStation implements PisComponent {
 		this.changedPlatform = changedPlatform;
 		this.passed = passed;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public String getId() {
 		return id;
 	}
-		
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -69,7 +62,7 @@ public class LineStation implements PisComponent {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setPlatform(int platform) {
 		this.platform = platform;
 	}
@@ -85,7 +78,7 @@ public class LineStation implements PisComponent {
 	public void setTravelTimeFromLastStation(int travelTimeFromLastStation) {
 		this.travelTimeFromLastStation = travelTimeFromLastStation;
 	}
-	
+
 	public int getTravelTimeFromLastStation() {
 		return travelTimeFromLastStation;
 	}
@@ -125,7 +118,7 @@ public class LineStation implements PisComponent {
 	public boolean isPassed() {
 		return passed;
 	}
-	
+
 	public String getStatusColor(Line line) {
 		boolean statusActive = line.getFirstStation().isPassed() && !line.getLastStation().isPassed() && !line.isCancelled();
 		if (!statusActive) {

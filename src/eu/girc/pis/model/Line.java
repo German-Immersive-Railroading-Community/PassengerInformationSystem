@@ -1,4 +1,4 @@
-package eu.girc.pis.component;
+package eu.girc.pis.model;
 
 import java.beans.ConstructorProperties;
 import java.time.LocalTime;
@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import eu.girc.pis.main.Pis;
 import eu.girc.pis.utils.TimeDeserializer;
 import eu.girc.pis.utils.TimeSerializer;
-import eu.girc.pis.utils.TrainType;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonPropertyOrder({"id", "type", "number", "operator", "driver", "departure", "cancelled", "delay", "stations"})
@@ -32,10 +31,11 @@ public class Line implements PisComponent, Comparable<Line> {
 	private int delay;
 
 	private ArrayList<LineStation> stations = new ArrayList<>();
-	
+
 	@JsonCreator
 	@ConstructorProperties({"id", "type", "number", "operator", "driver", "departure", "cancelled", "delay", "stations"})
-	public Line(String id, TrainType type, int number, String operator, String driver, LocalTime departure, boolean cancelled, int delay, ArrayList<LineStation> stations) {
+	public Line(String id, TrainType type, int number, String operator, String driver, LocalTime departure, 
+			boolean cancelled, int delay, ArrayList<LineStation> stations) {
 		this.id = id;
 		this.type = type;
 		this.number = number;
@@ -46,7 +46,7 @@ public class Line implements PisComponent, Comparable<Line> {
 		this.delay = delay;
 		if (stations != null) this.stations.addAll(stations);
 	}
-	
+
 	public void generate12BitIdIfUnset() {
 		if (id == null || id.isEmpty()) id = Pis.generate8BitId();
 	}
@@ -55,15 +55,14 @@ public class Line implements PisComponent, Comparable<Line> {
 	public String getId() {
 		return id;
 	}
-	
+
 	@Override
 	public String getName() {
 		String displayName = type.getToken() + number;
 		if (getLastStation() != null) displayName += " " + getLastStation().getName();
 		return displayName;
 	}
-	
-	
+
 	public void setType(TrainType type) {
 		this.type = type;
 	}
@@ -71,8 +70,7 @@ public class Line implements PisComponent, Comparable<Line> {
 	public TrainType getType() {
 		return type;
 	}
-	
-	
+
 	public void setNumber(int number) {
 		this.number = number;
 	}
@@ -80,7 +78,7 @@ public class Line implements PisComponent, Comparable<Line> {
 	public int getNumber() {
 		return number;
 	}
-	
+
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
@@ -96,11 +94,11 @@ public class Line implements PisComponent, Comparable<Line> {
 	public String getDriver() {
 		return driver;
 	}
-	
+
 	public void setDeparture(LocalTime departure) {
 		this.departure = departure;
 	}
-	
+
 	public LocalTime getDeparture() {
 		return departure;
 	}
@@ -146,7 +144,7 @@ public class Line implements PisComponent, Comparable<Line> {
 			}
 		}
 	}
-	
+
 	public void calculateTime() {
 		if (stations.isEmpty()) return;
 		stations.get(0).setDeparture(departure);
@@ -160,11 +158,13 @@ public class Line implements PisComponent, Comparable<Line> {
 	}
 
 	public LineStation getFirstStation() {
-		if (stations.isEmpty()) return null; else return stations.get(0);
+		if (stations.isEmpty()) return null;
+		else return stations.get(0);
 	}
 
 	public LineStation getLastStation() {
-		if (stations.isEmpty()) return null; else return stations.get(stations.size() - 1);
+		if (stations.isEmpty()) return null;
+		else return stations.get(stations.size() - 1);
 	}
 
 	public boolean isEmpty() {
@@ -184,6 +184,10 @@ public class Line implements PisComponent, Comparable<Line> {
 	public int compareTo(Line line) {
 		return this.getDeparture().plusMinutes(this.getDelay())
 				.compareTo(line.getDeparture().plusMinutes(line.getDelay()));
+	}
+
+	public static Line empty() {
+		return new Line(null, TrainType.INTERCITY_EXPRESS, 0, null, null, null, false, 0, null);
 	}
 
 }

@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import eu.girc.pis.component.PisComponent;
+import eu.girc.pis.model.PisComponent;
 
 public class PisService<T extends PisComponent & Comparable<T>> implements Iterable<T> {
 

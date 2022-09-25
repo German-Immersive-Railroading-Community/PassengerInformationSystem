@@ -1,4 +1,4 @@
-package eu.girc.pis.component;
+package eu.girc.pis.model;
 
 import java.beans.ConstructorProperties;
 import java.util.List;
@@ -49,6 +49,10 @@ public class Station implements PisComponent, Comparable<Station> {
 	@Override
 	public int compareTo(Station station) {
 		return this.getId().compareTo(station.getId());
+	}
+	
+	public static Station empty() {
+		return new Station(null, null, 0);
 	}
 
 }
