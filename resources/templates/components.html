@@ -25,8 +25,6 @@
 	<a href="/studio">Dashboard</a>
 	<a href="/studio/stations">Stations</a>
 	<a href="/studio/lines">Lines</a>
-	<a href="/studio/archived">Archived</a>
-	<a href="/studio/templates">Templates</a>
 	<a href="/studio/users">Users</a>
 	<a>Settings</a>
 </div>
@@ -39,13 +37,13 @@
 <div class="box box-line pd-30" th:fragment="line">
 	<div>
 		<div>
-			<div class="title" th:text="${line.departure}"></div>
+			<div class="title" th:text="${line.getDepartureAsString()}"></div>
 		</div>
 		<div class="width-100">
 			<div>
 				<span class="title" th:text="${line.getName()}"></span>&nbsp;
 				<label class="red" th:if="${line.cancelled}">CANCELLED</label>
-				<label th:classappend="${line.delay} > 5? 'red' : 'yellow'" th:text="'+' + ${line.delay}" th:unless="${line.delay} < 2 or ${line.cancelled}"></label>
+				<label th:classappend="${line.getDelay()} > 5? 'red' : 'yellow'" th:text="'+' + ${line.getDelay()}" th:unless="${line.getDelay()} < 2 or ${line.cancelled}"></label>
 				<i class="grey-text" style="white-space: nowrap;" th:text="'from ' + ${line.getFirstStation().name}" th:unless="${line.stations.isEmpty()}"></i>
 			</div>
 			<div>

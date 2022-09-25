@@ -11,8 +11,8 @@
         <div class="container" id="reload">
         	<div class="box box-table pd-30">
 				<div class="grid">
-					<div class="title" th:text="${line.departure}"></div>
-					<div style="min-width: 20px;"><span th:text="'+' + ${line.delay}" th:if="${line.delay} > 1 and !${line.cancelled}" th:classappend="${line.delay} > 5 ? red-text : yellow-text"></span></div>
+					<div class="title" th:text="${line.getDepartureAsString()}"></div>
+					<div style="min-width: 20px;"><span th:text="'+' + ${line.getDelay()}" th:if="${line.getDelay()} > 1 and !${line.cancelled}" th:classappend="${line.getDelay()} > 5 ? red-text : yellow-text"></span></div>
 					<div>
 						<span class="title" th:text="${line.getName()}"></span>&nbsp;
 						<label class="red" th:if="${line.cancelled}">CANCELLED</label>
@@ -22,10 +22,10 @@
 						<div style="text-align: right; position: relative;" th:classappend="${station.passed} ? passed : ''">
 							<div class="line" th:unless="${status.first}" th:classappend="${station.getStatusColor(line)}"></div>
 							<div class="circle" th:classappend="${station.getStatusColor(line)}"></div>
-							<span th:text="${station.departure}" th:unless="${station.cancelled}"></span>
-							<s class="red-text" th:text="${station.departure}" th:if="${station.cancelled}"></s>
+							<span th:text="${station.getDepartureAsString()}" th:unless="${station.cancelled}"></span>
+							<s class="red-text" th:text="${station.getDepartureAsString()}" th:if="${station.cancelled}"></s>
 						</div>
-						<div><span th:text="'+' + ${station.delay}" th:if="${station.delay} > 1 and !${line.cancelled} and !${station.cancelled}" th:classappend="${station.delay} > 5 ? red-text : yellow-text"></span></div>
+						<div><span th:text="'+' + ${station.getDelay()}" th:if="${station.getDelay()} > 1 and !${line.cancelled} and !${station.cancelled}" th:classappend="${station.getDelay()} > 5 ? red-text : yellow-text"></span></div>
 						<div>
 							<a class="grey" th:href="@{'/stations/' + ${station.id}}" th:text="${station.name}" th:unless="${station.cancelled}"></a>
 							<s class="red-text" th:text="${station.name}" th:if="${station.cancelled}"></s>
@@ -43,6 +43,7 @@
 						<span>ID: </span><span class="transparent-blue id" th:text="${line.id}"></span><br>
 						<span>Type: </span><i th:text="${line.type.getName()}"></i><br>
 						<span>Number: </span><i th:text="${line.number}"></i><br>
+						<span>Lenght: </span><i th:text="${line.lenght}"></i><br>
 						<span>Operator: </span><i th:text="${line.operator}"></i><br>
 						<span>Driver: </span><i th:text="${line.driver}"></i><br>
 					</div>

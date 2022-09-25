@@ -23,21 +23,17 @@
 	  					</select>
 						<span>Number:</span>
 						<input type="number" min="1" max="9999" th:field="*{number}" required>
+						<span>Lenght:</span>
+						<input type="number" min="1" max="9999" th:field="*{lenght}" required>
 						<span>Operator:</span>
 						<input type="text" th:field="*{operator}" required>
 						<span>Driver:</span>
 						<input type="text" th:field="*{driver}" required>
-						<span>Departure:</span>
-						<input type="time" th:field="*{departure}" required>
 						<span>Cancelled:</span>
 						<select th:field="*{cancelled}">
 	    					<option value="false" th:selected="!${line.cancelled}">False</option>
 	    					<option value="true" th:selected="${line.cancelled}">True</option>
 	  					</select>
-						<span>Delay:</span>
-						<input type="number" min="0" max="9999" th:field="*{delay}" required>
-						<div></div>
-						<div></div>
 						<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
 						<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/lines">Cancel</a>
 						<input type="submit" value="Save" class="mg-0">
@@ -60,8 +56,7 @@
 							<input list="stationNames" id="stationsINDEX.id" name="stations[INDEX].id"/>
 		  					<input style="display: none;" type="text" id="stationsINDEX.name" name="stations[INDEX].name">
 		  					<input type="number" min="1" max="9999" required id="stationsINDEX.platform" name="stations[INDEX].platform" value="1">
-							<input style="display: none;" type="time" required id="stationsINDEX.departure" name="stations[INDEX].departure" value="00:00">
-							<input type="number" min="0" max="9999" required id="stationsINDEX.travelTimeFromLastStation" name="stations[INDEX].travelTimeFromLastStation" value="0">
+							<input type="time" required id="stationsINDEX.departure" name="stations[INDEX].departure" value="00:00">
 							<select id="stationsINDEX.cancelled" name="stations[INDEX].cancelled">
 		    					<option value="false" selected="selected">False</option>
 		    					<option value="true">True</option>
@@ -78,8 +73,7 @@
 							<input list="stationNames" th:field="*{stations[__${status.index}__].id}"/>
 		  					<input style="display: none;" type="text" th:field="*{stations[__${status.index}__].name}">
 							<input type="number" th:field="*{stations[__${status.index}__].platform}" min="1" max="9999" required>
-							<input style="display: none;" type="time" th:field="*{stations[__${status.index}__].departure}" required>
-							<input type="number" th:field="*{stations[__${status.index}__].travelTimeFromLastStation}" min="0" max="9999" required>
+							<input type="time" th:field="*{stations[__${status.index}__].departure}" required>
 							<select th:field="*{stations[__${status.index}__].cancelled}">
 		    					<option value="false" th:selected="!*{stations[__${status.index}__].cancelled}">False</option>
 		    					<option value="true" th:selected="*{stations[__${status.index}__].cancelled}">True</option>

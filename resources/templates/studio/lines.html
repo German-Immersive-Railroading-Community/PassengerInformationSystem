@@ -26,11 +26,11 @@
 						<div class="grey"></div>
 						<div th:each="line : ${lines}" class="content">
 							<div style="width: fit-content;"><span class="transparent-blue id" th:text="${line.id}"></span></div>
-							<div th:text="${line.departure}"></div>
+							<div th:text="${line.getDepartureAsString()}"></div>
 							<div>
 								<span th:text="${line.getName()}"></span>&nbsp;
 								<label class="red" th:if="${line.cancelled}">CANCELLED</label>
-								<label th:classappend="${line.delay} > 5? 'red' : 'yellow'" th:text="'+' + ${line.delay}" th:unless="${line.delay} < 2 or ${line.cancelled}"></label>
+								<label th:classappend="${line.getDelay()} > 5? 'red' : 'yellow'" th:text="'+' + ${line.getDelay()}" th:unless="${line.getDelay()} < 2 or ${line.cancelled}"></label>
 							</div>
 							<div th:text="${line.getFirstStation() != null ? line.getFirstStation().name : ''}"></div> 
 							<div th:text="${line.getLastStation() != null ? line.getLastStation().name : ''}"></div>

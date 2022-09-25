@@ -49,6 +49,10 @@ public class LineController {
 	@PostMapping("/studio/lines/edit")
 	public String postEditPage(Line line) {
 		Pis.getLineService().remove(line.getId());
+		line.generate12BitIdIfUnset();
+		line.getStations().forEach(station -> {
+			station.setName(Pis.getStationService().get(line.getId()).map(lineStation -> lineStation.getName()).orElse(station.getId()));
+		});
 		Pis.getLineService().add(line);
 		return "redirect:/studio/lines";
 	}
