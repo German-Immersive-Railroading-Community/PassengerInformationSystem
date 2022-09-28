@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<div th:replace="components :: head"></div>
+        <title>PIS Studio - Account</title>
+    </head>
+    <body>
+		<div th:replace="components :: menu"></div>
+		<script>setMenuFocus("Studio")</script>
+		
+		<div th:replace="components :: navigation"></div>
+		<script>setNavigationFocus("Account")</script>
+		<div class="navigation-content" >
+			<div class="container container-sm" style="padding: 50px 20px;">
+				<div th:replace="components :: box"></div>
+				<div class="overflow mg-b">
+					<form class="form-grid-2" style="width: initial; grid-template-columns: fit-content(100%) minmax(auto, 100%);" th:action="@{/studio/account}" th:object="${user}" method="POST">
+						<span>ID:</span>
+						<div><span class="transparent-blue id" th:text="${user.id}"></span></div>
+						<input style="display: none;" type="text" th:field="*{id}" required>
+						<span>Name:</span>
+						<input type="text" th:field="*{name}" required>
+						<span>Email:</span>
+						<input type="email" th:field="*{email}">
+						<a class="button red mg-0 width-100" href="/studio/account">Cancel</a>
+						<input type="submit" value="Save" class="mg-0">
+					</form>
+				</div>
+				<div class="overflow">
+					<form class="form-grid-2" style="width: initial; grid-template-columns: fit-content(100%) minmax(auto, 100%);" th:action="@{/studio/account/password}" method="POST">
+						<span>Old Password:</span>
+						<input type="password" name='old-password' path="old-password" required>
+						<span>New Password:</span>
+						<input type="password" name='new-password' path="new-password" required>
+						<span>Repeat Password:</span>
+						<input type="password" name='repeat-new-password' path="repeat-new-password" required>
+						<a class="button red mg-0 width-100" href="/studio/account">Cancel</a>
+						<input type="submit" value="Save" class="mg-0">
+					</form>
+				<div>
+			</div>
+		</div>
+    </body>
+</html>

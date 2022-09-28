@@ -28,7 +28,13 @@
 	<a href="/studio/stations">Stations</a>
 	<a href="/studio/lines">Lines</a>
 	<a href="/studio/users">Users</a>
+	<a href="/studio/account">Account</a>
 	<a>Settings</a>
+</div>
+
+<div class="box" th:if="${box != null}" th:classappend="${box.color}" th:fragment="box">
+	<strong th:if="${box.title != null}" th:text="${box.title}"></strong><br th:if="${box.title != null}">
+	<span th:text="${box.text}"></span>
 </div>
 
 <div class="box box-station pd-30" th:fragment="station">

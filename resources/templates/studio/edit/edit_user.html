@@ -14,7 +14,7 @@
 			<div class="overflow">
 				<form class="form-grid-2" th:action="@{/studio/users/edit}" th:object="${user}" method="POST">
 	        		<span th:if="${exists}">ID:</span>
-					<div th:if="${exists}" class="mg-b"><span class="transparent-blue id" th:text="${user.id}"></span></div>
+					<div th:if="${exists}"><span class="transparent-blue id" th:text="${user.id}"></span></div>
 	        		<span th:style="${exists} ? 'display: none' : ''">ID:</span>
 					<input th:style="${exists} ? 'display: none' : ''" type="text" th:field="*{id}" pattern="^([A-Za-z0-9]|-|_|@|.){3,20}$" title="You need between 3 and 20 characters, following characters are allowed A-Z, a-z, 0-9, _, -" required>
 	        		<span>Name:</span>
