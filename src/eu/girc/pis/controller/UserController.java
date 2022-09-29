@@ -1,7 +1,6 @@
 package eu.girc.pis.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-
 import eu.girc.pis.dtos.AccountDto;
 import eu.girc.pis.dtos.UserDto;
 import eu.girc.pis.main.Pis;
@@ -21,25 +19,26 @@ import eu.girc.pis.utils.SecurityConfig;
 @Controller
 @RequestMapping("/")
 public class UserController {
+	
+	
 
 	@GetMapping("/login")
-	public static String getLoginPage(@RequestParam(name = "failed", required = false) boolean failed) {
+	public String getLoginPage(@RequestParam(name = "failed", required = false) boolean failed) {
 		return "forms/login.html";
 	}
 
 	@GetMapping("/logout")
-	public static String getLogoutPage() {
+	public String getLogoutPage() {
 		return "redirect:home.html";
 	}
 
 	@GetMapping("/password")
-	public static String getPasswordPage() {
+	public String getPasswordPage() {
 		return "forms/password.html";
 	}
 
 	@PostMapping("/password")
-	public static String postPasswordPage(HttpServletRequest request) {
-		String id = request.getParameter("user");
+	public String postPasswordPage(@RequestParam("id") String id, HttpServletRequest request) {
 		User user = Pis.getUserService().get(id).orElse(null);
 		if (user == null) return "redirect:/password?error=User+does+not+exist!";
 		String oldPassword = request.getParameter("old-password");
@@ -55,14 +54,29 @@ public class UserController {
 			return "redirect:/studio";
 		}
 	}
-
+	
 	@GetMapping("/reset")
-	public static String getResetPage() {
+	public String getResetPage() {
 		return "forms/reset.html";
 	}
 
+	@PostMapping("/reset")
+	public String postResetPage(@RequestParam("id") String id, @RequestParam("token") String resetToken, HttpServletRequest request) {
+		User user = Pis.getUserService().get(id).orElse(null);
+		if (user == null) return "redirect:/reset?id=" + id + "&token=" + resetToken + "&error=User+does+not+exist!";
+		if (Pis.getResetTokens().get(user) == null || !resetToken.equals(Pis.getResetTokens().get(user))) return "redirect:/reset?id=" + id + "&token=" + resetToken + "&error=Reset+token+is+invalid!";
+		String newPassword = request.getParameter("new-password");
+		String repeatNewPassword = request.getParameter("repeat-new-password");
+		if (!newPassword.equals(repeatNewPassword)) return "redirect:/reset?id=" + id + "&error=The+new+passwords+are+not+the+same!";
+		user.setUnencryptedPassword(newPassword);
+		Pis.getResetTokens().remove(user);
+		user.setPasswordChangeRequired(false);
+		Pis.getUserService().save();
+		return "redirect:/studio";
+	}
+
 	@GetMapping("/forgot")
-	public static String getForgotPage() {
+	public String getForgotPage() {
 		return "forms/forgot.html";
 	}
 
@@ -87,9 +101,17 @@ public class UserController {
 	}
 
 	@GetMapping("/studio/users/delete")
-	public String deleteComponent(@RequestParam(name = "id", required = true) String id, Model model) {
+	public String delete(@RequestParam(name = "id", required = true) String id, Model model) {
+		if (id.equals("admin")) new ResponseStatusException(HttpStatus.NOT_FOUND);
 		Pis.getUserService().remove(id);
 		return "redirect:/studio/users";
+	}
+	
+	@GetMapping("/studio/users/reset")
+	public String reset(@RequestParam(name = "id", required = true) String id, Model model) {
+		final String resetToken = Pis.generateResetToken();
+		Pis.getResetTokens().put(Pis.getUserService().get(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)), resetToken);
+		return "redirect:/reset?id=" + id + "&token=" + resetToken;
 	}
 	
 	@GetMapping("/studio/account")
@@ -107,7 +129,9 @@ public class UserController {
 	
 	@PostMapping("/studio/account")
 	public String postAccountPage(AccountDto user, Model model, HttpServletRequest request) {
-		Pis.getUserService().remove(user.getId());
+		final String id = (String) request.getSession().getAttribute("user");
+		Pis.getUserService().remove(id);
+		user.setId(id);
 		Pis.getUserService().add(user);
 		model.addAttribute("box", new Box("Your account informations have been successfully updated!", Box.GREEN));
 		return getAccountPage(null, model, request);

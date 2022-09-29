@@ -3,14 +3,20 @@ package eu.girc.pis.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import eu.girc.pis.main.Pis;
 import eu.girc.pis.model.PisComponent;
+import eu.girc.pis.model.User;
 
 @Controller
 @RequestMapping("/")
@@ -38,7 +44,14 @@ public class HomeController {
 	}
 
 	@GetMapping("/studio")
-	public static String getDashboardPage(Model model) {
+	public static String getDashboardPage(Model model, HttpServletRequest request) {
+		final String id = (String) request.getSession().getAttribute("user");
+		final User user = Pis.getUserService().get(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		if (user.isPasswordChangeRequired()) {
+			final String resetToken = Pis.generateResetToken();
+			Pis.getResetTokens().put(user, resetToken);
+			return "redirect:/reset?id=" + id + "&token=" + resetToken;
+		}
 		return "studio/dashboard.html";
 	}
 

@@ -3,6 +3,7 @@ package eu.girc.pis.main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,8 @@ public class Pis {
 	private static final PisService<Line> archiveService = new PisService<>("archived", new TypeReference<ArrayList<Line>>() {});
 	private static final PisService<User> userService = new PisService<>("users", new TypeReference<ArrayList<User>>() {});
 	
+	private static final HashMap<User, String> resetTokens = new HashMap<>();
+	
 	private static final Random RANDOM = new Random();
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -53,6 +56,19 @@ public class Pis {
 		data.getGeneratedIds().add(generated);
 		saveInteralData();
 		return String.format("%04x", generated);
+	}
+	
+	public static String generateResetToken() {
+		final StringBuilder string = new StringBuilder();
+		for (int i = 0; i < 20; i++) {
+			switch (RANDOM.nextInt(2)) {
+			case 0: string.append((char) (RANDOM.nextInt(9) + 48)); break;
+			case 1: string.append((char) (RANDOM.nextInt(26) + 65)); break;
+			case 2: string.append((char) (RANDOM.nextInt(26) + 97)); break;
+			default: break;
+			};
+		}
+		return string.toString();
 	}
 	
 	public static void saveInteralData() {
@@ -81,6 +97,10 @@ public class Pis {
 	
 	public static PisService<User> getUserService() {
 		return userService;
+	}
+	
+	public static HashMap<User, String> getResetTokens() {
+		return resetTokens;
 	}
 
 }

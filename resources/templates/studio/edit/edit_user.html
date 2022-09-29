@@ -29,8 +29,11 @@
 					<span>Roles:</span>
 					<input type="text" th:field="*{roles}">
 					<span>Password:</span>
-					<a th:href="@{'/password?id=' + ${user.id}}">Change Password</a>
-					<a th:if="${exists}" class="button red width-100" th:href="@{'/studio/users/delete?id=' + ${user.id}}">Delete</a>
+					<a th:href="@{'/studio/users/reset?id=' + ${user.id}}">Reset Password</a>
+					<div th:if="${exists}">
+						<a th:unless="${#strings.equals(user.id, 'admin')}" th:href="@{'/studio/users/delete?id=' + ${user.id}}" class="button red width-100">Delete</a>
+						<div th:if="${#strings.equals(user.id, 'admin')}"></div>
+					</div>
 					<a th:unless="${exists}" class="button red width-100" href="/studio/users">Cancel</a>
 					<input type="submit" value="Save" class="mg-0">
 	        	</form>

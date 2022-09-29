@@ -17,7 +17,7 @@
 					<form class="form-grid-2" style="width: initial; grid-template-columns: fit-content(100%) minmax(auto, 100%);" th:action="@{/studio/account}" th:object="${user}" method="POST">
 						<span>ID:</span>
 						<div><span class="transparent-blue id" th:text="${user.id}"></span></div>
-						<input style="display: none;" type="text" th:field="*{id}" required>
+						<input style="display: none;" type="text" th:field="*{id}" hidden disabled>
 						<span>Name:</span>
 						<input type="text" th:field="*{name}" required>
 						<span>Email:</span>

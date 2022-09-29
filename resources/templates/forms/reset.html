@@ -2,14 +2,14 @@
 <html>
     <head>
     	<div th:replace="components :: head"></div>
-        <title>PIS - Login</title>
+        <title>PIS - Reset Password</title>
     </head>
     <body>
 		<div th:replace="components :: menu"></div>
 		<script>setMenuFocus("Login")</script>
 
-        <div style="padding: 50px 20px;">
-        	<form class="form-grid-1"action="/reset" method="POST">
+        <div style="padding: 50px 20px;" th:with="id=${param.id}, token=${param.token}">
+        	<form class="form-grid-1"th:action="@{'/reset?id=' + ${id} + '&token=' + ${token}}" method="POST">
 				<h2>Reset Password</h2>
 				<input style="display: none;" type="text" name='user' path="user" th:value="${param.id}">
 				<div>

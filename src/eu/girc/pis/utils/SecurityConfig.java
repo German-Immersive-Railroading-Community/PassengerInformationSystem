@@ -28,13 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		if (!Pis.getUserService().contains("admin")) {
+			final User admin = new User("admin", "admin", null, null, true, new String[0]);
+			admin.setUnencryptedPassword("admin");
+			Pis.getUserService().add(admin);
+		}
 		for (User user : Pis.getUserService()) {
 			auth.inMemoryAuthentication().withUser(user.getId()).password(user.getPassword()).roles(user.getRoles());
 		}
-		auth.inMemoryAuthentication()
-			.withUser("guest1").password(getPasswordEncoder().encode("password1")).roles("user").and()
-			.withUser("guest2").password(getPasswordEncoder().encode("password2")).roles("user").and()
-			.withUser("admin").password(getPasswordEncoder().encode("admin")).roles("admin");
 	}
 	
 	@Override
