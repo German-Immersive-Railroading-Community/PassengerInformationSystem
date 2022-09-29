@@ -19,8 +19,6 @@ import eu.girc.pis.utils.SecurityConfig;
 @Controller
 @RequestMapping("/")
 public class UserController {
-	
-	
 
 	@GetMapping("/login")
 	public String getLoginPage(@RequestParam(name = "failed", required = false) boolean failed) {
