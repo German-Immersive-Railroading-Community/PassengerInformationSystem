@@ -13,7 +13,7 @@ import eu.girc.pis.utils.SecurityConfig;
 @JsonPropertyOrder({"id", "name", "email", "password", "forcePasswordChange", "roles"})
 public class User implements PisComponent, Comparable<User>{
 	
-	private final String id;
+	private String id;
 	private String name;
 	private String email;
 	private String password;
@@ -29,6 +29,10 @@ public class User implements PisComponent, Comparable<User>{
 		this.password = password;
 		this.passwordChangeRequired = passwordChangeRequired;
 		this.roles = roles;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	@Override
@@ -79,7 +83,7 @@ public class User implements PisComponent, Comparable<User>{
 
 	@Override
 	public int compareTo(User user) {
-		return this.id.compareTo(user.getId());
+		return this.id.toLowerCase().compareTo(user.getId().toLowerCase());
 	}
 
 	public static User empty() {

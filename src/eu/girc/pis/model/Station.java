@@ -48,7 +48,7 @@ public class Station implements PisComponent, Comparable<Station> {
 
 	@Override
 	public int compareTo(Station station) {
-		return this.getId().compareTo(station.getId());
+		return this.id.toLowerCase().compareTo(station.getId().toLowerCase());
 	}
 	
 	public static Station empty() {
