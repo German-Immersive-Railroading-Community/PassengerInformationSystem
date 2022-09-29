@@ -12,7 +12,7 @@
 		<script>setNavigationFocus("Lines")</script>
 		<div class="navigation-content" style="padding: 50px 20px;" th:with="exists=${line.id != null and !line.id.isEmpty()}">
 			<form th:action="@{/studio/lines/edit}" th:object="${line}" method="POST" onsubmit="removeTemplate()">
-				<div class="overflow"></div>
+				<div class="overflow">
 					<div class="form-grid-4">
 						<span>ID:</span>
 						<div><span class="transparent-blue id" th:text="${exists ? line.id : 'auto'}"></span></div>
@@ -35,10 +35,10 @@
 	    					<option value="true" th:selected="${line.cancelled}">True</option>
 	  					</select>
 						<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
-						<a th:unless="${exists}" class="button red mg-0 width-100" href="/studio/lines">Cancel</a>
+						<div th:unless="${exists}">Cancel</div>
 						<input type="submit" value="Save" class="mg-0">
 					</div>
-				<div>
+				</div>
 				<div class="overflow" style="margin-top: 50px;">
 					<div class="blue-border r-10 mg-center fit-content">
 					<div class="form-grid-stations" style="border: none;" id="stations">

@@ -34,7 +34,7 @@
 						<a th:unless="${#strings.equals(user.id, 'admin')}" th:href="@{'/studio/users/delete?id=' + ${user.id}}" class="button red width-100">Delete</a>
 						<div th:if="${#strings.equals(user.id, 'admin')}"></div>
 					</div>
-					<a th:unless="${exists}" class="button red width-100" href="/studio/users">Cancel</a>
+					<div th:unless="${exists}"></div>
 					<input type="submit" value="Save" class="mg-0">
 	        	</form>
 			</div>

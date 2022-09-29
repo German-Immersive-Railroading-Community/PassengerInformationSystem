@@ -124,7 +124,7 @@ public class UserController {
 			else if (message.equals("box_pw_wrong")) model.addAttribute("box", Box.BOX_PW_WRONG);
 			else if (message.equals("box_pw_not_match")) model.addAttribute("box", Box.BOX_PW_NOT_MATCH);
 		}
-		return "studio/account.html";
+		return "studio/edit/account.html";
 	}
 	
 	@PostMapping("/studio/account")

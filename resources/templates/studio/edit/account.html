@@ -9,7 +9,7 @@
 		<script>setMenuFocus("Studio")</script>
 		
 		<div th:replace="components :: navigation"></div>
-		<script>setNavigationFocus("Account")</script>
+		<script>setNavigationFocus("Account");</script>
 		<div class="navigation-content" >
 			<div class="container container-sm" style="padding: 50px 20px;">
 				<div th:replace="components :: box"></div>
@@ -22,7 +22,7 @@
 						<input type="text" th:field="*{name}" required>
 						<span>Email:</span>
 						<input type="email" th:field="*{email}">
-						<a class="button red mg-0 width-100" href="/studio/account">Cancel</a>
+						<div></div>
 						<input type="submit" value="Save" class="mg-0">
 					</form>
 				</div>
@@ -34,7 +34,7 @@
 						<input type="password" name='new-password' path="new-password" required>
 						<span>Repeat Password:</span>
 						<input type="password" name='repeat-new-password' path="repeat-new-password" required>
-						<a class="button red mg-0 width-100" href="/studio/account">Cancel</a>
+						<div></div>
 						<input type="submit" value="Save" class="mg-0">
 					</form>
 				<div>

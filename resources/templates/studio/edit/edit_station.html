@@ -22,7 +22,7 @@
 					<span>Platfroms:</span>
 					<input type="number" th:field="*{platforms}" min="1" max="99" value="1">
 					<a th:if="${exists}" class="button red width-100" th:href="@{'/studio/stations/delete?id=' + ${station.id}}">Delete</a>
-					<a th:unless="${exists}" class="button red width-100" href="/studio/stations">Cancel</a>
+					<div th:unless="${exists}"></div>
 					<input type="submit" value="Save">
 	        	</form>
 			</div>
