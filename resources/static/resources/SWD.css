@@ -54,6 +54,10 @@ body {
     width: fit-content !important;
 }
 
+.show{
+    display: block !important;
+}
+
 @media (min-width: 769px) {.only-mobile{display: none !important}}
 @media (max-width: 768px) {.not-mobile{display: none !important}}
 
@@ -483,56 +487,59 @@ body {
     box-sizing: border-box;
     width: 100%;
     float: left;
-    padding: 0px 15px;
+    padding: 0px;
+}
+
+@media only screen and (min-width: 600px){
+    .col-sm-1{width: 8.33%}
+    .col-sm-2{width: 16.66%}
+    .col-sm-3{width: 25%}
+    .col-sm-4{width: 33.33%}
+    .col-sm-5{width: 41.66%}
+    .col-sm-6{width: 50%}
+    .col-sm-7{width: 58.33%}
+    .col-sm-8{width: 66.66%}
+    .col-sm-9{width: 75%}
+    .col-sm-10{width: 83.33%}
+    .col-sm-11{width: 91.66%}
+    .col-sm-12{width: 100%}
+    [class*="col-sm-"]{padding: 0px 15px}
+}
+
+@media only screen and (min-width: 768px){
+    .col-md-1{width: 8.33%}
+    .col-md-2{width: 16.66%}
+    .col-md-3{width: 25%}
+    .col-md-4{width: 33.33%}
+    .col-md-5{width: 41.66%}
+    .col-md-6{width: 50%}
+    .col-md-7{width: 58.33%}
+    .col-md-8{width: 66.66%}
+    .col-md-9{width: 75%}
+    .col-md-10{width: 83.33%}
+    .col-md-11{width: 91.66%}
+    .col-md-12{width: 100%}
+    [class*="col-md-"]{padding: 0px 15px}
+}
+
+@media only screen and (min-width: 1024px){
+    .col-xl-1{width: 8.33%}
+    .col-xl-2{width: 16.66%}
+    .col-xl-3{width: 25%}
+    .col-xl-4{width: 33.33%}
+    .col-xl-5{width: 41.66%}
+    .col-xl-6{width: 50%}
+    .col-xl-7{width: 58.33%}
+    .col-xl-8{width: 66.66%}
+    .col-xl-9{width: 75%}
+    .col-xl-10{width: 83.33%}
+    .col-xl-11{width: 91.66%}
+    .col-xl-12{width: 100%}
+    [class*="col-xl-"]{padding: 0px 15px}
 }
 
 .row > [class*="col-"]:first-child{padding-left: 0px}
 .row > [class*="col-"]:last-child{padding-right: 0px}
-
-@media only screen and (min-width: 600px){
-    .col-sm-1{width: 8.33%;}
-    .col-sm-2{width: 16.66%;}
-    .col-sm-3{width: 25%;}
-    .col-sm-4{width: 33.33%;}
-    .col-sm-5{width: 41.66%;}
-    .col-sm-6{width: 50%;}
-    .col-sm-7{width: 58.33%;}
-    .col-sm-8{width: 66.66%;}
-    .col-sm-9{width: 75%;}
-    .col-sm-10{width: 83.33%;}
-    .col-sm-11{width: 91.66%;}
-    .col-sm-12{width: 100%;}
-}
-
-@media only screen and (min-width: 768px){
-    .col-md-1{width: 8.33%;}
-    .col-md-2{width: 16.66%;}
-    .col-md-3{width: 25%;}
-    .col-md-4{width: 33.33%;}
-    .col-md-5{width: 41.66%;}
-    .col-md-6{width: 50%;}
-    .col-md-7{width: 58.33%;}
-    .col-md-8{width: 66.66%;}
-    .col-md-9{width: 75%;}
-    .col-md-10{width: 83.33%;}
-    .col-md-11{width: 91.66%;}
-    .col-md-12{width: 100%;}
-}
-
-@media only screen and (min-width: 1024px){
-    .col-xl-1{width: 8.33%;}
-    .col-xl-2{width: 16.66%;}
-    .col-xl-3{width: 25%;}
-    .col-xl-4{width: 33.33%;}
-    .col-xl-5{width: 41.66%;}
-    .col-xl-6{width: 50%;}
-    .col-xl-7{width: 58.33%;}
-    .col-xl-8{width: 66.66%;}
-    .col-xl-9{width: 75%;}
-    .col-xl-10{width: 83.33%;}
-    .col-xl-11{width: 91.66%;}
-    .col-xl-12{width: 100%;}
-}
 
 /* headlines */
 
@@ -629,11 +636,11 @@ textarea, select, input, button {outline: none;}
 
 /* dropdown */
 
-.dropdown {
+.dropdown{
     display: inline-block;
 }
 
-.dropdown-content {
+.dropdown-content{
     display: none;
     position: absolute;
     background-color: #e6e6e6;
@@ -642,8 +649,10 @@ textarea, select, input, button {outline: none;}
     border-width: 3px;
     border-radius: 5px;
     width: fit-content;
-    z-index: 3;
 }
+
+.dropdown-content > *:first-child{margin-top: 0px}
+.dropdown-content > *:last-child{margin-bottom: 0px}
 
 .lightmode .dropdown-content{
     background-color: #e6e6e6;
@@ -666,11 +675,10 @@ textarea, select, input, button {outline: none;}
     display: block;
 }
 
-.dropdown-content a {
+.dropdown-content a{
     display: block;
     text-decoration: none;
     text-align: left;
-    max-width: 230px;
     min-width: 150px;
     padding: 0px 10px;
     line-height: 40px;
@@ -704,6 +712,56 @@ textarea, select, input, button {outline: none;}
     }
 }
 
+/* dialog */
+
+.dialog{
+    display: none;
+    position: fixed; 
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dialog-content{
+    position: absolute;
+    min-width: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e6e6e6;
+    border-color: #cccccc;
+    border-style: solid;
+    border-width: 3px;
+}
+
+.lightmode .dialog{background-color: rgba(255, 255, 255, 0.5)}
+
+.darkmode .dialog{background-color: rgba(0, 0, 0, 0.5)}
+
+@media (prefers-color-scheme: dark) {
+    .dialog{ background-color: rgba(0, 0, 0, 0.5)}
+}
+
+.lightmode .dialog-content{
+    background-color: #e6e6e6;
+    border-color: #cccccc;
+}
+
+.darkmode .dialog-content{
+    background-color: #1a1a1a;
+    border-color: #333333;
+}
+
+@media (prefers-color-scheme: dark) {
+    .dialog-content{
+        background-color: #1a1a1a;
+        border-color: #333333;
+    }
+}
+
 /* labels */
 
 label{
@@ -719,7 +777,7 @@ label{
 
 .media{
     display: grid;
-    grid-gap: 10px;
+    grid-gap: 20px;
     grid-template-columns: 64px auto;
     margin-bottom: 30px;
 }
@@ -761,6 +819,10 @@ label{
     border-radius: 5px;
     background-repeat: no-repeat;
     background-size: 100% auto;
+}
+
+img.box{
+    padding: 0px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -825,6 +887,51 @@ label{
 }
 
 @media (max-width: 767px) {.box{padding: 15px}}
+
+.overlay{
+    position: relative;
+}
+  
+.overlay > .top-left {
+    position: absolute;
+    text-align: left;
+    margin: 20px;
+    top: 0px;
+    left: 0px;
+}
+  
+.overlay > .top-right {
+    position: absolute;
+    text-align: right;
+    margin: 20px;
+    top: 0px;
+    right: 0px;
+}
+
+.overlay > .bottom-left {
+    position: absolute;
+    text-align: left;
+    margin: 20px;
+    bottom: 0px;
+    left: 0px;
+}
+  
+.overlay > .bottom-right {
+    position: absolute;
+    text-align: right;
+    margin: 20px;
+    bottom: 0px;
+    right: 0px;
+}
+  
+.overlay > .centered {
+    position: absolute;
+    text-align: center;
+    margin: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 /* code elements */
 
