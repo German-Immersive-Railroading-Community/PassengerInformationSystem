@@ -12,14 +12,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import eu.girc.pis.main.Pis;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
-@JsonPropertyOrder({"id", "type", "number", "lenght", "operator", "driver", "cancelled", "stations"})
+@JsonPropertyOrder({"id", "type", "number", "length", "operator", "driver", "cancelled", "stations"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Line implements PisComponent, Comparable<Line> {
 
 	private String id;
 	private TrainType type;
 	private int number;
-	private int lenght;
+	private int length;
 	private String operator;
 	private String driver;
 	private boolean cancelled;
@@ -27,12 +27,12 @@ public class Line implements PisComponent, Comparable<Line> {
 	private ArrayList<LineStation> stations = new ArrayList<>();
 
 	@JsonCreator
-	@ConstructorProperties({"id", "type", "number", "lenght", "operator", "driver", "cancelled", "stations"})
-	public Line(String id, TrainType type, int number, int lenght, String operator, String driver, boolean cancelled, ArrayList<LineStation> stations) {
+	@ConstructorProperties({"id", "type", "number", "length", "operator", "driver", "cancelled", "stations"})
+	public Line(String id, TrainType type, int number, int length, String operator, String driver, boolean cancelled, ArrayList<LineStation> stations) {
 		this.id = id;
 		this.type = type;
 		this.number = number;
-		this.lenght = lenght;
+		this.length = length;
 		this.operator = operator;
 		this.driver = driver;
 		this.cancelled = cancelled;
@@ -71,8 +71,8 @@ public class Line implements PisComponent, Comparable<Line> {
 		return number;
 	}
 	
-	public int getLenght() {
-		return lenght;
+	public int getLength() {
+		return length;
 	}
 
 	public void setOperator(String operator) {

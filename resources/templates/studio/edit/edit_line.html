@@ -23,8 +23,8 @@
 	  					</select>
 						<span>Number:</span>
 						<input type="number" min="1" max="9999" th:field="*{number}" required>
-						<span>Lenght:</span>
-						<input type="number" min="1" max="9999" th:field="*{lenght}" required>
+						<span>Length:</span>
+						<input type="number" min="1" max="9999" th:field="*{length}" required>
 						<span>Operator:</span>
 						<input type="text" th:field="*{operator}" required>
 						<span>Driver:</span>
@@ -35,7 +35,7 @@
 	    					<option value="true" th:selected="${line.cancelled}">True</option>
 	  					</select>
 						<a th:if="${exists}" class="button red mg-0 width-100" th:href="@{'/studio/lines/delete?id=' + ${line.id}}">Delete</a>
-						<div th:unless="${exists}">Cancel</div>
+						<div th:unless="${exists}"></div>
 						<input type="submit" value="Save" class="mg-0">
 					</div>
 				</div>
