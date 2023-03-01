@@ -1,6 +1,10 @@
 package eu.girc.pis.model;
 
 import java.beans.ConstructorProperties;
+import java.util.HashSet;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -75,7 +79,12 @@ public class User implements PisComponent, Comparable<User>{
 		return passwordChangeRequired;
 	}
 	
-	public String[] getRoles() {
+	@SuppressWarnings("serial")
+	public HashSet<GrantedAuthority> getRoles() {
+		HashSet<GrantedAuthority> roles = new HashSet<>();
+		for (String role : this.roles) {
+			roles.add(new GrantedAuthority() { @Override public String getAuthority() { return role; }});
+		}
 		return roles;
 	}
 

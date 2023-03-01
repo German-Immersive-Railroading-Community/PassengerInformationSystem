@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -23,20 +25,8 @@ import eu.girc.pis.model.User;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter 
-	implements AuthenticationSuccessHandler, LogoutSuccessHandler{
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		if (!Pis.getUserService().contains("admin")) {
-			final User admin = new User("admin", "admin", null, null, true, new String[0]);
-			admin.setUnencryptedPassword("admin");
-			Pis.getUserService().add(admin);
-		}
-		for (User user : Pis.getUserService()) {
-			auth.inMemoryAuthentication().withUser(user.getId()).password(user.getPassword()).roles(user.getRoles());
-		}
-	}
-	
+	implements AuthenticationSuccessHandler, LogoutSuccessHandler, AuthenticationProvider{
+		
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
@@ -59,6 +49,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.logoutSuccessHandler(this);
 	}
 	
+	@SuppressWarnings("serial")
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		String username = authentication.getPrincipal().toString();
+        String password = authentication.getCredentials().toString();
+        User user = Pis.getUserService().get(username).orElse(null);
+        if (user != null && getPasswordEncoder().matches(password, user.getPassword())) {
+        	return new UsernamePasswordAuthenticationToken(username, password, user.getRoles());
+        }
+        throw new AuthenticationException("Your credentials aren't correct, please try again!") {};
+	}
+
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return true;
+	}
+
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -79,5 +87,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	public static PasswordEncoder getPasswordEncoder() { 
 	    return new BCryptPasswordEncoder(); 
 	}
-
+	
 }
