@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         String password = authentication.getCredentials().toString();
         User user = Pis.getUserService().get(username).orElse(null);
         if (user != null && getPasswordEncoder().matches(password, user.getPassword())) {
-        	return new UsernamePasswordAuthenticationToken(username, password, user.getRoles());
+        	return new UsernamePasswordAuthenticationToken(username, password, user.getRolesAsAuthorities());
         }
         throw new AuthenticationException("Your credentials aren't correct, please try again!") {};
 	}

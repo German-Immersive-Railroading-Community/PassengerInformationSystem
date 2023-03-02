@@ -79,8 +79,12 @@ public class User implements PisComponent, Comparable<User>{
 		return passwordChangeRequired;
 	}
 	
+	public String[] getRoles() {
+		return roles;
+	}
+	
 	@SuppressWarnings("serial")
-	public HashSet<GrantedAuthority> getRoles() {
+	public HashSet<GrantedAuthority> getRolesAsAuthorities() {
 		HashSet<GrantedAuthority> roles = new HashSet<>();
 		for (String role : this.roles) {
 			roles.add(new GrantedAuthority() { @Override public String getAuthority() { return role; }});
